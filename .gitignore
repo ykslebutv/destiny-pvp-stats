@@ -1,0 +1,8 @@
+src/app.js
+src/app.min.js
+src/*.js.map
+node_modules
+*.log
+yarn.lock
+chrome-ext.pem
+src/destinypvpstats
