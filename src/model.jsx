@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { extendObservable, observable, computed, action } from 'mobx';
+import { extendObservable, action } from 'mobx';
+
 import destiny2 from './destiny2';
 
 const Status = {
@@ -23,7 +23,7 @@ class Model {
                 membershipId: '',
                 iconPath: '',
                 clanName: '',
-                clanTag: '',
+                clanTag: ''
             },
 
             characters: [],

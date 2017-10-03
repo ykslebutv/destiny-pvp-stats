@@ -5,6 +5,8 @@ F
 -
 
 P1
+  - import Config, moment instead of including in index.html
+  - get rid of jQuery
   - survival and countodown icons missing from api
   - trials games are missing from api
 

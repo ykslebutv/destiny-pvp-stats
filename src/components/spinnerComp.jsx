@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-// global Spinner
-//import Spinner from 'spinner';
+/* global Spinner */
+// import Spinner from 'spinner';
 
 export default class SpinnerComp extends React.Component {
     componentDidMount() {

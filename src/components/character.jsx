@@ -1,6 +1,6 @@
+/* global Config */
 import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
-import { extendObservable, observable, computed, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import { CharacterTypes } from '../constants';
@@ -27,10 +27,9 @@ const Character = observer(class Character extends React.Component {
     render() {
         const { character } = this.props;
         const classType = CharacterTypes[character.classType];
-        const emblemPath = `${ Config.baseUrl }${ character.emblemPath }`;
         const backgroundPath = `${ Config.baseUrl }${ character.emblemBackgroundPath }`;
         const divStyle = {
-            backgroundImage: 'url(' + backgroundPath + ')'
+            backgroundImage: `url(${ backgroundPath })`
         };
 
         return (
@@ -76,7 +75,7 @@ const CharacterStats = observer(class CharacterStats extends React.Component {
             );
         }
 
-        const wl = stats ? destiny2.WLRatio(stats.activitiesWon.basic.value, stats.activitiesEntered.basic.value) : 0;
+        const wl = stats ? destiny2.getWLRatio(stats.activitiesWon.basic.value, stats.activitiesEntered.basic.value) : 0;
 
         const historicalStats = (
             <tbody>

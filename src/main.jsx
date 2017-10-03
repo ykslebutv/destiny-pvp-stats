@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
-import { extendObservable, observable, computed, action } from 'mobx';
 
 import Model from './model.jsx';
 import Utils from './utils';
@@ -18,7 +17,7 @@ const Content = observer(class Content extends React.Component {
             Utils.setCookie('player', params.name, 365);
             Utils.setCookie('platform', params.platform, 365);
 
-            this.viewModel = new Model({ name: params.name, platform: params.platform, mode: 5});
+            this.viewModel = new Model({ name: params.name, platform: params.platform, mode: 5 });
             this.viewModel.load();
         }
     }
@@ -43,17 +42,13 @@ const Content = observer(class Content extends React.Component {
     }
 });
 
-const ErrorMessage = observer(class ErrorMessage extends React.Component {
-    render() {
-        return (
-            <div className="error_message">
-                <span>
-                    { this.props.message }
-                </span>
-            </div>
-        );
-    }
-});
+const ErrorMessage = () => (
+    <div className="error_message">
+        <span>
+            { this.props.message }
+        </span>
+    </div>
+);
 
 ReactDOM.render(
     <Content />,

@@ -9,7 +9,7 @@ const PlatformNames = {
     '1': 'xbox',
     '2': 'psn',
     '3': 'pc'
-}
+};
 
 const GameModes = {
     ALL: 5,
@@ -19,12 +19,12 @@ const GameModes = {
     SUPREMACY: 31,
     SURVIVAL: 37,
     COUNTDOWN: 38
-}
+};
 
 const GameModeNames = {
     5: {
-      name: 'All',
-      icon: ''
+        name: 'All',
+        icon: ''
     },
     10: {
         name: 'Control',
@@ -50,7 +50,7 @@ const GameModeNames = {
         name: 'Countdown',
         icon: '/common/destiny2_content/icons/fba216b470a0b5c6c34b7ab998770af0.png'
     }
-}
+};
 
 const CharacterTypes = {
     0: 'Titan',
@@ -70,6 +70,6 @@ const Maps = {
     1988701745: 'Retribution',
     1720510574: 'The Fortress',
     374818561: 'Emperor\'s Respite'
-}
+};
 
 export { Platforms, PlatformNames, GameModes, GameModeNames, CharacterTypes, Maps };

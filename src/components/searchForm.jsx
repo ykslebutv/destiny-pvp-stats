@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
-import { extendObservable, observable, computed, action } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import { Platforms, PlatformNames, GameModes } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
 import Utils from '../utils';
@@ -22,7 +22,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
             setPlatform: action(platform => {
                 this.platform = platform;
             }),
-            setMode: action(name => {
+            setMode: action(mode => {
                 this.mode = mode;
             })
         });
@@ -42,7 +42,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
             newUrl = window.location.href.replace(/\/$/, '');
         }
         const platformStr = PlatformNames[this.platform];
-        newUrl = newUrl + '/' + platformStr + '/' + this.name;
+        newUrl = `${ newUrl }/${ platformStr }/${ this.name }`;
 
         window.location.href = newUrl;
     }

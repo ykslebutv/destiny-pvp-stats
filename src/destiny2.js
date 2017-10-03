@@ -1,21 +1,22 @@
-import Http from './http';
+/* global Config */
 import Promise from 'es6-promise';
 
-import { GameModes } from './constants';
+import Http from './http';
 import Utils from './utils';
+import { GameModes } from './constants';
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/SearchDestinyPlayer/${ membershipType }/${ name }/`;
-            Http.request(url).then(function (res) {
+            Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
-                    if (res.Response.length === 0)
+                    if (res.Response.length === 0) {
                         reject('Guardian not found.');
-                    else
+                    } else {
                         resolve(res.Response[0]);
-                }
-                else {
+                    }
+                } else {
                     reject(res.Message);
                 }
             });
@@ -23,17 +24,16 @@ class Destiny2 {
     }
 
     getProfile(membershipType, membershipId) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters`;
-            Http.request(url).then(function (res) {
+            Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     const characterIds = res.Response.profile.data.characterIds;
-                    let characters = characterIds.map(characterId => {
-                        return res.Response.characters.data[characterId];
-                    });
+                    const characters = characterIds.map(characterId =>
+                        res.Response.characters.data[characterId]
+                    );
                     resolve(characters);
-                }
-                else {
+                } else {
                     reject(res.Message);
                 }
             });
@@ -41,13 +41,12 @@ class Destiny2 {
     }
 
     getCharacterStats(membershipType, membershipId, characterId) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ GameModes.ALL }`;
-            Http.request(url).then(function (res) {
+            Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response.allPvP.allTime);
-                }
-                else {
+                } else {
                     reject(res.Message);
                 }
             });
@@ -55,14 +54,13 @@ class Destiny2 {
     }
 
     getActivityHistory(membershipType, membershipId, characterId, mode, page) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             const count = 50;
             const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/Activities/?&mode=${ mode }&count=${ count }&page=${ page }`;
-            Http.request(url).then(function (res) {
+            Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response.activities);
-                }
-                else {
+                } else {
                     reject(res.Message);
                 }
             });
@@ -70,13 +68,14 @@ class Destiny2 {
     }
 
     getPostGame(activityId) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/Stats/PostGameCarnageReport/${ activityId }/`;
-            Http.request(url).then(function (res) {
-                if (res.ErrorStatus === 'Success')
+            Http.request(url).then(res => {
+                if (res.ErrorStatus === 'Success') {
                     resolve(res.Response);
-                else
+                } else {
                     reject(res.Message);
+                }
             });
         });
     }
@@ -87,7 +86,7 @@ class Destiny2 {
         (activities || []).map(activity => {
             activity.date = Utils.formatDate(activity.period);
 
-            if ( !dailyStats[activity.date] ) {
+            if (!dailyStats[activity.date]) {
                 dailyStats[activity.date] = {};
                 dailyStats[activity.date].date = activity.date;
                 dailyStats[activity.date].activities = [];
@@ -102,9 +101,9 @@ class Destiny2 {
             dailyStats[activity.date].deaths += activity.values.deaths.basic.value;
 
             if (this.activityWon(activity)) {
-                dailyStats[activity.date].wins = dailyStats[activity.date].wins + 1;
+                dailyStats[activity.date].wins += 1;
             } else {
-                dailyStats[activity.date].losses = dailyStats[activity.date].losses + 1;
+                dailyStats[activity.date].losses += 1;
             }
         });
 
@@ -112,7 +111,7 @@ class Destiny2 {
     }
 
     activityWon(activity) {
-        switch(activity.values.standing.basic.displayValue) {
+        switch (activity.values.standing.basic.displayValue) {
             case '1':
             case 'Victory':
                 return true;
@@ -121,12 +120,12 @@ class Destiny2 {
         }
     }
 
-    WLRatio(wins, totalGames) {
-        return Math.round((wins/totalGames) * 100);
+    getWLRatio(wins, totalGames) {
+        return Math.round((wins / totalGames) * 100);
     }
 
     dailyWLRatio(dailyStat) {
-        return this.WLRatio(dailyStat.wins, dailyStat.wins + dailyStat.losses);
+        return this.getWLRatio(dailyStat.wins, dailyStat.wins + dailyStat.losses);
     }
 
     dailyKD(dailyStat) {

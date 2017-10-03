@@ -1,10 +1,11 @@
+/* global Config */
 import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
-import { extendObservable, observable, computed, action } from 'mobx';
+import { extendObservable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import Utils from '../utils';
-import { GameModes, GameModeNames, Maps } from '../constants';
+import { GameModeNames, Maps } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
 
 const Activities = observer(class Activities extends React.Component {
@@ -12,14 +13,12 @@ const Activities = observer(class Activities extends React.Component {
         const { dailyStats } = this.props;
         const dates = Object.keys(dailyStats);
 
-        const list = dates.map(date => {
-            return (
-                <DailyStatComp
-                    dailyStat={ dailyStats[date] }
-                    key={ date }
-                />
-            );
-        });
+        const list = dates.map(date => (
+            <DailyStatComp
+                dailyStat={ dailyStats[date] }
+                key={ date }
+            />
+        ));
 
         return (
             <div className="activity_list">
@@ -56,9 +55,12 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
                     <td className={ kdClass }>{ kd }</td>
                     <td>{ wl }%</td>
                 </tr>
-                { dailyStat.activities.map(activity =>
-                    <Activity key={ activity.activityDetails.instanceId } activity={ activity } />
-                )}
+                { dailyStat.activities.map(activity => (
+                    <Activity
+                        key={ activity.activityDetails.instanceId }
+                        activity={ activity }
+                    />
+                ))}
             </tbody>
         );
     }
@@ -86,7 +88,7 @@ const Activity = observer(class Activity extends React.Component {
 
             setShow: action(show => {
                 this.show = show;
-            }),
+            })
         });
     }
 
@@ -115,7 +117,7 @@ const Activity = observer(class Activity extends React.Component {
         const iconClass = activity.activityDetails.mode !== 14 ? 'activity_icon' : 'trials_icon';
 
         const activityRow = (
-            <tr onClick={ e => this.handleClick(e) } >
+            <tr onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
                 <td className="mode_map">
                     { this.loading
                     ? <SpinnerComp scale="0.3" color="black" />
@@ -143,7 +145,7 @@ const Activity = observer(class Activity extends React.Component {
         const title = `${ GameModeNames[activity.activityDetails.mode].name } on ${ Maps[activity.activityDetails.referenceId] }`;
 
         const gameRow = this.show && this.gameData ? (
-            <tr>
+            <tr key={ `${ activity.activityDetails.instanceId }-details` }>
                 <td colSpan="6">
                     <ActivityDetails title={ title } data={ this.gameData } />
                 </td>
@@ -158,7 +160,7 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
     render() {
         const teams = {};
         const { data } = this.props;
-        data.entries.map(playerData => {
+        data.entries.forEach(playerData => {
             let teamName = playerData.values.team ? playerData.values.team.basic.displayValue : 'rumble';
             if (teamName === '-') {
                 teamName = 'No team';
@@ -169,24 +171,21 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
             teams[teamName].push(playerData);
         });
 
-        const teamNames = [];
-        for (const teamName in teams) {
-            teamNames.push(teamName);
-        }
-
-        const teamList = teamNames.sort().map(teamName => (
-            <Team teamName={ teamName } team={ teams[teamName] } />
+        const teamList = Object.keys(teams).sort().map(teamName => (
+            <Team key={ teamName } teamName={ teamName } team={ teams[teamName] } />
         ));
 
         const date = Utils.formatDate(data.period, true);
 
         return (
             <table className="activity_details fixed">
-                <tr className="title">
-                    <td colSpan="6">
-                        { this.props.title }, { date }
-                    </td>
-                </tr>
+                <tbody>
+                    <tr className="title">
+                        <td colSpan="6">
+                            { this.props.title }, { date }
+                        </td>
+                    </tr>
+                </tbody>
                 { teamList }
             </table>
         );
@@ -210,9 +209,9 @@ const Team = observer(class Team extends React.Component {
         const playerList = this.props.team.map(playerData => {
             const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
             return (
-                <tr>
+                <tr key={ playerData.player.destinyUserInfo.displayName }>
                     <td className="player">
-                        { playerData.player.destinyUserInfo.displayName } { playerData.player.clanTag ? '[' + playerData.player.clanTag + ']' : '' }
+                        { playerData.player.destinyUserInfo.displayName } { playerData.player.clanTag ? `[${ playerData.player.clanTag }]` : '' }
                     </td>
                     <td>
                         { playerData.values.kills.basic.displayValue }
