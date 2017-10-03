@@ -57,7 +57,7 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
                     <td>{ wl }%</td>
                 </tr>
                 { dailyStat.activities.map(activity =>
-                    <Activity key={ activity.period } activity={ activity } />
+                    <Activity key={ activity.activityDetails.instanceId } activity={ activity } />
                 )}
             </tbody>
         );
@@ -65,15 +65,45 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
 });
 
 const Activity = observer(class Activity extends React.Component {
+    constructor(props) {
+        super(props);
+
+        extendObservable(this, {
+            loading: false,
+            show: false,
+
+            gameData: null,
+
+            setLoading: action(loading => {
+                this.loading = loading;
+            }),
+
+            activityLoaded: action(data => {
+                this.gameData = data;
+                this.setLoading(false);
+                this.setShow(true);
+            }),
+
+            setShow: action(show => {
+                this.show = show;
+            }),
+        });
+    }
+
     handleClick(e) {
         e.preventDefault();
-        let target = e.target;
-        if (target.tagName === 'TD') {
-            target = target.parentElement;
+
+        const activityId = this.props.activity.activityDetails.instanceId;
+
+        if (this.loading) {
+            return;
         }
-        const activityId = target.dataset.activityid;
-        if (activityId) {
-            this.props.handleActivityClick(activityId);
+
+        if (!this.gameData) {
+            this.setLoading(true);
+            destiny2.getPostGame(activityId).then(data => this.activityLoaded(data));
+        } else {
+            this.setShow(!this.show);
         }
     }
 
@@ -84,12 +114,10 @@ const Activity = observer(class Activity extends React.Component {
         const iconPath = `${ Config.baseUrl }${ GameModeNames[activity.activityDetails.mode].icon }`;
         const iconClass = activity.activityDetails.mode !== 14 ? 'activity_icon' : 'trials_icon';
 
-        console.log(activity)
-
-        return (
-            <tr onClick={ e => this.handleClick(e) } data-activityid={ activity.activityDetails.instanceId }>
+        const activityRow = (
+            <tr onClick={ e => this.handleClick(e) } >
                 <td className="mode_map">
-                    { this.props.loadingDetails
+                    { this.loading
                     ? <SpinnerComp scale="0.3" color="black" />
                     : <img src={ iconPath } className={ iconClass } title={ GameModeNames[activity.activityDetails.mode].name } /> }
                     { Maps[activity.activityDetails.referenceId] || activity.activityDetails.referenceId }
@@ -110,6 +138,106 @@ const Activity = observer(class Activity extends React.Component {
                     { activity.values.standing.basic.displayValue }
                 </td>
             </tr>
+        );
+
+        const title = `${ GameModeNames[activity.activityDetails.mode].name } on ${ Maps[activity.activityDetails.referenceId] }`;
+
+        const gameRow = this.show && this.gameData ? (
+            <tr>
+                <td colSpan="6">
+                    <ActivityDetails title={ title } data={ this.gameData } />
+                </td>
+            </tr>
+        ) : null;
+
+        return ([activityRow, gameRow]);
+    }
+});
+
+const ActivityDetails = observer(class ActivityDetails extends React.Component {
+    render() {
+        const teams = {};
+        const { data } = this.props;
+        data.entries.map(playerData => {
+            let teamName = playerData.values.team ? playerData.values.team.basic.displayValue : 'rumble';
+            if (teamName === '-') {
+                teamName = 'No team';
+            }
+            if (!teams[teamName]) {
+                teams[teamName] = [];
+            }
+            teams[teamName].push(playerData);
+        });
+
+        const teamNames = [];
+        for (const teamName in teams) {
+            teamNames.push(teamName);
+        }
+
+        const teamList = teamNames.sort().map(teamName => (
+            <Team teamName={ teamName } team={ teams[teamName] } />
+        ));
+
+        const date = Utils.formatDate(data.period, true);
+
+        return (
+            <table className="activity_details fixed">
+                <tr className="title">
+                    <td colSpan="6">
+                        { this.props.title }, { date }
+                    </td>
+                </tr>
+                { teamList }
+            </table>
+        );
+    }
+});
+
+const Team = observer(class Team extends React.Component {
+    render() {
+        let teamStat;
+        const standingClass = this.props.team[0].values.standing.basic.displayValue === 'Victory' ? 'good' : 'bad';
+        if (this.props.teamName !== 'rumble') {
+            teamStat = (
+                <tr className="team">
+                    <td>{ this.props.teamName }</td>
+                    <td colSpan="4" className={ standingClass }>{ this.props.team[0].values.standing.basic.displayValue }</td>
+                    <td>{ this.props.team[0].values.teamScore.basic.displayValue }</td>
+                </tr>
+            );
+        }
+
+        const playerList = this.props.team.map(playerData => {
+            const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
+            return (
+                <tr>
+                    <td className="player">
+                        { playerData.player.destinyUserInfo.displayName } { playerData.player.clanTag ? '[' + playerData.player.clanTag + ']' : '' }
+                    </td>
+                    <td>
+                        { playerData.values.kills.basic.displayValue }
+                    </td>
+                    <td>
+                        { playerData.values.deaths.basic.displayValue }
+                    </td>
+                    <td>
+                        { playerData.values.assists.basic.displayValue }
+                    </td>
+                    <td>
+                        { playerData.values.killsDeathsRatio.basic.displayValue }
+                    </td>
+                    <td className={ scoreClass }>
+                        { playerData.values.completed.basic.value === 1 ? playerData.score.basic.displayValue : 'left' }
+                    </td>
+                </tr>
+            );
+        });
+
+        return (
+            <tbody>
+                { teamStat ? teamStat : null }
+                { playerList }
+            </tbody>
         );
     }
 });

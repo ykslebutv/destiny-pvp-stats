@@ -32,8 +32,7 @@ const GameModeNames = {
     },
     12: {
         name: 'Clash',
-        icon1: '/common/destiny_content/icons/icon_pvp_d0a189071d8eb5d009f4252bef78b551.png',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     19: {
         name: 'Iron Banner',
@@ -45,7 +44,7 @@ const GameModeNames = {
     },
     37: {
         name: 'Survival',
-        icon: '/common/destiny2_content/icons/03c563dc16f51e692e271ae63ba2634b.png'
+        icon: '/common/destiny2_content/icons/5e2d0b0aba9a4d520fe14afd50068dc2.png'
     },
     38: {
         name: 'Countdown',

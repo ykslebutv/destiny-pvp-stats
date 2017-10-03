@@ -1,0 +1,12 @@
+DONE
+*
+
+F
+-
+
+P1
+  - survival and countodown icons missing from api
+  - trials games are missing from api
+
+P2
+-

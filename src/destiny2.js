@@ -26,12 +26,11 @@ class Destiny2 {
         return new Promise(function(resolve, reject) {
             const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters`;
             Http.request(url).then(function (res) {
-                const characterIds = res.Response.profile.data.characterIds;
-                let characters = characterIds.map(characterId => {
-                    return res.Response.characters.data[characterId];
-                });
-
                 if (res.ErrorStatus === 'Success') {
+                    const characterIds = res.Response.profile.data.characterIds;
+                    let characters = characterIds.map(characterId => {
+                        return res.Response.characters.data[characterId];
+                    });
                     resolve(characters);
                 }
                 else {
@@ -72,7 +71,7 @@ class Destiny2 {
 
     getPostGame(activityId) {
         return new Promise(function(resolve, reject) {
-            const url = `${ Config.basePath }/Stats/PostGameCarnageReport/${ activityId }/`; //?definitions=true
+            const url = `${ Config.basePath }/Stats/PostGameCarnageReport/${ activityId }/`;
             Http.request(url).then(function (res) {
                 if (res.ErrorStatus === 'Success')
                     resolve(res.Response);
