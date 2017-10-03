@@ -42,10 +42,10 @@ const Content = observer(class Content extends React.Component {
     }
 });
 
-const ErrorMessage = () => (
+const ErrorMessage = (props) => (
     <div className="error_message">
         <span>
-            { this.props.message }
+            { props.message }
         </span>
     </div>
 );
