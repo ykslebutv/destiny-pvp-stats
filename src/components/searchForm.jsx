@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { extendObservable, observable, computed, action } from 'mobx';
-import { Platforms, PlatformNames, GameModes } from '../constants.js';
+import { Platforms, PlatformNames, GameModes } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
-import Utils from '../utils.js';
+import Utils from '../utils';
 
 const SearchForm = observer(class SearchForm extends React.Component {
     constructor(props) {

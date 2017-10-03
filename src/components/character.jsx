@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { extendObservable, observable, computed, action } from 'mobx';
 
-import { CharacterTypes } from '../constants.js';
+import destiny2 from '../destiny2';
+import { CharacterTypes } from '../constants';
+import Activities from './activity.jsx';
 
 const CharacterList = observer(class CharacterList extends React.Component {
     render() {
@@ -39,6 +41,11 @@ const Character = observer(class Character extends React.Component {
                     <span className="level light">Pwr { character.light }</span>
                 </div>
                 <CharacterStats stats={ character.stats } />
+                { character.stats ? (
+                    <div className="activities">
+                        <Activities dailyStats={ character.dailyStats } />
+                    </div>
+                ) : null }
             </div>
         );
     }
@@ -69,7 +76,7 @@ const CharacterStats = observer(class CharacterStats extends React.Component {
             );
         }
 
-        const wl = stats ? Math.round((stats.activitiesWon.basic.value/stats.activitiesEntered.basic.value) * 100) : 0;
+        const wl = stats ? destiny2.WLRatio(stats.activitiesWon.basic.value, stats.activitiesEntered.basic.value) : 0;
 
         const historicalStats = (
             <tbody>
@@ -128,10 +135,5 @@ const CharacterStats = observer(class CharacterStats extends React.Component {
         );
     }
 });
-
-// { character.activities ? <CharacterStats stats={ character.stats } /> : null }
-// <div className="activities">
-//     { character.activities ? <ActivityList activities={ character.activities } definitions={ character.definitions } dailyStats={ character.dailyStats } /> : null }
-// </div>
 
 export default CharacterList;

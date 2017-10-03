@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { extendObservable, observable, computed, action } from 'mobx';
 
 import Model from './model.jsx';
-import Utils from './utils.js';
+import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
 import CharacterList from './components/character.jsx';
@@ -18,23 +18,26 @@ const Content = observer(class Content extends React.Component {
             Utils.setCookie('player', params.name, 365);
             Utils.setCookie('platform', params.platform, 365);
 
-            this.viewModel = new Model({ name: params.name, platform: params.platform });
+            this.viewModel = new Model({ name: params.name, platform: params.platform, mode: 5});
             this.viewModel.load();
         }
     }
 
     render() {
+        const success = this.viewModel && this.viewModel.success;
+        const failed = this.viewModel && this.viewModel.failed;
+
         return (
             <div>
                 <div className="top_container">
                     <SearchForm
                         loading={ this.viewModel ? this.viewModel.loading : false }
                     />
-                    { this.viewModel.success ? <PlayerInfo player={ this.viewModel.player } /> : null }
+                    { success ? <PlayerInfo player={ this.viewModel.player } /> : null }
                     <div className="clear" />
                 </div>
-                { this.viewModel.failed ? <ErrorMessage message={ this.viewModel.error } /> : null }
-                { this.viewModel.success ? <CharacterList characters={ this.viewModel.characters } /> : null }
+                { failed ? <ErrorMessage message={ this.viewModel.error } /> : null }
+                { success ? <CharacterList characters={ this.viewModel.characters } /> : null }
             </div>
         );
     }

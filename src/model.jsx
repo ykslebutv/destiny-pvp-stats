@@ -71,7 +71,7 @@ class Model {
                         character.stats = data;
                         destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, 0).then(action(activities => {
                             extendObservable(character, {
-                                activities: activities
+                                dailyStats: destiny2.calculateDailyStats(activities)
                             });
                             loadCount -= 1;
                             if (loadCount === 0) {
