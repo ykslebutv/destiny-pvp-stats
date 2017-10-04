@@ -56,7 +56,7 @@ class Destiny2 {
     getActivityHistory(membershipType, membershipId, characterId, mode, page) {
         return new Promise((resolve, reject) => {
             const count = 50;
-            const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/Activities/?&mode=${ mode }&count=${ count }&page=${ page }`;
+            const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/Activities/?mode=${ mode }&count=${ count }&page=${ page }`;
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response.activities);

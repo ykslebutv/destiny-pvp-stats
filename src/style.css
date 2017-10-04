@@ -312,3 +312,13 @@ table.fixed td:nth-of-type(5) {
 table.fixed td:nth-of-type(6) {
     width: 18%
 }
+
+div.bottom-spinner {
+    width: 35px;
+    height: 35px;
+    padding-left: 10px;
+
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

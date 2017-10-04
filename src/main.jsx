@@ -7,6 +7,7 @@ import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
 import CharacterList from './components/character.jsx';
+import SpinnerComp from './components/spinnerComp.jsx';
 
 const Content = observer(class Content extends React.Component {
     constructor(props) {
@@ -17,14 +18,29 @@ const Content = observer(class Content extends React.Component {
             Utils.setCookie('player', params.name, 365);
             Utils.setCookie('platform', params.platform, 365);
 
-            this.viewModel = new Model({ name: params.name, platform: params.platform, mode: 5 });
+            this.viewModel = new Model({ name: params.name, platform: params.platform });
             this.viewModel.load();
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener('scroll', () => this.handleScroll());
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', () => this.handleScroll());
+    }
+
+    handleScroll() {
+        if (Utils.isScrolledToBottom()) {
+            this.viewModel.loadNextPage();
         }
     }
 
     render() {
         const success = this.viewModel && this.viewModel.success;
         const failed = this.viewModel && this.viewModel.failed;
+        const loadingPage = this.viewModel && this.viewModel.loadingPage;
 
         return (
             <div>
@@ -37,6 +53,11 @@ const Content = observer(class Content extends React.Component {
                 </div>
                 { failed ? <ErrorMessage message={ this.viewModel.error } /> : null }
                 { success ? <CharacterList characters={ this.viewModel.characters } /> : null }
+                { loadingPage ? (
+                      <div className="bottom-spinner">
+                          <SpinnerComp scale="0.5" color="black" />
+                      </div>
+                ) : null }
             </div>
         );
     }

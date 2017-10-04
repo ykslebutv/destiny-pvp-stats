@@ -12,13 +12,14 @@ const PlatformNames = {
 };
 
 const GameModes = {
-    ALL: 5,
-    CONTROL: 10,
-    CLASH: 12,
-    IB: 19,
-    SUPREMACY: 31,
-    SURVIVAL: 37,
-    COUNTDOWN: 38
+    ALL: 'AllPvP',
+    CONTROL: 'Control',
+    CLASH: 'Clash',
+    IB: 'IronBanner',
+    SUPREMACY: 'Supremacy',
+    SURVIVAL: 'Survival',
+    COUNTDOWN: 'Countdown',
+    TRIALS: 'TrialsOfTheNine'
 };
 
 const GameModeNames = {
@@ -48,7 +49,11 @@ const GameModeNames = {
     },
     38: {
         name: 'Countdown',
-        icon: '/common/destiny2_content/icons/fba216b470a0b5c6c34b7ab998770af0.png'
+        icon: '/common/destiny2_content/icons/5e2d0b0aba9a4d520fe14afd50068dc2.png'
+    },
+    39: {
+        name: 'Trials of the Nine',
+        icon: '/common/destiny2_content/icons/5e2d0b0aba9a4d520fe14afd50068dc2.png'
     }
 };
 
