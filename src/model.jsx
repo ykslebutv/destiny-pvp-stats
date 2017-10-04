@@ -1,7 +1,6 @@
 import { extendObservable, action } from 'mobx';
 
 import destiny2 from './destiny2';
-import { GameModes } from './constants';
 
 const Status = {
     NODATA: '',
@@ -18,7 +17,7 @@ class Model {
 
             name: args.name,
             platform: args.platform,
-            mode: GameModes.ALL,
+            mode: 'AllPvP',
 
             player: {
                 displayName: '',
@@ -122,6 +121,11 @@ class Model {
                 this.setError(error);
             });
         });
+    }
+
+    changeGameMode(mode) {
+        this.mode = mode;
+        this.load();
     }
 }
 

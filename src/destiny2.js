@@ -3,7 +3,6 @@ import Promise from 'es6-promise';
 
 import Http from './http';
 import Utils from './utils';
-import { GameModes } from './constants';
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
@@ -42,7 +41,7 @@ class Destiny2 {
 
     getCharacterStats(membershipType, membershipId, characterId) {
         return new Promise((resolve, reject) => {
-            const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ GameModes.ALL }`;
+            const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=AllPvP`;
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response.allPvP.allTime);

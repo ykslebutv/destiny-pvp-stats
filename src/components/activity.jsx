@@ -5,7 +5,7 @@ import { extendObservable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import Utils from '../utils';
-import { GameModeNames, Maps } from '../constants';
+import { GameModes, Maps } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
 
 const Activities = observer(class Activities extends React.Component {
@@ -113,7 +113,7 @@ const Activity = observer(class Activity extends React.Component {
         const { activity } = this.props;
         const kdClass = activity.values.killsDeathsRatio.basic.value > 1 ? 'good' : 'bad';
         const standingClass = destiny2.activityWon(activity) ? 'good' : 'bad';
-        const iconPath = `${ Config.baseUrl }${ GameModeNames[activity.activityDetails.mode].icon }`;
+        const iconPath = `${ Config.baseUrl }${ GameModes[activity.activityDetails.mode].icon }`;
         const iconClass = activity.activityDetails.mode !== 14 ? 'activity_icon' : 'trials_icon';
 
         const activityRow = (
@@ -121,7 +121,7 @@ const Activity = observer(class Activity extends React.Component {
                 <td className="mode_map">
                     { this.loading
                     ? <SpinnerComp scale="0.3" color="black" />
-                    : <img src={ iconPath } className={ iconClass } title={ GameModeNames[activity.activityDetails.mode].name } /> }
+                    : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].name } /> }
                     { Maps[activity.activityDetails.referenceId] || activity.activityDetails.referenceId }
                 </td>
                 <td>
@@ -142,7 +142,7 @@ const Activity = observer(class Activity extends React.Component {
             </tr>
         );
 
-        const title = `${ GameModeNames[activity.activityDetails.mode].name } on ${ Maps[activity.activityDetails.referenceId] }`;
+        const title = `${ GameModes[activity.activityDetails.mode].name } on ${ Maps[activity.activityDetails.referenceId] }`;
 
         const gameRow = this.show && this.gameData ? (
             <tr key={ `${ activity.activityDetails.instanceId }-details` }>

@@ -6,6 +6,7 @@ import Model from './model.jsx';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
+import GameModeList from './components/gameModeList.jsx';
 import CharacterList from './components/character.jsx';
 import SpinnerComp from './components/spinnerComp.jsx';
 
@@ -49,21 +50,29 @@ const Content = observer(class Content extends React.Component {
                         loading={ this.viewModel ? this.viewModel.loading : false }
                     />
                     { success ? <PlayerInfo player={ this.viewModel.player } /> : null }
+                    { success ? <GameModeList viewModel={ this.viewModel } /> : null }
                     <div className="clear" />
                 </div>
                 { failed ? <ErrorMessage message={ this.viewModel.error } /> : null }
                 { success ? <CharacterList characters={ this.viewModel.characters } /> : null }
                 { loadingPage ? (
-                      <div className="bottom-spinner">
-                          <SpinnerComp scale="0.5" color="black" />
-                      </div>
+                    <div className="bottom-spinner">
+                        <SpinnerComp scale="0.5" color="black" />
+                    </div>
                 ) : null }
+                { !success ? <About /> : null }
             </div>
         );
     }
 });
 
-const ErrorMessage = (props) => (
+const About = () => (
+    <div className="about">
+        <a href="/d1">Destiny 1 PvP Stats</a>
+    </div>
+);
+
+const ErrorMessage = props => (
     <div className="error_message">
         <span>
             { props.message }

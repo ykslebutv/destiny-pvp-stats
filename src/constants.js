@@ -12,48 +12,40 @@ const PlatformNames = {
 };
 
 const GameModes = {
-    ALL: 'AllPvP',
-    CONTROL: 'Control',
-    CLASH: 'Clash',
-    IB: 'IronBanner',
-    SUPREMACY: 'Supremacy',
-    SURVIVAL: 'Survival',
-    COUNTDOWN: 'Countdown',
-    TRIALS: 'TrialsOfTheNine'
-};
-
-const GameModeNames = {
     5: {
-        name: 'All',
+        id: 'AllPvP',
+        name: 'All Modes',
         icon: ''
     },
     10: {
+        id: 'Control',
         name: 'Control',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
     12: {
+        id: 'Clash',
         name: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
-    19: {
-        name: 'Iron Banner',
-        icon: ''
-    },
     31: {
+        id: 'Supremacy',
         name: 'Supremacy',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
     },
     37: {
+        id: 'Survival',
         name: 'Survival',
-        icon: '/common/destiny2_content/icons/5e2d0b0aba9a4d520fe14afd50068dc2.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     38: {
+        id: 'Countdown',
         name: 'Countdown',
-        icon: '/common/destiny2_content/icons/5e2d0b0aba9a4d520fe14afd50068dc2.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     39: {
+        id: 'TrialsOfTheNine',
         name: 'Trials of the Nine',
-        icon: '/common/destiny2_content/icons/5e2d0b0aba9a4d520fe14afd50068dc2.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     }
 };
 
@@ -77,4 +69,4 @@ const Maps = {
     374818561: 'Emperor\'s Respite'
 };
 
-export { Platforms, PlatformNames, GameModes, GameModeNames, CharacterTypes, Maps };
+export { Platforms, PlatformNames, GameModes, CharacterTypes, Maps };

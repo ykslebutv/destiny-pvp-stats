@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { extendObservable, action } from 'mobx';
-import { Platforms, PlatformNames, GameModes } from '../constants';
+import { Platforms, PlatformNames } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
 import Utils from '../utils';
 
@@ -11,8 +11,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
 
         extendObservable(this, {
             name: Utils.getCookie('player'),
-            platform: Utils.getCookie('platform'),
-            mode: GameModes.ALL
+            platform: Utils.getCookie('platform')
         });
 
         extendObservable(this, {
@@ -21,9 +20,6 @@ const SearchForm = observer(class SearchForm extends React.Component {
             }),
             setPlatform: action(platform => {
                 this.platform = platform;
-            }),
-            setMode: action(mode => {
-                this.mode = mode;
             })
         });
     }
