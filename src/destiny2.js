@@ -79,6 +79,19 @@ class Destiny2 {
         });
     }
 
+    getClanInfo(membershipType, membershipId) {
+        return new Promise((resolve, reject) => {
+            const url = `/platform/GroupV2/User/${ membershipType }/${ membershipId }/All/Clan/`;
+            Http.request(url).then(res => {
+                if (res.ErrorStatus === 'Success') {
+                    resolve(res.Response.results);
+                } else {
+                    reject(res.Message);
+                }
+            });
+        });
+    }
+
     calculateDailyStats(activities) {
         const dailyStats = {};
 

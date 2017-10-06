@@ -94,6 +94,14 @@ class Model {
             }, error => {
                 this.setError(error);
             }); // getProfile
+
+            destiny2.getClanInfo(membershipType, membershipId).then(clans => {
+                if (clans && clans.length > 0) {
+                    const clan = clans[0];
+                    this.player.clanName = clan.group.name;
+                    this.player.clanTag = clan.group.clanInfo.clanCallsign;
+                }
+            });
         }, error => {
             this.setError(error);
         }); // searchPlayer
