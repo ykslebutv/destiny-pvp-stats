@@ -1,5 +1,7 @@
 /* global $, Config, moment */
 
+import { Platforms } from './constants';
+
 class Utils {
     setCookie(cname, cvalue, exdays) {
         const d = new Date();
@@ -31,10 +33,10 @@ class Utils {
 
     getUrlParams() {
         const res = {};
-        const match = window.location.href.match(/^(.*)\/(psn|xbox)\/(.*)$/);
+        const match = window.location.href.match(/^(.*)\/(psn|xbox|pc)\/(.*)$/);
         if (match) {
             res.base_url = match[1];
-            res.platform = match[2] === 'xbox' ? '1' : '2';
+            res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].toLowerCase() === match[2]), 10);
             res.name = decodeURIComponent(match[3]);
         }
         return res;

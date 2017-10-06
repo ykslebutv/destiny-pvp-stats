@@ -1,14 +1,7 @@
 const Platforms = {
-    NONE: '0',
-    XBOX: '1',
-    PSN: '2',
-    PC: '3'
-};
-
-const PlatformNames = {
-    '1': 'xbox',
-    '2': 'psn',
-    '3': 'pc'
+    1: 'Xbox',
+    2: 'PSN',
+    3: 'PC'
 };
 
 const GameModes = {
@@ -69,4 +62,4 @@ const Maps = {
     374818561: 'Emperor\'s Respite'
 };
 
-export { Platforms, PlatformNames, GameModes, CharacterTypes, Maps };
+export { Platforms, GameModes, CharacterTypes, Maps };
