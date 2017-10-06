@@ -72,7 +72,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
                         style={{ minWidth: '80px' }}
                         disabled={ !this.platform || !this.name }
                     >
-                        { this.props.loading ? <SpinnerComp scale="0.45" color="white" /> : 'search' }
+                        { this.props.loading ? <SpinnerComp scale="0.5" color="white" /> : 'search' }
                     </button>
                 </div>
             </form>

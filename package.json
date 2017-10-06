@@ -16,7 +16,9 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "mobx": "^3.3.0",
-    "mobx-react": "^4.3.3"
+    "mobx-react": "^4.3.3",
+    "moment": "^2.18.1",
+    "spin": "^0.0.1"
   },
   "description": "",
   "devDependencies": {

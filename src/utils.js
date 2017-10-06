@@ -1,4 +1,5 @@
-/* global $, Config, moment */
+/* global $, Config */
+import moment from 'moment';
 
 import { Platforms } from './constants';
 

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-/* global Spinner */
-// import Spinner from 'spinner';
+import Spinner from 'spin';
 
 export default class SpinnerComp extends React.Component {
     componentDidMount() {
@@ -8,9 +7,15 @@ export default class SpinnerComp extends React.Component {
     }
 
     initSpinner() {
+        const scale = parseFloat(this.props.scale, 10) || 1;
+        const radius = 10 * scale;
+        const width = 4 * scale;
+        const length = 7 * scale;
+
         const opts = {
-            scale: this.props.scale || 0.5,
-            opacity: 0.5,
+            radius: radius,
+            width: width,
+            length: length,
             color: this.props.color || '#337ab7',
             lines: 10,
             position: 'relative'

@@ -25,7 +25,7 @@ const Activities = observer(class Activities extends React.Component {
                 <table className="fixed">
                     <thead>
                         <tr>
-                            <td>Mode/Map</td>
+                            <td colSpan="2">Mode/Map</td>
                             <td>K</td>
                             <td>D</td>
                             <td>A</td>
@@ -50,7 +50,7 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
         return (
             <tbody>
                 <tr className="daily_stat">
-                    <td className="left">{ dailyStat.date }</td>
+                    <td colSpan="2" className="left">{ dailyStat.date }</td>
                     <td colSpan="3">Avg K/D:</td>
                     <td className={ kdClass }>{ kd }</td>
                     <td>{ wl }%</td>
@@ -117,11 +117,14 @@ const Activity = observer(class Activity extends React.Component {
         const iconClass = activity.activityDetails.mode !== 14 ? 'activity_icon' : 'trials_icon';
 
         const activityRow = (
-            <tr onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
-                <td className="mode_map">
+            <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
+                <td>
                     { this.loading
-                    ? <SpinnerComp scale="0.3" color="black" />
-                    : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].name } /> }
+                        ? <SpinnerComp scale="0.3" color="black" />
+                        : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].name } />
+                    }
+                </td>
+                <td className="map">
                     { Maps[activity.activityDetails.referenceId] || activity.activityDetails.referenceId }
                 </td>
                 <td>
@@ -146,7 +149,7 @@ const Activity = observer(class Activity extends React.Component {
 
         const gameRow = this.show && this.gameData ? (
             <tr key={ `${ activity.activityDetails.instanceId }-details` }>
-                <td colSpan="6">
+                <td colSpan="7">
                     <ActivityDetails title={ title } data={ this.gameData } />
                 </td>
             </tr>
@@ -181,7 +184,7 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
             <table className="activity_details fixed">
                 <tbody>
                     <tr className="title">
-                        <td colSpan="6">
+                        <td colSpan="7">
                             { this.props.title }, { date }
                         </td>
                     </tr>
@@ -199,7 +202,7 @@ const Team = observer(class Team extends React.Component {
         if (this.props.teamName !== 'rumble') {
             teamStat = (
                 <tr className="team">
-                    <td>{ this.props.teamName }</td>
+                    <td colSpan="2">{ this.props.teamName }</td>
                     <td colSpan="4" className={ standingClass }>{ this.props.team[0].values.standing.basic.displayValue }</td>
                     <td>{ this.props.team[0].values.teamScore.basic.displayValue }</td>
                 </tr>

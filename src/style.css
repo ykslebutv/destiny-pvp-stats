@@ -212,10 +212,8 @@ td.stat_value {
 	font-weight: 400;
 }
 
-td.mode_map {
+td.map {
 	text-align: left;
-	padding-left: 8px;
-	cursor: pointer;
 }
 
 thead {
@@ -238,7 +236,6 @@ img.activity_icon {
 	height: 16px;
 	-webkit-filter: invert(1);
   filter: invert(1);
-  margin-right: 5px;
 }
 
 img.trials_icon {
@@ -267,9 +264,13 @@ table.activity_details td.player {
 	text-align: left;
 }
 
+tr.activity {
+  cursor: pointer;
+}
+
 .activity_list td .spinner {
-  margin-left: 1px;
-  margin-right: 9px;
+  margin-left: 3px;
+  margin-right: 3px;
   margin-top: -3px;
 }
 
@@ -295,10 +296,10 @@ table.activity_details td.player {
 }
 
 table.fixed td:nth-of-type(1) {
-    width: 45%
+    width: 10px
 }
 table.fixed td:nth-of-type(2) {
-    width: 9%
+    width: calc(45% - 10px)
 }
 table.fixed td:nth-of-type(3) {
     width: 9%
@@ -307,9 +308,12 @@ table.fixed td:nth-of-type(4) {
     width: 9%
 }
 table.fixed td:nth-of-type(5) {
-    width: 10%
+    width: 9%
 }
 table.fixed td:nth-of-type(6) {
+    width: 10%
+}
+table.fixed td:nth-of-type(7) {
     width: 18%
 }
 
