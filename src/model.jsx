@@ -73,7 +73,7 @@ class Model {
                 let loadCount = this.characters.length;
                 this.characters.map(character => {
                     const characterId = character.characterId;
-                    destiny2.getCharacterStats(membershipType, membershipId, characterId).then(data => {
+                    destiny2.getCharacterStats(membershipType, membershipId, characterId, this.mode).then(data => {
                         character.stats = data;
                         destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, 0).then(action(activities => {
                             character.activities = activities || [];

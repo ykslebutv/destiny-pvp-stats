@@ -113,6 +113,10 @@ const Activity = observer(class Activity extends React.Component {
         const { activity } = this.props;
         const kdClass = activity.values.killsDeathsRatio.basic.value > 1 ? 'good' : 'bad';
         const standingClass = destiny2.activityWon(activity) ? 'good' : 'bad';
+        if (!GameModes[activity.activityDetails.mode]) {
+            console.log(`Unknown mode ${ activity.activityDetails.mode } for instanceId ${ activity.activityDetails.instanceId }`);
+            return null;
+        }
         const iconPath = `${ Config.baseUrl }${ GameModes[activity.activityDetails.mode].icon }`;
         const iconClass = activity.activityDetails.mode !== 14 ? 'activity_icon' : 'trials_icon';
 

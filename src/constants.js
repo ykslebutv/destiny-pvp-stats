@@ -7,38 +7,57 @@ const Platforms = {
 const GameModes = {
     5: {
         id: 'AllPvP',
+        key: 'allPvP',
         name: 'All Modes',
         icon: ''
     },
     10: {
         id: 'Control',
+        key: 'control',
         name: 'Control',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
     12: {
         id: 'Clash',
+        key: 'clash',
         name: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     31: {
         id: 'Supremacy',
+        key: 'supremacy',
         name: 'Supremacy',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
     },
     37: {
         id: 'Survival',
+        key: 'survival',
         name: 'Survival',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     38: {
         id: 'Countdown',
+        key: 'countdown',
         name: 'Countdown',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     39: {
         id: 'TrialsOfTheNine',
+        key: 'trialsofthenine',
         name: 'Trials of the Nine',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    41: {
+        id: '41',
+        key: 'trialsCountdown',
+        name: 'Trials (Countdown)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    42: {
+        id: '42',
+        key: 'trialsSurvival',
+        name: 'Trials (Survival)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     }
 };
 
@@ -59,7 +78,8 @@ const Maps = {
     2033669713: 'Javelin-4',
     1988701745: 'Retribution',
     1720510574: 'The Fortress',
-    374818561: 'Emperor\'s Respite'
+    374818561: 'Emperor\'s Respite',
+    2236648719: 'Eternity'
 };
 
 export { Platforms, GameModes, CharacterTypes, Maps };

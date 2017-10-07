@@ -3,6 +3,7 @@ import Promise from 'es6-promise';
 
 import Http from './http';
 import Utils from './utils';
+import { GameModes } from './constants';
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
@@ -39,12 +40,16 @@ class Destiny2 {
         });
     }
 
-    getCharacterStats(membershipType, membershipId, characterId) {
+    getCharacterStats(membershipType, membershipId, characterId, mode) {
         return new Promise((resolve, reject) => {
-            const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=AllPvP`;
+            const gameMode = Object.values(GameModes).find(m => m.id === mode);
+            if (!gameMode) {
+                console.log(`Unknown mode ${ mode } in getCharacterStats`);
+            }
+            const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ mode }`;
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
-                    resolve(res.Response.allPvP.allTime);
+                    resolve(res.Response[gameMode.key].allTime);
                 } else {
                     reject(res.Message);
                 }
