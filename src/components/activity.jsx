@@ -44,7 +44,7 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
     render() {
         const { dailyStat } = this.props;
         const kd = destiny2.dailyKD(dailyStat);
-        const kdClass = kd > 1 ? 'good' : 'bad';
+        const kdClass = kd >= 1 ? 'good' : 'bad';
         const wl = destiny2.dailyWLRatio(dailyStat);
 
         return (
@@ -111,7 +111,7 @@ const Activity = observer(class Activity extends React.Component {
 
     render() {
         const { activity } = this.props;
-        const kdClass = activity.values.killsDeathsRatio.basic.value > 1 ? 'good' : 'bad';
+        const kdClass = activity.values.killsDeathsRatio.basic.value >= 1 ? 'good' : 'bad';
         const standingClass = destiny2.activityWon(activity) ? 'good' : 'bad';
         if (!GameModes[activity.activityDetails.mode]) {
             console.log(`Unknown mode ${ activity.activityDetails.mode } for instanceId ${ activity.activityDetails.instanceId }`);
@@ -217,7 +217,7 @@ const Team = observer(class Team extends React.Component {
             const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
             return (
                 <tr key={ playerData.player.destinyUserInfo.displayName }>
-                    <td className="player">
+                    <td colSpan="2" className="player">
                         { playerData.player.destinyUserInfo.displayName } { playerData.player.clanTag ? `[${ playerData.player.clanTag }]` : '' }
                     </td>
                     <td>

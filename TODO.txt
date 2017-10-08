@@ -1,5 +1,6 @@
 DONE
-*
+- import Config, moment instead of including in index.html (WONT DO)
+- trials games are missing from api
 
 F
 - permalinks to individual macthes
@@ -10,10 +11,8 @@ F
 
 P1
   - in narrow/mobile view show only 1 character at a time and add links to switch the displayed char
-  - import Config, moment instead of including in index.html
   - get rid of jQuery
   - survival and countodown icons missing from api
-  - trials games are missing from api
 
 P2
 -
