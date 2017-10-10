@@ -114,7 +114,7 @@ const Activity = observer(class Activity extends React.Component {
         const kdClass = activity.values.killsDeathsRatio.basic.value >= 1 ? 'good' : 'bad';
         const standingClass = destiny2.activityWon(activity) ? 'good' : 'bad';
         if (!GameModes[activity.activityDetails.mode]) {
-            console.log(`Unknown mode ${ activity.activityDetails.mode } for instanceId ${ activity.activityDetails.instanceId }`);
+            console.log(`Unknown mode ${ activity.activityDetails.mode } for directorActivityHash ${ activity.activityDetails.directorActivityHash }`);
             return null;
         }
         const iconPath = `${ Config.baseUrl }${ GameModes[activity.activityDetails.mode].icon }`;
@@ -217,7 +217,8 @@ const Team = observer(class Team extends React.Component {
             const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
             return (
                 <tr key={ playerData.player.destinyUserInfo.displayName }>
-                    <td colSpan="2" className="player">
+                    <td />
+                    <td className="player">
                         { playerData.player.destinyUserInfo.displayName } { playerData.player.clanTag ? `[${ playerData.player.clanTag }]` : '' }
                     </td>
                     <td>

@@ -58,6 +58,12 @@ const GameModes = {
         key: 'trialsSurvival',
         name: 'Trials (Survival)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    43: {
+        id: '43',
+        key: 'iron-banner-control',
+        name: 'Iron Banner (Control)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     }
 };
 
