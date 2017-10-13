@@ -79,7 +79,7 @@ const CharacterTypes = {
     2: 'Warlock'
 };
 
-// curl --header "X-API-KEY: c872c424bad64eaa86c7ddbc55155b62" https://www.bungie.net/Platform/Destiny2/Manifest/DestinyActivityDefinition/374818561/ | python -m json.tool
+// Manifest/DestinyActivityDefinition/{HASH}/
 const Maps = {
     760130722: 'The Dead Cliffs',
     3839751954: 'Altar of Flame',
@@ -95,4 +95,17 @@ const Maps = {
     1773567660: 'Distant Shore'
 };
 
-export { Platforms, GameModes, CharacterTypes, Maps };
+const Stats = {
+    144602215: 'Intellect',
+    392767087: 'Resilience',
+    1735777505: 'Discipline',
+    1885944937: 'Power (no mods)',
+    1935470627: 'Power',
+    1943323491: 'Recovery',
+    2996146975: 'Mobility',
+    3555269338: 'Zoom',
+    3897883278: 'Defense',
+    4244567218: 'Strength'
+};
+
+export { Platforms, GameModes, CharacterTypes, Maps, Stats };
