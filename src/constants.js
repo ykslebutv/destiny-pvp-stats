@@ -23,6 +23,12 @@ const GameModes = {
         name: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
+    19: {
+        id: 'IronBanner',
+        key: 'ironBanner',
+        name: 'Iron Banner',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
     31: {
         id: 'Supremacy',
         key: 'supremacy',
@@ -61,7 +67,7 @@ const GameModes = {
     },
     43: {
         id: '43',
-        key: 'iron-banner-control',
+        key: 'ironBannerControl',
         name: 'Iron Banner (Control)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     }
@@ -85,7 +91,8 @@ const Maps = {
     1988701745: 'Retribution',
     1720510574: 'The Fortress',
     374818561: 'Emperor\'s Respite',
-    2236648719: 'Eternity'
+    2236648719: 'Eternity',
+    1773567660: 'Distant Shore'
 };
 
 export { Platforms, GameModes, CharacterTypes, Maps };

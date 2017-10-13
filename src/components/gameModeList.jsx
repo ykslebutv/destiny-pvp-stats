@@ -3,16 +3,21 @@ import { observer } from 'mobx-react';
 
 import { GameModes } from '../constants';
 
+const MenuModes = [
+    'AllPvP', 'Control', 'Clash', 'Supremacy',
+    'Survival', 'Countdown', 'TrialsOfTheNine', 'IronBanner'];
+
+const findMode = id => Object.values(GameModes).find(mode => mode.id === id);
+
 const GameModeList = observer(class GameModeList extends React.Component {
     onChange(e) {
         this.props.viewModel.changeGameMode(e.target.value);
     }
 
     render() {
-        const modes = Object.values(GameModes);
-        const options = modes.map(mode => (
-            <option key={ mode.id } value={ mode.id }>
-                { mode.name }
+        const options = MenuModes.map(modeId => (
+            <option key={ modeId } value={ modeId }>
+                { findMode(modeId).name }
             </option>
         ));
 

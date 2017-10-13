@@ -49,6 +49,9 @@ class Destiny2 {
             const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ mode }`;
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
+                    if (!res.Response[gameMode.key]) {
+                        console.log(`Unknown key ${ gameMode.key } in getCharacterStats`);
+                    }
                     resolve(res.Response[gameMode.key].allTime);
                 } else {
                     reject(res.Message);
