@@ -1,6 +1,8 @@
 /* global Config */
 import React, { PropTypes } from 'react';
+import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
+import { extendObservable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import { CharacterTypes } from '../constants';
@@ -16,8 +18,96 @@ const CharacterList = observer(class CharacterList extends React.Component {
         ));
 
         return (
-            <div className="container-fluid character_list">
+            <div>
+                <MediaQuery query="(max-width: 999px)">
+                    <CharacterCarousel characters={ this.props.characters } />
+                </MediaQuery>
+                <MediaQuery query="(min-width: 1000px)">
+                    <div className="container-fluid character_list">
+                        { list }
+                    </div>
+                </MediaQuery>
+            </div>
+        );
+    }
+});
+
+const Banner = props => {
+    const { character } = props;
+    const classType = CharacterTypes[character.classType];
+    const backgroundPath = `${ Config.baseUrl }${ character.emblemBackgroundPath }`;
+    const divStyle = {
+        backgroundImage: `url(${ backgroundPath })`
+    };
+    const className = `character ${ props.activeCharacter ? 'col-xs-8 active_character' : '' }`;
+
+    return (
+        <div className={ className } style={ divStyle }>
+            <span className="classType">{ classType }</span>
+            <span className="level">Lvl { character.baseCharacterLevel }</span>
+            <span className="level light">◆ { character.light }</span>
+        </div>
+    );
+};
+
+const Emblem = props => {
+    const { character } = props;
+    const backgroundPath = `${ Config.baseUrl }${ character.emblemBackgroundPath }`;
+    const divStyle = {
+        backgroundImage: `url(${ backgroundPath })`
+    };
+
+    return (
+        <div
+            className="col-xs-1 emblem"
+            style={ divStyle }
+            onClick={ () => props.onClick() }
+        />
+    );
+};
+
+const CharacterCarousel = observer(class CharacterCarousel extends React.Component {
+    constructor(props) {
+        super(props);
+        extendObservable(this, {
+            activeCharacterId: props.characters ? props.characters[0].characterId : null,
+            setActiveCharacter: action(characterId => {
+                this.activeCharacterId = characterId;
+            })
+        });
+    }
+
+    render() {
+        let activeCharacter;
+        const list = this.props.characters.map(character => {
+            if (character.characterId === this.activeCharacterId) {
+                activeCharacter = character;
+            }
+
+            return (character.characterId === this.activeCharacterId
+                ? <Banner
+                    character={ character }
+                    key={ character.characterId }
+                    activeCharacter
+                />
+                : <Emblem
+                    character={ character }
+                    key={ character.characterId }
+                    onClick={ () => this.setActiveCharacter(character.characterId) }
+                />
+            );
+        });
+
+        return (
+            <div className="container-fluid character_carousel">
                 { list }
+                <div className="clear" />
+                <CharacterStats stats={ activeCharacter.stats } />
+                { activeCharacter.stats ? (
+                    <div className="activities">
+                        <Activities dailyStats={ activeCharacter.dailyStats } />
+                    </div>
+                ) : null }
             </div>
         );
     }
@@ -26,19 +116,9 @@ const CharacterList = observer(class CharacterList extends React.Component {
 const Character = observer(class Character extends React.Component {
     render() {
         const { character } = this.props;
-        const classType = CharacterTypes[character.classType];
-        const backgroundPath = `${ Config.baseUrl }${ character.emblemBackgroundPath }`;
-        const divStyle = {
-            backgroundImage: `url(${ backgroundPath })`
-        };
-
         return (
             <div className="col-md-4 character_container">
-                <div className="character" style={ divStyle }>
-                    <span className="classType">{ classType }</span>
-                    <span className="level">Lvl { character.baseCharacterLevel }</span>
-                    <span className="level light">Pwr { character.light }</span>
-                </div>
+                <Banner character={ character } />
                 <CharacterStats stats={ character.stats } />
                 { character.stats ? (
                     <div className="activities">

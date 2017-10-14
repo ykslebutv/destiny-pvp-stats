@@ -60,7 +60,7 @@ body {
 
 .player_info {
 	float: left;
-	margin: 2px 0px 0px 100px;
+	margin: 2px 10px 0px 40px;
 	line-height: 0.75;
 }
 
@@ -68,7 +68,7 @@ body {
 	float: right;
 }
 
-@media (max-width: 700px), (max-device-width: 500px) {
+@media (max-width: 830px), (max-device-width: 600px) {
 	.search_form_1 {
 		float: none;
 		margin-bottom: 10px;
@@ -128,19 +128,34 @@ body {
 	padding: 7px;
 }
 
+.character_carousel {
+	padding: 15px;
+}
+
 .character {
 	background: #eee;
 	padding: 20px;
 	background-size: cover;
 	color: white;
 	display: block;
+  background-size: cover;
+}
+
+.active_character {
+    padding: 10px;
+    max-width: 275px;
+    height: 55px;
+    margin: 0px 1px 10px 1px;
+    background-size: cover;
 }
 
 .emblem {
-	width: 40px;
-	height: 40px;
+	width: 50px;
+	height: 55px;
 	vertical-align: middle;
-	margin-right: 30px;
+  background-size: cover;
+  cursor: pointer;
+  margin: 0px 1px 10px 1px;
 }
 
 .classType {
