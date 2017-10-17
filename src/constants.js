@@ -95,17 +95,10 @@ const Maps = {
     1773567660: 'Distant Shore'
 };
 
-const Stats = {
-    144602215: 'Intellect',
-    392767087: 'Resilience',
-    1735777505: 'Discipline',
-    1885944937: 'Power (no mods)',
-    1935470627: 'Power',
-    1943323491: 'Recovery',
-    2996146975: 'Mobility',
-    3555269338: 'Zoom',
-    3897883278: 'Defense',
-    4244567218: 'Strength'
+const StatHashes = {
+    'Mobility': 2996146975,
+    'Resilience': 392767087,
+    'Recovery': 1943323491
 };
 
-export { Platforms, GameModes, CharacterTypes, Maps, Stats };
+export { Platforms, GameModes, CharacterTypes, Maps, StatHashes };

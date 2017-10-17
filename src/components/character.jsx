@@ -40,12 +40,18 @@ const Banner = props => {
         backgroundImage: `url(${ backgroundPath })`
     };
     const className = `character ${ props.activeCharacter ? 'col-xs-8 active_character' : '' }`;
+    const info = `
+      Mob ${ character.mobility } / Res ${ character.resilience } / Rec ${ character.recovery }
+    `;
 
     return (
         <div className={ className } style={ divStyle }>
             <span className="classType">{ classType }</span>
             <span className="level">Lvl { character.baseCharacterLevel }</span>
-            <span className="level light">◆ { character.light }</span>
+            <span className="level light">{ character.light }</span>
+            <div className="char_info">
+                { info }
+            </div>
         </div>
     );
 };

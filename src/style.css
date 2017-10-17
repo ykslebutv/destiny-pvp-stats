@@ -173,6 +173,18 @@ body {
 .light {
 	color: yellow;
 }
+.light:before {
+  content: "◆";
+  font-size: 8pt;
+  margin-right: 2px;
+  vertical-align: text-top;
+}
+
+.char_info {
+  color: #fff;
+  font-size: 7pt;
+  margin-left: 50px;
+}
 
 .character_stats {
 	margin-bottom: 10px;

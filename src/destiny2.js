@@ -3,7 +3,7 @@ import Promise from 'es6-promise';
 
 import Http from './http';
 import Utils from './utils';
-import { GameModes } from './constants';
+import { GameModes, StatHashes } from './constants';
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
@@ -29,9 +29,11 @@ class Destiny2 {
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     const characterIds = res.Response.profile.data.characterIds;
-                    const characters = characterIds.map(characterId =>
-                        res.Response.characters.data[characterId]
-                    );
+                    const characters = characterIds.map(characterId => {
+                        const char = res.Response.characters.data[characterId];
+                        this.setMRRStats(char);
+                        return char;
+                    });
                     resolve(characters);
                 } else {
                     reject(res.Message);
@@ -128,6 +130,12 @@ class Destiny2 {
         });
 
         return dailyStats;
+    }
+
+    setMRRStats(character) {
+        character.mobility = character.stats[StatHashes['Mobility']] || 0;
+        character.resilience = character.stats[StatHashes['Resilience']] || 0;
+        character.recovery = character.stats[StatHashes['Recovery']] || 0;
     }
 
     activityWon(activity) {
