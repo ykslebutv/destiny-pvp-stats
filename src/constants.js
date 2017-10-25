@@ -1,7 +1,7 @@
 const Platforms = {
     1: 'Xbox',
     2: 'PSN',
-    3: 'PC'
+    4: 'PC'
 };
 
 const GameModes = {

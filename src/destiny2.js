@@ -12,7 +12,11 @@ class Destiny2 {
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     if (res.Response.length === 0) {
-                        reject('Guardian not found.');
+                        let errorMessage = 'Guardian not found.';
+                        if (membershipType === 4) {
+                            errorMessage = `${ errorMessage } Battle.net IDs must be in USERNAME#1234 format.`;
+                        }
+                        reject(errorMessage);
                     } else {
                         resolve(res.Response[0]);
                     }

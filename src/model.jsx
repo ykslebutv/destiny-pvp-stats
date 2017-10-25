@@ -63,9 +63,10 @@ class Model {
 
     load() {
         this.page = 0;
+        const name = this.name.replace('#', '%23');
         this.setStatus(Status.LOADING);
 
-        destiny2.searchPlayer(this.platform, this.name).then(playerData => {
+        destiny2.searchPlayer(this.platform, name).then(playerData => {
             Object.assign(this.player, playerData);
             const { membershipType, membershipId } = this.player;
             destiny2.getProfile(membershipType, membershipId).then(characters => {
