@@ -38,7 +38,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
             newUrl = window.location.href.replace(/\/$/, '');
         }
         const platformStr = Platforms[this.platform].toLowerCase();
-        newUrl = `${ newUrl }/${ platformStr }/${ this.name }`;
+        newUrl = `${ newUrl }/${ platformStr }/${ this.name.replace('#', '%23') }`;
 
         window.location.href = newUrl;
     }
