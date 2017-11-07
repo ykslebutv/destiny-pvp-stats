@@ -5,7 +5,7 @@ import { extendObservable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import Utils from '../utils';
-import { GameModes, Maps } from '../constants';
+import { GameModes, Maps, Platforms } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
 
 const Activities = observer(class Activities extends React.Component {
@@ -167,15 +167,15 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
     render() {
         const teams = {};
         const { data } = this.props;
-        data.entries.forEach(playerData => {
-            let teamName = playerData.values.team ? playerData.values.team.basic.displayValue : 'rumble';
+        data.entries.forEach(player => {
+            let teamName = player.values.team ? player.values.team.basic.displayValue : 'rumble';
             if (teamName === '-') {
                 teamName = 'No team';
             }
             if (!teams[teamName]) {
                 teams[teamName] = [];
             }
-            teams[teamName].push(playerData);
+            teams[teamName].push(player);
         });
 
         const teamList = Object.keys(teams).sort().map(teamName => (
@@ -213,32 +213,12 @@ const Team = observer(class Team extends React.Component {
             );
         }
 
-        const playerList = this.props.team.map(playerData => {
-            const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
-            return (
-                <tr key={ playerData.player.destinyUserInfo.displayName }>
-                    <td />
-                    <td className="player">
-                        { playerData.player.destinyUserInfo.displayName } { playerData.player.clanTag ? `[${ playerData.player.clanTag }]` : '' }
-                    </td>
-                    <td>
-                        { playerData.values.kills.basic.displayValue }
-                    </td>
-                    <td>
-                        { playerData.values.deaths.basic.displayValue }
-                    </td>
-                    <td>
-                        { playerData.values.assists.basic.displayValue }
-                    </td>
-                    <td>
-                        { playerData.values.killsDeathsRatio.basic.displayValue }
-                    </td>
-                    <td className={ scoreClass }>
-                        { playerData.values.completed.basic.value === 1 ? playerData.score.basic.displayValue : 'left' }
-                    </td>
-                </tr>
-            );
-        });
+        const playerList = this.props.team.map(playerData => (
+            <Player
+                playerData={ playerData }
+                key={ playerData.player.destinyUserInfo.displayName }
+            />
+        ));
 
         return (
             <tbody>
@@ -246,6 +226,159 @@ const Team = observer(class Team extends React.Component {
                 { playerList }
             </tbody>
         );
+    }
+});
+
+const Player = observer(class Player extends React.Component {
+    constructor(props) {
+        super(props);
+
+        extendObservable(this, {
+            loading: false,
+            show: false,
+
+            setLoading: action(loading => {
+                this.loading = loading;
+            }),
+
+            setShow: action(show => {
+                this.show = show;
+            })
+        });
+    }
+
+    loadWeapons() {
+        const weapons = this.props.playerData.extended.weapons;
+        if (!weapons) {
+            this.setShow(true);
+            return;
+        }
+
+        let count = 0;
+        this.setLoading(true);
+        weapons.map(w => {
+            destiny2.getItemDefinition(w.referenceId).then(response => {
+                w.displayProperties = response.displayProperties;
+                count = count + 1;
+                if (count == weapons.length) {
+                    this.setLoading(false);
+                    this.setShow(true);
+                }
+            });
+        });
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+        if (this.show) {
+            this.setShow(false);
+        } else {
+            this.loadWeapons();
+        }
+    }
+
+    get playerRow() {
+        const { playerData } = this.props;
+        const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
+        return (
+            <tr key={ playerData.player.destinyUserInfo.displayName }>
+                <td/>
+                <td className="player" onClick={ e => this.handleClick(e) }>
+                    <span title={ `${ playerData.player.characterClass} lvl ${ playerData.player.characterLevel }` } >
+                        { playerData.player.destinyUserInfo.displayName }
+                    </span>
+                </td>
+                <td>
+                    { this.loading ? <SpinnerComp scale="0.3" color="black" style={{ marginLeft: '5x' }} /> : playerData.values.kills.basic.displayValue }
+                </td>
+                <td>
+                    { playerData.values.deaths.basic.displayValue }
+                </td>
+                <td>
+                    { playerData.values.assists.basic.displayValue }
+                </td>
+                <td>
+                    { playerData.values.killsDeathsRatio.basic.displayValue }
+                </td>
+                <td className={ scoreClass }>
+                    { playerData.values.completed.basic.value === 1 ? playerData.score.basic.displayValue : 'left' }
+                </td>
+            </tr>
+        );
+    }
+
+    get playerDetails() {
+        const { playerData } = this.props;
+
+        const weaponRows = playerData.extended.weapons ? playerData.extended.weapons.map(w =>
+            <tr key={ w.referenceId } >
+                <td><img className="weapon_icon" src={ `${ Config.baseUrl }${ w.displayProperties.icon }` } /></td>
+                <td>{ w.displayProperties.name }</td>
+                <td>{ w.values.uniqueWeaponKills.basic.displayValue }</td>
+                <td/>
+                <td/>
+                <td/>
+                <td/>
+            </tr>
+        ) : null;
+
+        const playerUrl = `/${ Platforms[playerData.player.destinyUserInfo.membershipType].toLowerCase() }/${ playerData.player.destinyUserInfo.displayName }`;
+
+        return (
+            <tr key={ `${ playerData.player.destinyUserInfo.displayName }_details` } >
+                <td colSpan="7">
+                    <table className="player_details fixed">
+                        <tbody>
+                            { weaponRows }
+                            { playerData.extended.values.weaponKillsMelee ?
+                            <tr key='melee' >
+                                <td/>
+                                <td>Melee</td>
+                                <td>{ playerData.extended.values.weaponKillsMelee.basic.displayValue }</td>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr> : null }
+                            { playerData.extended.values.weaponKillsGrenadeLauncher ?
+                            <tr key='grenade' >
+                                <td/>
+                                <td>Grenade</td>
+                                <td>{ playerData.extended.values.weaponKillsGrenadeLauncher.basic.displayValue }</td>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr> : null }
+                            { playerData.extended.values.weaponKillsSuper ?
+                            <tr key='super' >
+                                <td/>
+                                <td>Super</td>
+                                <td>{ playerData.extended.values.weaponKillsSuper.basic.displayValue }</td>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr> : null }
+                            <tr key="link">
+                                <td colSpan="7">
+                                    <a href={ playerUrl } target="_blank">
+                                        Show more about { playerData.player.destinyUserInfo.displayName }
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        );
+    }
+
+    render() {
+        return [
+            this.playerRow,
+            this.show ? this.playerDetails : null
+        ];
     }
 });
 

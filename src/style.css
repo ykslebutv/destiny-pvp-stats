@@ -295,6 +295,10 @@ tr.activity {
   cursor: pointer;
 }
 
+td.player {
+  cursor: pointer;
+}
+
 .activity_list td .spinner {
   margin-left: 3px;
   margin-right: 3px;
@@ -352,4 +356,18 @@ div.bottom-spinner {
     position: fixed;
     bottom: 0;
     right: 0;
+}
+
+table.player_details {
+  background-color: #fff
+}
+
+table.player_details td:nth-of-type(2) {
+  text-align: left;
+}
+
+img.weapon_icon {
+    margin-left: 6px;
+    width: 24px;
+    height: 24px;
 }

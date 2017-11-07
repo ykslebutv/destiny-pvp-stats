@@ -2,10 +2,11 @@ DONE
 - import Config, moment instead of including in index.html (WONT DO)
 - trials games are missing from api
 - in narrow/mobile view show only 1 character at a time and add links to switch the displayed char
+- player details with weapon/ability breakdown
+- in match details link guardian names to show their stats
 
 F
 - permalinks to individual matches
-- in match details link guardian names to show their stats
 - recently watched guardians (store in a cookie, use antd Select)
 - progress messages (searching player, loading characters, loading games)
 

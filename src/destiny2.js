@@ -106,6 +106,20 @@ class Destiny2 {
         });
     }
 
+    getItemDefinition(referenceId) {
+       const itemType = 'DestinyInventoryItemDefinition';
+       return new Promise((resolve, reject) => {
+           const url = `${ Config.basePath }//Manifest/${ itemType }/${ referenceId }/`;
+           Http.request(url).then(res => {
+               if (res.ErrorStatus === 'Success') {
+                   resolve(res.Response);
+               } else {
+                   reject(res.Message);
+               }
+           });
+       });
+    }
+
     calculateDailyStats(activities) {
         const dailyStats = {};
 
