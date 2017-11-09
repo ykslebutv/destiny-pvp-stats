@@ -236,6 +236,7 @@ const Player = observer(class Player extends React.Component {
         extendObservable(this, {
             loading: false,
             show: false,
+            fullDisplayName: '',
 
             setLoading: action(loading => {
                 this.loading = loading;
@@ -243,12 +244,17 @@ const Player = observer(class Player extends React.Component {
 
             setShow: action(show => {
                 this.show = show;
+            }),
+
+            setFullDisplayName: action(value => {
+                this.fullDisplayName = value;
             })
         });
     }
 
     loadWeapons() {
-        const weapons = this.props.playerData.extended.weapons;
+        const { playerData } = this.props;
+        const weapons = playerData.extended.weapons;
         if (!weapons) {
             this.setShow(true);
             return;
@@ -265,6 +271,11 @@ const Player = observer(class Player extends React.Component {
                     this.setShow(true);
                 }
             });
+        });
+
+        const { membershipType, membershipId } = playerData.player.destinyUserInfo;
+        destiny2.getFullDisplayName(membershipType, membershipId).then(res => {
+            this.fullDisplayName = res;
         });
     }
 
@@ -307,6 +318,10 @@ const Player = observer(class Player extends React.Component {
         );
     }
 
+    get playerUrl() {
+        return this.fullDisplayName ? `/${ Platforms[this.props.playerData.player.destinyUserInfo.membershipType].toLowerCase() }/${ this.fullDisplayName }` : '';
+    }
+
     get playerDetails() {
         const { playerData } = this.props;
 
@@ -321,8 +336,6 @@ const Player = observer(class Player extends React.Component {
                 <td/>
             </tr>
         ) : null;
-
-        const playerUrl = `/${ Platforms[playerData.player.destinyUserInfo.membershipType].toLowerCase() }/${ playerData.player.destinyUserInfo.displayName }`;
 
         return (
             <tr key={ `${ playerData.player.destinyUserInfo.displayName }_details` } >
@@ -362,7 +375,7 @@ const Player = observer(class Player extends React.Component {
                             </tr> : null }
                             <tr key="link">
                                 <td colSpan="7">
-                                    <a href={ playerUrl } target="_blank">
+                                    <a href={ this.playerUrl } target="_blank">
                                         Show more about { playerData.player.destinyUserInfo.displayName }
                                     </a>
                                 </td>
