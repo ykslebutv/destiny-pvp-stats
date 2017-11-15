@@ -45,7 +45,7 @@ const GameModes = {
         id: 'Countdown',
         key: 'countdown',
         name: 'Countdown',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
     39: {
         id: 'TrialsOfTheNine',

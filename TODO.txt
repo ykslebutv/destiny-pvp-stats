@@ -6,11 +6,13 @@ DONE
 - in match details link guardian names to show their stats
 
 F
+- react-route to route /game links
 - permalinks to individual matches
 - recently watched guardians (store in a cookie, use antd Select)
 - progress messages (searching player, loading characters, loading games)
 
 P1
+  - use Promise.all for resolving multiple promises
   - get rid of jQuery
   - survival and countodown icons missing from api
 
