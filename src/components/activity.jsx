@@ -7,6 +7,7 @@ import destiny2 from '../destiny2';
 import Utils from '../utils';
 import { GameModes, Maps, Platforms } from '../constants';
 import SpinnerComp from './spinnerComp.jsx';
+import GameModel from '../gameModel.jsx';
 
 const Activities = observer(class Activities extends React.Component {
     render() {
@@ -71,20 +72,9 @@ const Activity = observer(class Activity extends React.Component {
         super(props);
 
         extendObservable(this, {
-            loading: false,
+            gameData: new GameModel({ activityId: this.props.activity.activityDetails.instanceId }),
+
             show: false,
-
-            gameData: null,
-
-            setLoading: action(loading => {
-                this.loading = loading;
-            }),
-
-            activityLoaded: action(data => {
-                this.gameData = data;
-                this.setLoading(false);
-                this.setShow(true);
-            }),
 
             setShow: action(show => {
                 this.show = show;
@@ -95,18 +85,15 @@ const Activity = observer(class Activity extends React.Component {
     handleClick(e) {
         e.preventDefault();
 
-        const activityId = this.props.activity.activityDetails.instanceId;
-
-        if (this.loading) {
+        if (this.gameData.loading) {
             return;
         }
 
-        if (!this.gameData) {
-            this.setLoading(true);
-            destiny2.getPostGame(activityId).then(data => this.activityLoaded(data));
-        } else {
-            this.setShow(!this.show);
+        if (!this.gameData.success) {
+            this.gameData.load();
         }
+
+        this.setShow(!this.show);
     }
 
     render() {
@@ -123,7 +110,7 @@ const Activity = observer(class Activity extends React.Component {
         const activityRow = (
             <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
                 <td>
-                    { this.loading
+                    { this.gameData.loading
                         ? <SpinnerComp scale="0.3" color="black" />
                         : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].name } />
                     }
@@ -151,10 +138,10 @@ const Activity = observer(class Activity extends React.Component {
 
         const title = `${ GameModes[activity.activityDetails.mode].name } on ${ Maps[activity.activityDetails.referenceId] }`;
 
-        const gameRow = this.show && this.gameData ? (
+        const gameRow = this.show && this.gameData.success ? (
             <tr key={ `${ activity.activityDetails.instanceId }-details` }>
                 <td colSpan="7">
-                    <ActivityDetails title={ title } data={ this.gameData } />
+                    <ActivityDetails title={ title } data={ this.gameData.data } />
                 </td>
             </tr>
         ) : null;
@@ -183,6 +170,7 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
         ));
 
         const date = Utils.formatDate(data.period, true);
+        const gameUrl = `/game/${ data.activityDetails.referenceId }`;
 
         return (
             <table className="activity_details fixed">
@@ -194,6 +182,13 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
                     </tr>
                 </tbody>
                 { teamList }
+                <tbody>
+                    <tr className="footer">
+                        <td colSpan="7">
+                            <a href={ gameUrl } >Permalink to this game</a>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         );
     }

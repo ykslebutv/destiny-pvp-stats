@@ -6,7 +6,7 @@ import { extendObservable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import { CharacterTypes } from '../constants';
-import Activities from './activity.jsx';
+import { Activities } from './activity.jsx';
 
 const CharacterList = observer(class CharacterList extends React.Component {
     render() {

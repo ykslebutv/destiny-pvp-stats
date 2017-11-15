@@ -37,8 +37,12 @@ class Utils {
         const match = window.location.href.match(/^(.*)\/(psn|xbox|pc)\/(.*)$/);
         if (match) {
             res.base_url = match[1];
-            res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].toLowerCase() === match[2]), 10);
-            res.name = decodeURIComponent(match[3]);
+            if (match[2] === 'game') {
+                res.game = match[3];
+            } else {
+                res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].toLowerCase() === match[2]), 10);
+                res.name = decodeURIComponent(match[3]);
+            }
         }
         return res;
     }
