@@ -1,5 +1,5 @@
 /* global Config */
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 const PlayerInfo = props => (
     <div className="player_info">

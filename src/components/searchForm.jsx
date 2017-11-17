@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import { extendObservable, action } from 'mobx';
 import { Platforms } from '../constants';

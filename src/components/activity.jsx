@@ -1,5 +1,5 @@
 /* global Config */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import { extendObservable, action } from 'mobx';
 
@@ -260,8 +260,8 @@ const Player = observer(class Player extends React.Component {
         weapons.map(w => {
             destiny2.getItemDefinition(w.referenceId).then(response => {
                 w.displayProperties = response.displayProperties;
-                count = count + 1;
-                if (count == weapons.length) {
+                count += 1;
+                if (count === weapons.length) {
                     this.setLoading(false);
                     this.setShow(true);
                 }
@@ -320,8 +320,8 @@ const Player = observer(class Player extends React.Component {
     get playerDetails() {
         const { playerData } = this.props;
 
-        const weaponRows = playerData.extended.weapons ? playerData.extended.weapons.map(w =>
-            <tr key={ w.referenceId } >
+        const weaponRows = playerData.extended.weapons ? playerData.extended.weapons.map(w => (
+            <tr key={ w.referenceId }>
                 <td><img className="weapon_icon" src={ `${ Config.baseUrl }${ w.displayProperties.icon }` } /></td>
                 <td>{ w.displayProperties.name }</td>
                 <td>{ w.values.uniqueWeaponKills.basic.displayValue }</td>
@@ -330,7 +330,7 @@ const Player = observer(class Player extends React.Component {
                 <td />
                 <td />
             </tr>
-        ) : null;
+        )) : null;
 
         return (
             <tr key={ `${ playerData.player.destinyUserInfo.displayName }_details` } >
@@ -338,39 +338,39 @@ const Player = observer(class Player extends React.Component {
                     <table className="player_details fixed">
                         <tbody>
                             { weaponRows }
-                            { playerData.extended.values.weaponKillsMelee ?
-                            <tr key='melee' >
-                                <td/>
+                            { playerData.extended.values.weaponKillsMelee
+                            ? <tr key="melee">
+                                <td />
                                 <td>Melee</td>
                                 <td>{ playerData.extended.values.weaponKillsMelee.basic.displayValue }</td>
-                                <td/>
-                                <td/>
-                                <td/>
-                                <td/>
+                                <td />
+                                <td />
+                                <td />
+                                <td />
                             </tr> : null }
-                            { playerData.extended.values.weaponKillsGrenadeLauncher ?
-                            <tr key='grenade' >
-                                <td/>
+                            { playerData.extended.values.weaponKillsGrenadeLauncher
+                            ? <tr key="grenade">
+                                <td />
                                 <td>Grenade</td>
                                 <td>{ playerData.extended.values.weaponKillsGrenadeLauncher.basic.displayValue }</td>
-                                <td/>
-                                <td/>
-                                <td/>
-                                <td/>
+                                <td />
+                                <td />
+                                <td />
+                                <td />
                             </tr> : null }
-                            { playerData.extended.values.weaponKillsSuper ?
-                            <tr key='super' >
-                                <td/>
+                            { playerData.extended.values.weaponKillsSuper
+                            ? <tr key="super">
+                                <td />
                                 <td>Super</td>
                                 <td>{ playerData.extended.values.weaponKillsSuper.basic.displayValue }</td>
-                                <td/>
-                                <td/>
-                                <td/>
-                                <td/>
+                                <td />
+                                <td />
+                                <td />
+                                <td />
                             </tr> : null }
                             <tr key="link">
                                 <td colSpan="7">
-                                    <a href={ this.playerUrl } target="_blank">
+                                    <a href={ this.playerUrl } target="_blank" rel="noopener noreferrer">
                                         Show more about { playerData.player.destinyUserInfo.displayName }
                                     </a>
                                 </td>
