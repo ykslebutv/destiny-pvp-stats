@@ -1,5 +1,5 @@
 /* global Config */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
 import { extendObservable, action } from 'mobx';
