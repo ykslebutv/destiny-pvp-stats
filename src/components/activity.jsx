@@ -288,9 +288,9 @@ const Player = observer(class Player extends React.Component {
         const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
         return (
             <tr key={ playerData.player.destinyUserInfo.displayName }>
-                <td/>
+                <td />
                 <td className="player" onClick={ e => this.handleClick(e) }>
-                    <span title={ `${ playerData.player.characterClass} lvl ${ playerData.player.characterLevel }` } >
+                    <span title={ `${ playerData.player.characterClass } lvl ${ playerData.player.characterLevel }` } >
                         { playerData.player.destinyUserInfo.displayName }
                     </span>
                 </td>
@@ -325,10 +325,10 @@ const Player = observer(class Player extends React.Component {
                 <td><img className="weapon_icon" src={ `${ Config.baseUrl }${ w.displayProperties.icon }` } /></td>
                 <td>{ w.displayProperties.name }</td>
                 <td>{ w.values.uniqueWeaponKills.basic.displayValue }</td>
-                <td/>
-                <td/>
-                <td/>
-                <td/>
+                <td />
+                <td />
+                <td />
+                <td />
             </tr>
         ) : null;
 
@@ -390,4 +390,4 @@ const Player = observer(class Player extends React.Component {
     }
 });
 
-export default Activities;
+export { Activities, ActivityDetails };
