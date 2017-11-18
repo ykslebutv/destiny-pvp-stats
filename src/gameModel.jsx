@@ -37,10 +37,6 @@ class GameModel {
         });
     }
 
-    get type() {
-        return "game";
-    }
-
     get loading() {
         return this.status === Status.LOADING;
     }

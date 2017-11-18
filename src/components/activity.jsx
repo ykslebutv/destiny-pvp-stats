@@ -136,12 +136,13 @@ const Activity = observer(class Activity extends React.Component {
             </tr>
         );
 
-        const title = `${ GameModes[activity.activityDetails.mode].name } on ${ Maps[activity.activityDetails.referenceId] }`;
-
         const gameRow = this.show && this.gameData.success ? (
             <tr key={ `${ activity.activityDetails.instanceId }-details` }>
                 <td colSpan="7">
-                    <ActivityDetails title={ title } data={ this.gameData.data } />
+                    <ActivityDetails
+                        data={ this.gameData.data }
+                        showPermalink
+                    />
                 </td>
             </tr>
         ) : null;
@@ -169,26 +170,29 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
             <Team key={ teamName } teamName={ teamName } team={ teams[teamName] } />
         ));
 
+        const title = `${ GameModes[data.activityDetails.mode].name } on ${ Maps[data.activityDetails.referenceId] }`;
         const date = Utils.formatDate(data.period, true);
-        const gameUrl = `/game/${ data.activityDetails.referenceId }`;
+        const gameUrl = `/game/${ data.activityDetails.instanceId }`;
 
         return (
             <table className="activity_details fixed">
                 <tbody>
                     <tr className="title">
                         <td colSpan="7">
-                            { this.props.title }, { date }
+                            { title }, { date }
                         </td>
                     </tr>
                 </tbody>
                 { teamList }
-                <tbody>
-                    <tr className="footer">
-                        <td colSpan="7">
-                            <a href={ gameUrl } >Permalink to this game</a>
-                        </td>
-                    </tr>
-                </tbody>
+                { this.props.showPermalink ? (
+                    <tbody>
+                        <tr className="footer">
+                            <td colSpan="7">
+                                <a href={ gameUrl } >Permalink to this game</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                 ) : null }
             </table>
         );
     }

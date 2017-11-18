@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import MainPlayer from './mainPlayer.jsx';
@@ -11,8 +11,11 @@ const Content = observer(class Content extends React.Component {
         return (
             <Router>
                 <div>
-                    <Route path="/" component={ MainPlayer }/>
-                    <Route path="/game" component={ MainGame }/>
+                    <Route exact path="/" component={ MainPlayer } />
+                    <Route path="/psn/:player" component={ MainPlayer } />
+                    <Route path="/xbox/:player" component={ MainPlayer } />
+                    <Route path="/pc/:player" component={ MainPlayer } />
+                    <Route path="/game/:id" component={ MainGame } />
                 </div>
             </Router>
         );

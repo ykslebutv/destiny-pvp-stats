@@ -34,7 +34,7 @@ class Utils {
 
     getUrlParams() {
         const res = {};
-        const match = window.location.href.match(/^(.*)\/(psn|xbox|pc)\/(.*)$/);
+        const match = window.location.href.match(/^(.*)\/(psn|xbox|pc|game)\/(.*)$/);
         if (match) {
             res.base_url = match[1];
             if (match[2] === 'game') {

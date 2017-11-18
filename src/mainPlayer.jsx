@@ -34,7 +34,7 @@ const MainPlayer = observer(class MainPlayer extends React.Component {
     }
 
     handleScroll() {
-        if (Utils.isScrolledToBottom()) {
+        if (Utils.isScrolledToBottom() && this.viewModel && this.viewModel.success) {
             this.viewModel.loadNextPage();
         }
     }

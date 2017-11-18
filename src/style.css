@@ -371,3 +371,7 @@ img.weapon_icon {
     width: 24px;
     height: 24px;
 }
+
+.game_container {
+  padding-top: 10px;
+}
