@@ -70,6 +70,12 @@ const GameModes = {
         key: 'ironBannerControl',
         name: 'Iron Banner (Control)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+    },
+    44: {
+        id: '44',
+        key: 'ironBannerClash',
+        name: 'Iron Banner (Clash)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     }
 };
 
