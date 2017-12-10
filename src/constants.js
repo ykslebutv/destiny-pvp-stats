@@ -87,6 +87,7 @@ const CharacterTypes = {
 
 // Manifest/DestinyActivityDefinition/{HASH}/
 const Maps = {
+    /* vanilla */
     760130722: 'The Dead Cliffs',
     3839751954: 'Altar of Flame',
     2519458964: 'Endless Vale',
@@ -98,7 +99,13 @@ const Maps = {
     1720510574: 'The Fortress',
     374818561: 'Emperor\'s Respite',
     2236648719: 'Eternity',
-    1773567660: 'Distant Shore'
+    1773567660: 'Distant Shore',
+
+    /* curse of osiris */
+    3306366908: 'Radiant Cliffs',
+    2417088417: 'Pacifica',
+    1802930364: 'Wormhaven'
+
 };
 
 const StatHashes = {
