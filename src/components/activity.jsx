@@ -342,7 +342,7 @@ const Player = observer(class Player extends React.Component {
                     <table className="player_details fixed">
                         <tbody>
                             { weaponRows }
-                            { playerData.extended.values.weaponKillsMelee
+                            { playerData.extended.values.weaponKillsMelee && playerData.extended.values.weaponKillsMelee.basic.value
                             ? <tr key="melee">
                                 <td />
                                 <td>Melee</td>
@@ -352,17 +352,17 @@ const Player = observer(class Player extends React.Component {
                                 <td />
                                 <td />
                             </tr> : null }
-                            { playerData.extended.values.weaponKillsGrenadeLauncher
+                            { playerData.extended.values.weaponKillsGrenade && playerData.extended.values.weaponKillsGrenade.basic.value
                             ? <tr key="grenade">
                                 <td />
                                 <td>Grenade</td>
-                                <td>{ playerData.extended.values.weaponKillsGrenadeLauncher.basic.displayValue }</td>
+                                <td>{ playerData.extended.values.weaponKillsGrenade.basic.displayValue }</td>
                                 <td />
                                 <td />
                                 <td />
                                 <td />
                             </tr> : null }
-                            { playerData.extended.values.weaponKillsSuper
+                            { playerData.extended.values.weaponKillsSuper && playerData.extended.values.weaponKillsSuper.basic.value
                             ? <tr key="super">
                                 <td />
                                 <td>Super</td>
