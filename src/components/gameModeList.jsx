@@ -5,7 +5,8 @@ import { GameModes } from '../constants';
 
 const MenuModes = [
     'AllPvP', 'Control', 'Clash', 'Supremacy',
-    'Survival', 'Countdown', 'TrialsOfTheNine', 'IronBanner'];
+    'Survival', 'Countdown', 'TrialsOfTheNine',
+    'IronBanner', '25', 'CrimsonDoubles'];
 
 const findMode = id => Object.values(GameModes).find(mode => mode.id === id);
 

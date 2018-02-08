@@ -4,6 +4,16 @@ const Platforms = {
     4: 'PC'
 };
 
+// To get map names and game mode icons:
+// Manifest/DestinyActivityDefinition/{HASH}/
+
+
+/*
+  id field is what passed to the Bungie API as mode
+  key field is name of the response object
+  id is upper camel case while key is lower camel case
+  hence the need for 2 fields
+*/
 const GameModes = {
     5: {
         id: 'AllPvP',
@@ -23,11 +33,23 @@ const GameModes = {
         name: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
+    15: {
+        id: 'CrimsonDoubles',
+        key: 'crimsonDoubles',
+        name: 'Crimson Doubles',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+    },
     19: {
         id: 'IronBanner',
         key: 'ironBanner',
         name: 'Iron Banner',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    25: {
+        id: '25',
+        key: 'allMayhem',
+        name: 'Mayhem',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
     },
     31: {
         id: 'Supremacy',
@@ -76,6 +98,36 @@ const GameModes = {
         key: 'ironBannerClash',
         name: 'Iron Banner (Clash)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+    },
+    45: {
+        id: '45',
+        key: 'ironBannerSupremacy',
+        name: 'Iron Banner (Supremacy)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
+    },
+    4: {
+        id: 'Raid',
+        key: 'raid',
+        name: 'Raids',
+        icon: ''
+    },
+    16: {
+        id: 'Nightfall',
+        key: 'nightfall',
+        name: 'Nightfall',
+        icon: ''
+    },
+    17: {
+        id: 'PrestigeNightfall',
+        key: 'heroicNightfall',
+        name: 'Nightfall (Prestige)',
+        icon: ''
+    },
+    18: {
+        id: 'AllStrikes',
+        key: 'allStrikes',
+        name: 'All Strikes',
+        icon: ''
     }
 };
 
@@ -85,7 +137,6 @@ const CharacterTypes = {
     2: 'Warlock'
 };
 
-// Manifest/DestinyActivityDefinition/{HASH}/
 const Maps = {
     /* vanilla */
     760130722: 'The Dead Cliffs',
@@ -105,7 +156,6 @@ const Maps = {
     3306366908: 'Radiant Cliffs',
     2417088417: 'Pacifica',
     1802930364: 'Wormhaven'
-
 };
 
 const StatHashes = {

@@ -253,14 +253,15 @@ const Player = observer(class Player extends React.Component {
 
     loadWeapons() {
         const { playerData } = this.props;
-        const weapons = playerData.extended.weapons;
-        if (!weapons) {
-            this.setShow(true);
-            return;
-        }
+        const weapons = playerData.extended.weapons || [];
 
         let count = 0;
-        this.setLoading(true);
+        if (weapons.length > 0) {
+            this.setLoading(true);
+        } else {
+            this.setShow(true);
+        }
+
         weapons.map(w => {
             destiny2.getItemDefinition(w.referenceId).then(response => {
                 w.displayProperties = response.displayProperties;
@@ -342,6 +343,16 @@ const Player = observer(class Player extends React.Component {
                     <table className="player_details fixed">
                         <tbody>
                             { weaponRows }
+                            { playerData.extended.values.weaponKillsAbility && playerData.extended.values.weaponKillsAbility.basic.value
+                            ? <tr key="melee">
+                                <td />
+                                <td>Ability</td>
+                                <td>{ playerData.extended.values.weaponKillsAbility.basic.displayValue }</td>
+                                <td />
+                                <td />
+                                <td />
+                                <td />
+                            </tr> : null }
                             { playerData.extended.values.weaponKillsMelee && playerData.extended.values.weaponKillsMelee.basic.value
                             ? <tr key="melee">
                                 <td />
