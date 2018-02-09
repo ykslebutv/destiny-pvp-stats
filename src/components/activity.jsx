@@ -319,7 +319,7 @@ const Player = observer(class Player extends React.Component {
     }
 
     get playerUrl() {
-        return this.fullDisplayName ? `/${ Platforms[this.props.playerData.player.destinyUserInfo.membershipType].toLowerCase() }/${ this.fullDisplayName }` : '';
+        return this.fullDisplayName ? `/${ Platforms[this.props.playerData.player.destinyUserInfo.membershipType].name.toLowerCase() }/${ this.fullDisplayName }` : '';
     }
 
     get playerDetails() {

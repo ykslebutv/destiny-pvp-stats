@@ -40,7 +40,7 @@ class Utils {
             if (match[2] === 'game') {
                 res.game = match[3];
             } else {
-                res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].toLowerCase() === match[2]), 10);
+                res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].name.toLowerCase() === match[2]), 10);
                 res.name = decodeURIComponent(match[3]);
             }
         }

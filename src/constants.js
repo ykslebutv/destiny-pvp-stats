@@ -1,7 +1,16 @@
 const Platforms = {
-    1: 'Xbox',
-    2: 'PSN',
-    4: 'PC'
+    1: {
+        name: 'Xbox',
+        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_xbl.png'
+    },
+    2: {
+        name: 'PSN',
+        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_psn.png'
+    },
+    4: {
+        name: 'PC',
+        iconPath: 'https://cdn0.iconfinder.com/data/icons/flat-round-system/512/windows-128.png'
+    }
 };
 
 // To get map names and game mode icons:

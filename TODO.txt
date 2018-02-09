@@ -17,6 +17,7 @@ Critical
 - link to users via membershipId since battle.net id is not available anymore
 
 P1
+  - emojis in clan names shown as &#9829;
   - save and use local mode icons
   - use Promise.all for resolving multiple promises
   - get rid of jQuery

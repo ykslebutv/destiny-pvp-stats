@@ -37,7 +37,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
         } else {
             newUrl = window.location.href.replace(/\/$/, '');
         }
-        const platformStr = Platforms[this.platform].toLowerCase();
+        const platformStr = Platforms[this.platform].name.toLowerCase();
         newUrl = `${ newUrl }/${ platformStr }/${ this.name.replace('#', '%23') }`;
 
         window.location.href = newUrl;
@@ -64,7 +64,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
                                 value={ platformId }
                                 onChange={ () => this.setPlatform(platformId) }
                                 checked={ this.platform === platformId }
-                            /> { Platforms[platformId] }
+                            /> { Platforms[platformId].name }
                         </label>
                     )) }
                     <button

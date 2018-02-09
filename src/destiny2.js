@@ -38,7 +38,10 @@ class Destiny2 {
                         this.setMRRStats(char);
                         return char;
                     });
-                    resolve(characters);
+                    resolve({
+                        userInfo: res.Response.profile.data.userInfo,
+                        characters: characters
+                    });
                 } else {
                     reject(res.Message);
                 }

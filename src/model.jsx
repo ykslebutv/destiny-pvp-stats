@@ -23,7 +23,6 @@ class Model {
                 displayName: '',
                 membershipType: '',
                 membershipId: '',
-                iconPath: '',
                 clanName: '',
                 clanTag: ''
             },
@@ -67,9 +66,10 @@ class Model {
         this.setStatus(Status.LOADING);
 
         destiny2.searchPlayer(this.platform, name).then(playerData => {
-            Object.assign(this.player, playerData);
-            const { membershipType, membershipId } = this.player;
-            destiny2.getProfile(membershipType, membershipId).then(characters => {
+            const { membershipType, membershipId } = playerData;
+            destiny2.getProfile(membershipType, membershipId).then(res => {
+                const { userInfo, characters } = res;
+                Object.assign(this.player, userInfo);
                 this.characters = characters;
                 let loadCount = this.characters.length;
                 this.characters.map(character => {
