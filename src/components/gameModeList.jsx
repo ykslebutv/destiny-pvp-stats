@@ -4,11 +4,17 @@ import { observer } from 'mobx-react';
 import { GameModes } from '../constants';
 
 const MenuModes = [
-    'AllPvP', 'Control', 'Clash', 'Supremacy',
-    'Survival', 'Countdown', 'TrialsOfTheNine',
-    'IronBanner', '25', 'CrimsonDoubles'];
-
-const findMode = id => Object.values(GameModes).find(mode => mode.id === id);
+    5  /* AllPvP */,
+    10 /* Control */,
+    12 /* Clash */,
+    31 /* Supremacy */,
+    37 /* Survival */,
+    38 /* Countdown */,
+    39 /* TrialsOfTheNine */,
+    19 /* IronBanner */,
+    25 /* Mayhem */,
+    15 /* CrimsonDoubles */
+];
 
 const GameModeList = observer(class GameModeList extends React.Component {
     onChange(e) {
@@ -16,9 +22,9 @@ const GameModeList = observer(class GameModeList extends React.Component {
     }
 
     render() {
-        const options = MenuModes.map(modeId => (
-            <option key={ modeId } value={ modeId }>
-                { findMode(modeId).name }
+        const options = MenuModes.map(id => (
+            <option key={ id } value={ id }>
+                { GameModes[id].displayName }
             </option>
         ));
 

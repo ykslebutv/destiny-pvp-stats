@@ -48,17 +48,17 @@ class Destiny2 {
 
     getCharacterStats(membershipType, membershipId, characterId, mode) {
         return new Promise((resolve, reject) => {
-            const gameMode = Object.values(GameModes).find(m => m.id === mode);
+            const gameMode = GameModes[mode];
             if (!gameMode) {
                 console.log(`Unknown mode ${ mode } in getCharacterStats`);
             }
             const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ mode }`;
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
-                    if (!res.Response[gameMode.key]) {
-                        console.log(`Unknown key ${ gameMode.key } in getCharacterStats`);
+                    if (!res.Response[gameMode.responseKey]) {
+                        console.log(`Unknown key ${ gameMode.responseKey } in getCharacterStats`);
                     }
-                    resolve(res.Response[gameMode.key].allTime);
+                    resolve(res.Response[gameMode.responseKey].allTime);
                 } else {
                     reject(res.Message);
                 }
@@ -109,7 +109,7 @@ class Destiny2 {
     getItemDefinition(referenceId) {
        const itemType = 'DestinyInventoryItemDefinition';
        return new Promise((resolve, reject) => {
-           const url = `${ Config.basePath }//Manifest/${ itemType }/${ referenceId }/`;
+           const url = `${ Config.basePath }/Manifest/${ itemType }/${ referenceId }/`;
            Http.request(url).then(res => {
                if (res.ErrorStatus === 'Success') {
                    resolve(res.Response);

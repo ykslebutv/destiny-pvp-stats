@@ -16,118 +16,79 @@ const Platforms = {
 */
 const GameModes = {
     5: {
-        id: 'AllPvP',
-        key: 'allPvP',
-        name: 'All Modes',
+        responseKey: 'allPvP',
+        displayName: 'All Modes',
         icon: ''
     },
     10: {
-        id: 'Control',
-        key: 'control',
-        name: 'Control',
+        responseKey: 'control',
+        displayName: 'Control',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
     12: {
-        id: 'Clash',
-        key: 'clash',
-        name: 'Clash',
+        responseKey: 'clash',
+        displayName: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     15: {
-        id: 'CrimsonDoubles',
-        key: 'crimsonDoubles',
-        name: 'Crimson Doubles',
+        responseKey: 'crimsonDoubles',
+        displayName: 'Crimson Doubles',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     19: {
-        id: 'IronBanner',
-        key: 'ironBanner',
-        name: 'Iron Banner',
+        responseKey: 'ironBanner',
+        displayName: 'Iron Banner',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     25: {
-        id: '25',
-        key: 'allMayhem',
-        name: 'Mayhem',
+        responseKey: 'allMayhem',
+        displayName: 'Mayhem',
         icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
     },
     31: {
-        id: 'Supremacy',
-        key: 'supremacy',
-        name: 'Supremacy',
+        responseKey: 'supremacy',
+        displayName: 'Supremacy',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
     },
     37: {
-        id: 'Survival',
-        key: 'survival',
-        name: 'Survival',
+        responseKey: 'survival',
+        displayName: 'Survival',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     38: {
-        id: 'Countdown',
-        key: 'countdown',
-        name: 'Countdown',
+        responseKey: 'countdown',
+        displayName: 'Countdown',
         icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
     39: {
-        id: 'TrialsOfTheNine',
-        key: 'trialsofthenine',
-        name: 'Trials of the Nine',
+        responseKey: 'trialsofthenine',
+        displayName: 'Trials of the Nine',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     41: {
-        id: '41',
-        key: 'trialsCountdown',
-        name: 'Trials (Countdown)',
+        responseKey: 'trialsCountdown',
+        displayName: 'Trials (Countdown)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     42: {
-        id: '42',
-        key: 'trialsSurvival',
-        name: 'Trials (Survival)',
+        responseKey: 'trialsSurvival',
+        displayName: 'Trials (Survival)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     43: {
-        id: '43',
-        key: 'ironBannerControl',
-        name: 'Iron Banner (Control)',
+        responseKey: 'ironBannerControl',
+        displayName: 'Iron Banner (Control)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
     44: {
-        id: '44',
-        key: 'ironBannerClash',
-        name: 'Iron Banner (Clash)',
+        responseKey: 'ironBannerClash',
+        displayName: 'Iron Banner (Clash)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     45: {
-        id: '45',
-        key: 'ironBannerSupremacy',
-        name: 'Iron Banner (Supremacy)',
+        responseKey: 'ironBannerSupremacy',
+        displayName: 'Iron Banner (Supremacy)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
-    },
-    4: {
-        id: 'Raid',
-        key: 'raid',
-        name: 'Raids',
-        icon: ''
-    },
-    16: {
-        id: 'Nightfall',
-        key: 'nightfall',
-        name: 'Nightfall',
-        icon: ''
-    },
-    17: {
-        id: 'PrestigeNightfall',
-        key: 'heroicNightfall',
-        name: 'Nightfall (Prestige)',
-        icon: ''
-    },
-    18: {
-        id: 'AllStrikes',
-        key: 'allStrikes',
-        name: 'All Strikes',
-        icon: ''
     }
 };
 

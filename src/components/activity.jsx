@@ -112,7 +112,7 @@ const Activity = observer(class Activity extends React.Component {
                 <td>
                     { this.gameData.loading
                         ? <SpinnerComp scale="0.3" color="black" />
-                        : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].name } />
+                        : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].displayName } />
                     }
                 </td>
                 <td className="map">
@@ -170,7 +170,7 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
             <Team key={ teamName } teamName={ teamName } team={ teams[teamName] } />
         ));
 
-        const title = `${ GameModes[data.activityDetails.mode].name } on ${ Maps[data.activityDetails.referenceId] }`;
+        const title = `${ GameModes[data.activityDetails.mode].displayName } on ${ Maps[data.activityDetails.referenceId] }`;
         const date = Utils.formatDate(data.period, true);
         const gameUrl = `/game/${ data.activityDetails.instanceId }`;
 

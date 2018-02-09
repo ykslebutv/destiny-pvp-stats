@@ -6,15 +6,21 @@ DONE
 - in match details link guardian names to show their stats
 - react-route to route /game links
 - permalinks to individual matches
+- add mayhem and crimson doubles modes
+- simplify GameModes structure
 
-F
+Feat
 - recently watched guardians (store in a cookie, use antd Select)
 - progress messages (searching player, loading characters, loading games)
 
+Critical
+- link to users via membershipId since battle.net id is not available anymore
+
 P1
+  - save and use local mode icons
   - use Promise.all for resolving multiple promises
   - get rid of jQuery
-  - survival and countodown icons missing from api
+  - survival and countdown icons missing from api
 
 P2
 -
