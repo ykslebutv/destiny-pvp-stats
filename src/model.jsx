@@ -1,3 +1,4 @@
+import Promise from 'es6-promise';
 import { extendObservable, action } from 'mobx';
 
 import destiny2 from './destiny2';
@@ -15,6 +16,7 @@ class Model {
 
         extendObservable(this, {
 
+            id: args.id,
             name: args.name,
             platform: args.platform,
             mode: 5, // AllPvP
@@ -60,12 +62,26 @@ class Model {
         return this.status === Status.FAILED;
     }
 
+    getMembershipInfo() {
+        // if id was passed via URL, just set membershipId and membershipType
+        // else search player by name
+        return new Promise((resolve, reject) => {
+            if (this.id) {
+                resolve({ membershipId: this.id, membershipType: this.platform });
+            } else {
+                const name = this.name.replace('#', '%23');
+                destiny2.searchPlayer(this.platform, name).then(playerData => {
+                    resolve(playerData);
+                });
+            }
+        });
+    }
+
     load() {
         this.page = 0;
-        const name = this.name.replace('#', '%23');
         this.setStatus(Status.LOADING);
 
-        destiny2.searchPlayer(this.platform, name).then(playerData => {
+        this.getMembershipInfo().then(playerData => {
             const { membershipType, membershipId } = playerData;
             destiny2.getProfile(membershipType, membershipId).then(res => {
                 const { userInfo, characters } = res;
@@ -105,7 +121,7 @@ class Model {
             });
         }, error => {
             this.setError(error);
-        }); // searchPlayer
+        }); // getMembershipInfo
     }
 
     loadNextPage() {

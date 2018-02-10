@@ -123,19 +123,6 @@ class Destiny2 {
        });
     }
 
-    getFullDisplayName(membershipType, membershipId) {
-        return new Promise((resolve, reject) => {
-            const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles`;
-            Http.request(url).then(res => {
-                if (res.ErrorStatus === 'Success') {
-                    resolve(res.Response.profile.data.userInfo.displayName);
-                } else {
-                    reject(res.Message);
-                }
-            });
-        });
-    }
-
     calculateDailyStats(activities) {
         const dailyStats = {};
 

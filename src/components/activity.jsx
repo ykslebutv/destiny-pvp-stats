@@ -235,7 +235,6 @@ const Player = observer(class Player extends React.Component {
         extendObservable(this, {
             loading: false,
             show: false,
-            fullDisplayName: '',
 
             setLoading: action(loading => {
                 this.loading = loading;
@@ -243,10 +242,6 @@ const Player = observer(class Player extends React.Component {
 
             setShow: action(show => {
                 this.show = show;
-            }),
-
-            setFullDisplayName: action(value => {
-                this.fullDisplayName = value;
             })
         });
     }
@@ -271,11 +266,6 @@ const Player = observer(class Player extends React.Component {
                     this.setShow(true);
                 }
             });
-        });
-
-        const { membershipType, membershipId } = playerData.player.destinyUserInfo;
-        destiny2.getFullDisplayName(membershipType, membershipId).then(res => {
-            this.fullDisplayName = res;
         });
     }
 
@@ -319,7 +309,8 @@ const Player = observer(class Player extends React.Component {
     }
 
     get playerUrl() {
-        return this.fullDisplayName ? `/${ Platforms[this.props.playerData.player.destinyUserInfo.membershipType].name.toLowerCase() }/${ this.fullDisplayName }` : '';
+        const { membershipType, membershipId } = this.props.playerData.player.destinyUserInfo;
+        return `/${ Platforms[membershipType].name.toLowerCase() }/${ membershipId }`;
     }
 
     get playerDetails() {

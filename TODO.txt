@@ -8,13 +8,14 @@ DONE
 - permalinks to individual matches
 - add mayhem and crimson doubles modes
 - simplify GameModes structure
+- link to users via membershipId since battle.net id is not available anymore
 
 Feat
 - recently watched guardians (store in a cookie, use antd Select)
 - progress messages (searching player, loading characters, loading games)
 
 Critical
-- link to users via membershipId since battle.net id is not available anymore
+-
 
 P1
   - emojis in clan names shown as &#9829;

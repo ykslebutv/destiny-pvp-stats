@@ -41,7 +41,12 @@ class Utils {
                 res.game = match[3];
             } else {
                 res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].name.toLowerCase() === match[2]), 10);
-                res.name = decodeURIComponent(match[3]);
+                const nameOrId = decodeURIComponent(match[3]);
+                if (this.isNumeric(nameOrId)) {
+                    res.id = nameOrId;
+                } else {
+                    res.name = nameOrId;
+                }
             }
         }
         return res;
@@ -57,6 +62,10 @@ class Utils {
             title = playerName + ' - ' + title;
         }
         document.title = title;
+    }
+
+    isNumeric(str) {
+        return !isNaN(parseFloat(str)) && isFinite(str);
     }
 }
 
