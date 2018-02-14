@@ -125,7 +125,10 @@ const Maps = {
     /* curse of osiris */
     3306366908: 'Radiant Cliffs',
     2417088417: 'Pacifica',
-    1802930364: 'Wormhaven'
+    1802930364: 'Wormhaven',
+
+    /* crimson days */
+    2081576589: 'The Burnout'
 };
 
 const StatHashes = {
