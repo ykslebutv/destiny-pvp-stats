@@ -33,8 +33,12 @@ class Utils {
     }
 
     getUrlParams() {
+        return this.parseUrlParams(window.location.href);
+    }
+
+    parseUrlParams(url) {
         const res = {};
-        const match = window.location.href.match(/^(.*)\/(psn|xbox|pc|game)\/(.*)$/);
+        const match = url.match(/^(.*)\/(psn|xbox|pc|game)\/(.*)$/);
         if (match) {
             res.base_url = match[1];
             if (match[2] === 'game') {
