@@ -14,7 +14,7 @@ class Destiny2 {
                     if (res.Response.length === 0) {
                         let errorMessage = 'Guardian not found.';
                         if (membershipType === 4) {
-                            errorMessage = `${ errorMessage } Battle.net IDs must be in USERNAME#1234 format.`;
+                            errorMessage = `${ errorMessage } Battle.net ID must be in name#1234 format.`;
                         }
                         reject(errorMessage);
                     } else {
@@ -110,17 +110,17 @@ class Destiny2 {
     }
 
     getItemDefinition(referenceId) {
-       const itemType = 'DestinyInventoryItemDefinition';
-       return new Promise((resolve, reject) => {
-           const url = `${ Config.basePath }/Manifest/${ itemType }/${ referenceId }/`;
-           Http.request(url).then(res => {
-               if (res.ErrorStatus === 'Success') {
-                   resolve(res.Response);
-               } else {
-                   reject(res.Message);
-               }
-           });
-       });
+        const itemType = 'DestinyInventoryItemDefinition';
+        return new Promise((resolve, reject) => {
+            const url = `${ Config.basePath }/Manifest/${ itemType }/${ referenceId }/`;
+            Http.request(url).then(res => {
+                if (res.ErrorStatus === 'Success') {
+                    resolve(res.Response);
+                } else {
+                    reject(res.Message);
+                }
+            });
+        });
     }
 
     calculateDailyStats(activities) {

@@ -10,6 +10,7 @@ const MenuModes = [
     31 /* Supremacy */,
     37 /* Survival */,
     38 /* Countdown */,
+    48 /* Rumble */,
     39 /* TrialsOfTheNine */,
     19 /* IronBanner */,
     25 /* Mayhem */,

@@ -42,12 +42,12 @@ const GameModes = {
     15: {
         responseKey: 'crimsonDoubles',
         displayName: 'Crimson Doubles',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
     },
     19: {
         responseKey: 'ironBanner',
         displayName: 'Iron Banner',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
     25: {
         responseKey: 'allMayhem',
@@ -72,32 +72,37 @@ const GameModes = {
     39: {
         responseKey: 'trialsofthenine',
         displayName: 'Trials of the Nine',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
     },
     41: {
         responseKey: 'trialsCountdown',
         displayName: 'Trials (Countdown)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
     },
     42: {
         responseKey: 'trialsSurvival',
         displayName: 'Trials (Survival)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
     },
     43: {
         responseKey: 'ironBannerControl',
         displayName: 'Iron Banner (Control)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
     44: {
         responseKey: 'ironBannerClash',
         displayName: 'Iron Banner (Clash)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
     45: {
         responseKey: 'ironBannerSupremacy',
         displayName: 'Iron Banner (Supremacy)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
+    },
+    48: {
+        responseKey: 'rumble',
+        displayName: 'Rumble',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     }
 };
 

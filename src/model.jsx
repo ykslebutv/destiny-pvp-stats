@@ -72,6 +72,8 @@ class Model {
                 const name = this.name.replace('#', '%23');
                 destiny2.searchPlayer(this.platform, name).then(playerData => {
                     resolve(playerData);
+                }, error => {
+                    reject(error);
                 });
             }
         });
