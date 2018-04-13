@@ -1,4 +1,4 @@
-/* global $, Config */
+/* global Config */
 import moment from 'moment';
 
 import { Platforms } from './constants';
@@ -29,7 +29,7 @@ class Utils {
     }
 
     isScrolledToBottom() {
-        return ($(window).scrollTop() === $(document).height() - $(window).height());
+        return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);
     }
 
     getUrlParams() {
