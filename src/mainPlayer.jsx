@@ -17,18 +17,10 @@ const MainPlayer = observer(class MainPlayer extends React.Component {
         const params = Utils.getUrlParams();
 
         if (params.platform && (params.name || params.id)) {
-            if (params.name) {
-                Utils.setCookie('player', params.name, 365);
-            }
-
-            if (params.platform) {
-                Utils.setCookie('platform', params.platform, 365);
-            }
-
             this.viewModel = new Model({
                 id: params.id,
                 name: params.name,
-                platform: params.platform,
+                platform: params.platform
             });
             this.viewModel.load();
         }

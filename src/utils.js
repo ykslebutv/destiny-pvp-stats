@@ -1,31 +1,19 @@
-/* global Config */
+/* global Config, localStorage */
 import moment from 'moment';
 
 import { Platforms } from './constants';
 
 class Utils {
-    setCookie(cname, cvalue, exdays) {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        const expires = 'expires=' + d.toUTCString();
-        document.cookie = cname + '=' + cvalue + '; path=/; ' + expires;
+    getRecentPlayers() {
+        return JSON.parse(localStorage.getItem('recentPlayers')) || [];
     }
 
-    getCookie(cname) {
-        const name = cname + '=';
-        const ca = document.cookie.split(';');
-        let c;
-        let i;
-        for (i = 0; i < ca.length; i += 1) {
-            c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return '';
+    saveRecentPlayerInfo(params) {
+        let players = this.getRecentPlayers();
+        players = players.filter(p => p.name !== params.name || p.platform !== params.platform);
+        players.unshift({ name: params.name, platform: params.platform });
+        players.splice(-1, players.length - 7);
+        localStorage.setItem('recentPlayers', JSON.stringify(players));
     }
 
     isScrolledToBottom() {

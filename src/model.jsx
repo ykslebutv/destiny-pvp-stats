@@ -1,6 +1,7 @@
 import Promise from 'es6-promise';
 import { extendObservable, action } from 'mobx';
 
+import Utils from './utils';
 import destiny2 from './destiny2';
 
 const Status = {
@@ -71,6 +72,7 @@ class Model {
             } else {
                 const name = this.name.replace('#', '%23');
                 destiny2.searchPlayer(this.platform, name).then(playerData => {
+                    Utils.saveRecentPlayerInfo({ name: playerData.displayName, platform: playerData.membershipType });
                     resolve(playerData);
                 }, error => {
                     reject(error);

@@ -10,8 +10,9 @@ const SearchForm = observer(class SearchForm extends React.Component {
         super(props);
 
         extendObservable(this, {
-            name: Utils.getCookie('player'),
-            platform: parseInt(Utils.getCookie('platform'), 10)
+            name: '',
+            platform: 0,
+            showRecent: false
         });
 
         extendObservable(this, {
@@ -20,15 +21,17 @@ const SearchForm = observer(class SearchForm extends React.Component {
             }),
             setPlatform: action(platform => {
                 this.platform = platform;
+            }),
+            setShowRecent: action(showRecent => {
+                this.showRecent = showRecent;
             })
         });
     }
 
     onSubmit(e) {
-        e.preventDefault();
-
-        Utils.setCookie('player', this.name, 365);
-        Utils.setCookie('platform', this.platform, 365);
+        if (e) {
+            e.preventDefault();
+        }
 
         const params = Utils.getUrlParams();
         let newUrl = '';
@@ -43,6 +46,16 @@ const SearchForm = observer(class SearchForm extends React.Component {
         window.location.href = newUrl;
     }
 
+    showRecentSearches(value) {
+        this.setShowRecent(value);
+    }
+
+    submitRecentSearch(params) {
+        this.setName(params.name);
+        this.setPlatform(params.platform);
+        this.onSubmit();
+    }
+
     render() {
         return (
             <form onSubmit={ e => this.onSubmit(e) } id="searchForm">
@@ -53,6 +66,8 @@ const SearchForm = observer(class SearchForm extends React.Component {
                         type="text"
                         value={ this.name }
                         onChange={ e => this.setName(e.target.value) }
+                        onFocus={ () => this.showRecentSearches(true) }
+                        onBlur={ () => this.showRecentSearches(false) }
                     />
                 </div>
                 <div className="search_form_2">
@@ -75,7 +90,31 @@ const SearchForm = observer(class SearchForm extends React.Component {
                         { this.props.loading ? <SpinnerComp scale="0.5" color="white" /> : 'search' }
                     </button>
                 </div>
+                { this.showRecent ? <RecentSearches onChange={ params => this.submitRecentSearch(params) } /> : null }
             </form>
+        );
+    }
+});
+
+const RecentSearches = observer(class RecentSearches extends React.Component {
+    onClick(params) {
+        this.props.onChange(params);
+    }
+
+    render() {
+        const players = Utils.getRecentPlayers();
+        const playersList = players.map((player, idx) => (
+            <li key={ idx } onMouseDown={ () => this.onClick(player) } >
+                <i className={ `fab fa-${ Platforms[player.platform].faIcon }` } />
+                { player.name }
+            </li>
+        ));
+        return (
+            <div className="floating-list recet-searches">
+                <ul>
+                    { playersList }
+                </ul>
+            </div>
         );
     }
 });

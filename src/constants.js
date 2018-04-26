@@ -1,15 +1,18 @@
 const Platforms = {
     1: {
         name: 'Xbox',
-        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_xbl.png'
+        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_xbl.png',
+        faIcon: 'xbox'
     },
     2: {
         name: 'PSN',
-        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_psn.png'
+        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_psn.png',
+        faIcon: 'playstation'
     },
     4: {
         name: 'PC',
-        iconPath: 'https://cdn0.iconfinder.com/data/icons/flat-round-system/512/windows-128.png'
+        iconPath: 'https://cdn0.iconfinder.com/data/icons/flat-round-system/512/windows-128.png',
+        faIcon: 'windows'
     }
 };
 

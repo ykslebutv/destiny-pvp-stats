@@ -9,9 +9,11 @@ DONE
 - add mayhem and crimson doubles modes
 - simplify GameModes structure
 - link to users via membershipId since battle.net id is not available anymore
+- get rid of jQuery
+- recently watched guardians (local storage)
+- do not save last search in cookies, use recent list
 
 Feat
-- recently watched guardians (store in a cookie, use antd Select)
 - progress messages (searching player, loading characters, loading games)
 
 Critical
@@ -21,7 +23,6 @@ P1
   - emojis in clan names shown as &#9829;
   - save and use local mode icons
   - use Promise.all for resolving multiple promises
-  - get rid of jQuery
   - survival and countdown icons missing from api
 
 P2
