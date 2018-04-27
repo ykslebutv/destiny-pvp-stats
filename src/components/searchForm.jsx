@@ -105,17 +105,17 @@ const RecentSearches = observer(class RecentSearches extends React.Component {
         const players = Utils.getRecentPlayers();
         const playersList = players.map((player, idx) => (
             <li key={ idx } onMouseDown={ () => this.onClick(player) } >
-                <i className={ `fab fa-${ Platforms[player.platform].faIcon }` } />
+                <i className={ `fab fa-fw fa-${ Platforms[player.platform].faIcon }` } />
                 { player.name }
             </li>
         ));
-        return (
+        return playersList.length ? (
             <div className="floating-list recet-searches">
                 <ul>
                     { playersList }
                 </ul>
             </div>
-        );
+        ) : null;
     }
 });
 

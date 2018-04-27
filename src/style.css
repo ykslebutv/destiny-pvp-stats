@@ -397,17 +397,16 @@ img.weapon_icon {
 	font-size: 13px;
 	line-height: 24px;
 	display: block;
-	padding: 3px 8px 3px 8px;
+	padding: 3px 5px 3px 5px;
 }
 
 .floating-list li:hover {
 	cursor: pointer;
-	background-color: #eee;
+	background-color: #b8daff;
 }
 
 .floating-list svg {
-	margin-right: 8px;
-	width: 16px;
+  margin-right: 5px;
 }
 
 .fa-lg {
