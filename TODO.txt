@@ -12,6 +12,7 @@ DONE
 - get rid of jQuery
 - recently watched guardians (local storage)
 - do not save last search in cookies, use recent list
+- exclude tie games from win/loss count
 
 Feat
 - progress messages (searching player, loading characters, loading games)

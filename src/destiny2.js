@@ -143,10 +143,12 @@ class Destiny2 {
             dailyStats[activity.date].kills += activity.values.kills.basic.value;
             dailyStats[activity.date].deaths += activity.values.deaths.basic.value;
 
-            if (this.activityWon(activity)) {
-                dailyStats[activity.date].wins += 1;
-            } else {
-                dailyStats[activity.date].losses += 1;
+            if (this.doesActivityCount(activity)) {
+                if (this.activityWon(activity)) {
+                    dailyStats[activity.date].wins += 1;
+                } else {
+                    dailyStats[activity.date].losses += 1;
+                }
             }
         });
 
@@ -167,6 +169,10 @@ class Destiny2 {
             default:
                 return false;
         }
+    }
+
+    doesActivityCount(activity) {
+        return activity.values.team.basic.value > 0;
     }
 
     getWLRatio(wins, totalGames) {

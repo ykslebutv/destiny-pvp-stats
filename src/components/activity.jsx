@@ -96,10 +96,30 @@ const Activity = observer(class Activity extends React.Component {
         this.setShow(!this.show);
     }
 
+    get standing() {
+        const { activity } = this.props;
+        let standingClass = 'bad';
+        let displayValue = activity.values.standing.basic.displayValue;
+
+        if (destiny2.doesActivityCount(activity)) {
+            if (destiny2.activityWon(activity)) {
+                standingClass = 'good';
+            }
+        } else {
+            displayValue = 'Tie';
+        }
+
+        return (
+            <td className={ standingClass }>
+                { displayValue }
+            </td>
+        );
+    }
+
     render() {
         const { activity } = this.props;
         const kdClass = activity.values.killsDeathsRatio.basic.value >= 1 ? 'good' : 'bad';
-        const standingClass = destiny2.activityWon(activity) ? 'good' : 'bad';
+
         if (!GameModes[activity.activityDetails.mode]) {
             console.log(`Unknown mode ${ activity.activityDetails.mode } for directorActivityHash ${ activity.activityDetails.directorActivityHash }`);
             return null;
@@ -130,9 +150,7 @@ const Activity = observer(class Activity extends React.Component {
                 <td className={ kdClass }>
                     { activity.values.killsDeathsRatio.basic.displayValue }
                 </td>
-                <td className={ standingClass }>
-                    { activity.values.standing.basic.displayValue }
-                </td>
+                { this.standing }
             </tr>
         );
 
