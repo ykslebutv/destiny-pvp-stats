@@ -300,9 +300,13 @@ const Player = observer(class Player extends React.Component {
         const { playerData } = this.props;
         const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
         return (
-            <tr key={ playerData.player.destinyUserInfo.displayName }>
+            <tr
+                className="player"
+                onClick={ e => this.handleClick(e) }
+                key={ playerData.player.destinyUserInfo.displayName }
+            >
                 <td />
-                <td className="player" onClick={ e => this.handleClick(e) }>
+                <td className="player">
                     <span title={ `${ playerData.player.characterClass } lvl ${ playerData.player.characterLevel }` } >
                         { playerData.player.destinyUserInfo.displayName }
                     </span>
@@ -348,7 +352,7 @@ const Player = observer(class Player extends React.Component {
 
         return (
             <tr key={ `${ playerData.player.destinyUserInfo.displayName }_details` } >
-                <td colSpan="7">
+                <td colSpan="7" style={{ paddingTop: '0px' }}>
                     <table className="player_details fixed">
                         <tbody>
                             { weaponRows }

@@ -290,10 +290,10 @@ table.activity_details td.player {
 }
 
 tr.activity {
-  cursor: pointer;
+	cursor: pointer;
 }
 
-td.player {
+tr.player {
   cursor: pointer;
 }
 

@@ -45,7 +45,7 @@ class Utils {
     }
 
     formatDate(period, includeTime) {
-        return includeTime ? moment(period).format('ddd MM-DD-YYYY hh:mm') : moment(period).format('MM-DD-YYYY');
+        return includeTime ? moment(period).format('ddd MM-DD-YYYY HH:mm') : moment(period).format('MM-DD-YYYY');
     }
 
     setTitle(playerName) {
