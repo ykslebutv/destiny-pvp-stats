@@ -88,7 +88,7 @@ describe('Utils', function () {
     describe('formatDate', function () {
         context('when includeTime is true', function () {
             it('returns date with time', function (done) {
-                expect(Utils.formatDate('2018-01-05T20:06:21Z', true)).to.equal('Fri 01-05-2018 03:06');
+                expect(Utils.formatDate('2018-01-05T20:06:21Z', true)).to.equal('Fri 01-05-2018 15:06');
                 done();
             });
         });
