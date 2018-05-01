@@ -21,7 +21,6 @@ Critical
 -
 
 P1
-  - switch to GitHub: move API key to a config file or use proxy.php.example
   - emojis in clan names shown as &#9829;
   - save and use local mode icons
   - use Promise.all for resolving multiple promises
