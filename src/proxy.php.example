@@ -1,0 +1,87 @@
+<?php
+
+$server_url = "https://www.bungie.net";
+$api_key = "<Bungie API key>";
+
+$options = array
+(
+    CURLOPT_HEADER         => true,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_TIMEOUT        => 60,
+    CURLOPT_CONNECTTIMEOUT => 0,
+    CURLOPT_HTTPGET        => 1
+);
+
+$service = $_GET["url"];
+
+$request_headers = Array();
+$request_headers[] = "X-API-KEY: {$api_key}";
+foreach($_SERVER as $i=>$val) {
+        if (strpos($i, 'HTTP_') === 0) {
+                $name = str_replace(array('HTTP_', '_'), array('', '-'), $i);
+                if ($name != 'HOST')
+                {
+                    //echo $name . "=" . $val . "\n\n";
+                    $request_headers[] = "{$name}: {$val}";
+                }
+        }
+}
+
+$options[CURLOPT_HTTPHEADER] = $request_headers;
+
+switch (strtolower($_SERVER["REQUEST_METHOD"]))
+{
+
+    case "post":
+        $options[CURLOPT_POST] = true;
+        $url = "{$server_url}/".$service;
+
+        $options[CURLOPT_POSTFIELDS] = file_get_contents("php://input");
+
+        break;
+    case "get":
+
+        unset($_GET["url"]);
+
+        $querystring = "";
+        $first = true;
+        foreach ($_GET as $key => $val)
+        {
+            if (!$first) $querystring .= "&";
+            $querystring .= $key."=".$val;
+            $first = false;
+        }
+
+        $url = "{$server_url}/".$service;
+        if (strlen($querystring) >0)
+            $url = $url + "?".$querystring;
+
+        break;
+    default:
+        throw new Exception("Unsupported request method.");
+        break;
+
+}
+
+$options[CURLOPT_URL] = $url;
+
+$curl_handle = curl_init();
+
+curl_setopt_array($curl_handle,$options);
+$server_output = curl_exec($curl_handle);
+curl_close($curl_handle);
+
+$response = explode("\r\n\r\n",$server_output);
+$headers = explode("\r\n",$response[0]);
+
+foreach ($headers as $header)
+{
+    if ( !preg_match(';^transfer-encoding:;ui', Trim($header)) &&
+         (Trim($header) != 'Access-Control-Allow-Origin: https://www.bungie.net') )
+    {
+        header($header);
+    }
+}
+
+echo $response[1];
