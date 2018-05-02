@@ -1,7 +1,6 @@
 src/config.js
 src/proxy.php
 src/index.html
-src/index-prod.html
 src/app.js
 src/app.min.js
 src/*.js.map
