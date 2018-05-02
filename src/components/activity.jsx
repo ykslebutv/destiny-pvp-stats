@@ -42,6 +42,22 @@ const Activities = observer(class Activities extends React.Component {
 });
 
 const DailyStatComp = observer(class DailyStatComp extends React.Component {
+    constructor(props) {
+        super(props);
+
+        extendObservable(this, {
+            showDetails: false,
+
+            setShowDetails: action(showDetails => {
+                this.showDetails = showDetails;
+            })
+        });
+    }
+
+    toggleDailyStatDetails() {
+        this.setShowDetails(!this.showDetails);
+    }
+
     render() {
         const { dailyStat } = this.props;
         const kd = destiny2.dailyKD(dailyStat);
@@ -50,12 +66,30 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
 
         return (
             <tbody>
-                <tr className="daily_stat">
+                <tr className="daily_stat" onClick={ () => this.toggleDailyStatDetails() }>
                     <td colSpan="2" className="left">{ dailyStat.date }</td>
                     <td colSpan="3">Avg K/D:</td>
                     <td className={ kdClass }>{ kd }</td>
                     <td>{ wl }%</td>
                 </tr>
+                { this.showDetails ? (
+                    <tr className="daily_stat_details" onClick={ () => this.toggleDailyStatDetails() }>
+                        <td colSpan="2" />
+                        <td>
+                            { dailyStat.kills }
+                        </td>
+                        <td>
+                            { dailyStat.deaths }
+                        </td>
+                        <td>
+                            { dailyStat.assists }
+                        </td>
+                        <td />
+                        <td>
+                            { dailyStat.wins } / { dailyStat.wins + dailyStat.losses }
+                        </td>
+                    </tr>
+                ) : null }
                 { dailyStat.activities.map(activity => (
                     <Activity
                         key={ activity.activityDetails.instanceId }

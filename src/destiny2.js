@@ -135,6 +135,7 @@ class Destiny2 {
                 dailyStats[activity.date].activities = [];
                 dailyStats[activity.date].kills = 0;
                 dailyStats[activity.date].deaths = 0;
+                dailyStats[activity.date].assists = 0;
                 dailyStats[activity.date].wins = 0;
                 dailyStats[activity.date].losses = 0;
             }
@@ -142,6 +143,7 @@ class Destiny2 {
             dailyStats[activity.date].activities.push(activity);
             dailyStats[activity.date].kills += activity.values.kills.basic.value;
             dailyStats[activity.date].deaths += activity.values.deaths.basic.value;
+            dailyStats[activity.date].assists += activity.values.assists.basic.value;
 
             if (this.doesActivityCount(activity)) {
                 if (this.activityWon(activity)) {

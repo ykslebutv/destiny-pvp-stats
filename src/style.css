@@ -250,10 +250,19 @@ thead {
 	border-top: 10px solid white;
 	font-weight: bold;
 	background-color: #eee;
+	cursor: pointer;
 }
 
 .daily_stat td.left {
 	text-align: left;
+}
+
+.daily_stat_details {
+	background-color: #eee;
+}
+
+.daily_stat_details td {
+	border-top: 2px solid white;
 }
 
 img.activity_icon {
