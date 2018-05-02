@@ -1,4 +1,4 @@
-# destiny-pvp-stats
+## Getting started
 
 * `cp src/index.html.example src/index.html`
 * `cp src/config.js.example src/config.js`
@@ -11,3 +11,7 @@
 * or build `app.min.js` for production:
     `minify=true ./node_modules/webpack/bin/webpack.js`
     (change app.js to app.min.js in index.html)
+
+## Why use proxy
+
+This Javascript application makes HTTP calls to Bungie API. Most modern browsers have Cross-Site Request Forgery protection that will prevent Javascript code running on domain A from making HTTP calls to domain B. To make things work, Javascript needs to call a proxy on its own domain that will forward requests to the API.
