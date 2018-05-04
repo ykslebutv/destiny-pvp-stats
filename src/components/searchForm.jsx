@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { extendObservable, action } from 'mobx';
 import { Platforms } from '../constants';
-import SpinnerComp from './spinnerComp.jsx';
+import Spinner from './spinner.jsx';
 import Utils from '../utils';
 
 const SearchForm = observer(class SearchForm extends React.Component {
@@ -87,7 +87,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
                         style={{ minWidth: '80px' }}
                         disabled={ !this.platform || !this.name }
                     >
-                        { this.props.loading ? <SpinnerComp scale="0.5" color="white" /> : 'search' }
+                        { this.props.loading ? <Spinner /> : 'search' }
                     </button>
                 </div>
                 { this.showRecent ? <RecentSearches onChange={ params => this.submitRecentSearch(params) } /> : null }

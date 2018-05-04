@@ -7,7 +7,7 @@ import SearchForm from './components/searchForm.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
 import GameModeList from './components/gameModeList.jsx';
 import CharacterList from './components/character.jsx';
-import SpinnerComp from './components/spinnerComp.jsx';
+import Spinner from './components/spinner.jsx';
 import ErrorMessage from './components/errorMessage.jsx';
 
 const MainPlayer = observer(class MainPlayer extends React.Component {
@@ -59,7 +59,7 @@ const MainPlayer = observer(class MainPlayer extends React.Component {
                 { success ? <CharacterList characters={ this.viewModel.characters } /> : null }
                 { loadingPage ? (
                     <div className="bottom-spinner">
-                        <SpinnerComp scale="0.5" color="black" />
+                        <Spinner size="fa-2x" />
                     </div>
                 ) : null }
                 { !success ? <About /> : null }

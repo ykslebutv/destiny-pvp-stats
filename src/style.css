@@ -18,11 +18,6 @@ body {
 	margin-right: 5px;
 }
 
-.spinner {
-  display: inline-block;
-  vertical-align: middle;
-}
-
 .search_field {
 	height: 34px;
 	padding: 5px;
@@ -352,13 +347,16 @@ table.fixed td:nth-of-type(7) {
 }
 
 div.bottom-spinner {
-    width: 35px;
-    height: 35px;
-    padding-left: 10px;
+    width: 40px;
+    height: 40px;
 
     position: fixed;
     bottom: 0;
     right: 0;
+}
+
+div.bottom-spinner i {
+    font-size: 36px;
 }
 
 table.player_details {

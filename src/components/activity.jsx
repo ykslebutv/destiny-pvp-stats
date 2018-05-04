@@ -6,7 +6,7 @@ import { extendObservable, action } from 'mobx';
 import destiny2 from '../destiny2';
 import Utils from '../utils';
 import { GameModes, Maps, Platforms } from '../constants';
-import SpinnerComp from './spinnerComp.jsx';
+import Spinner from './spinner.jsx';
 import GameModel from '../gameModel.jsx';
 
 const Activities = observer(class Activities extends React.Component {
@@ -158,7 +158,7 @@ const Activity = observer(class Activity extends React.Component {
             <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
                 <td>
                     { this.gameData.loading
-                        ? <SpinnerComp scale="0.3" color="black" />
+                        ? <Spinner />
                         : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].displayName } />
                     }
                 </td>
@@ -339,7 +339,7 @@ const Player = observer(class Player extends React.Component {
                     </span>
                 </td>
                 <td>
-                    { this.loading ? <SpinnerComp scale="0.3" color="black" style={{ marginLeft: '5x' }} /> : playerData.values.kills.basic.displayValue }
+                    { this.loading ? <Spinner /> : playerData.values.kills.basic.displayValue }
                 </td>
                 <td>
                     { playerData.values.deaths.basic.displayValue }

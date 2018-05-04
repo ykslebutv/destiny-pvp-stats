@@ -5,7 +5,7 @@ import GameModel from './gameModel.jsx';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import ErrorMessage from './components/errorMessage.jsx';
-import SpinnerComp from './components/spinnerComp.jsx';
+import Spinner from './components/spinner.jsx';
 import { ActivityDetails } from './components/activity.jsx';
 
 const MainGame = observer(class MainGame extends React.Component {
@@ -35,7 +35,7 @@ const MainGame = observer(class MainGame extends React.Component {
                 </div>
                 { loading ? (
                     <div className="bottom-spinner">
-                        <SpinnerComp scale="0.5" color="black" />
+                        <Spinner size="fa-2x" />
                     </div>
                 ) : null }
                 { failed ? <ErrorMessage message={ this.viewModel.error } /> : null }
