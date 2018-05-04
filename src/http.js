@@ -9,10 +9,10 @@ class Http {
             fullUrl = `${ Config.proxyUrl }?url=${ encodedUrl }`;
         } else {
             headers = { 'x-api-key': Config.apiKey };
-            fullUrl = `${ Config.baseUrl }/${ url }`;
+            fullUrl = `${ Config.baseUrl }${ url }`;
         }
 
-        return fetch(fullUrl, headers).then(res => res.json());
+        return fetch(fullUrl, { headers: headers }).then(res => res.json());
     }
 }
 
