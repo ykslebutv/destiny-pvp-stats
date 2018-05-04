@@ -41,7 +41,7 @@ const SearchForm = observer(class SearchForm extends React.Component {
             newUrl = window.location.href.replace(/\/$/, '');
         }
         const platformStr = Platforms[this.platform].name.toLowerCase();
-        newUrl = `${ newUrl }/${ platformStr }/${ this.name.replace('#', '%23') }`;
+        newUrl = `${ newUrl }/${ platformStr }/${ this.name.replace('#', '-') }`;
 
         window.location.href = newUrl;
     }
@@ -103,8 +103,8 @@ const RecentSearches = observer(class RecentSearches extends React.Component {
 
     render() {
         const players = Utils.getRecentPlayers();
-        const playersList = players.map((player, idx) => (
-            <li key={ idx } onMouseDown={ () => this.onClick(player) } >
+        const playersList = players.map(player => (
+            <li key={ player.name } onMouseDown={ () => this.onClick(player) } >
                 <i className={ `fab fa-fw fa-${ Platforms[player.platform].faIcon }` } />
                 { player.name }
             </li>

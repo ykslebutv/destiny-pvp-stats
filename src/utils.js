@@ -38,6 +38,12 @@ class Utils {
                     res.id = nameOrId;
                 } else {
                     res.name = nameOrId;
+                    if (Platforms[res.platform].name === 'PC') {
+                        const matchRes = res.name.match(/(.+)-(\d{3,})/);
+                        if (matchRes) {
+                            res.name = `${ matchRes[1] }#${ matchRes[2] }`;
+                        }
+                    }
                 }
             }
         }
