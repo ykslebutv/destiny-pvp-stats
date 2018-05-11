@@ -13,6 +13,9 @@ DONE
 - recently watched guardians (local storage)
 - do not save last search in cookies, use recent list
 - exclude tie games from win/loss count
+- use Font Awesome 5 spinner instead of spin.js
+- daily stat details
+- new map IDs
 
 Feat
 - progress messages (searching player, loading characters, loading games)

@@ -117,26 +117,30 @@ const CharacterTypes = {
 
 const Maps = {
     /* vanilla */
-    760130722: 'The Dead Cliffs',
-    3839751954: 'Altar of Flame',
-    2519458964: 'Endless Vale',
-    652598202: 'Legion\'s Gulch',
-    2464834848: 'Midtown',
-    2667533713: 'Vostok',
-    2033669713: 'Javelin-4',
-    1988701745: 'Retribution',
-    1720510574: 'The Fortress',
-    374818561: 'Emperor\'s Respite',
-    2236648719: 'Eternity',
-    1773567660: 'Distant Shore',
+    3164915257: 'The Dead Cliffs',
+    750001803: 'Altar of Flame',
+    399506119: 'Endless Vale',
+    1711620427: 'Legion\'s Gulch',
+    777592567: 'Midtown',
+    332234118: 'Vostok',
+    806094750: 'Javelin-4',
+    3849796864: 'Retribution',
+    1583254851: 'The Fortress',
+    778271008: 'Emperor\'s Respite',
+    2233665874: 'Eternity',
+    2666761222: 'Distant Shore',
 
     /* curse of osiris */
-    3306366908: 'Radiant Cliffs',
-    2417088417: 'Pacifica',
-    1802930364: 'Wormhaven',
+    532383918: 'Radiant Cliffs',
+    1673114595: 'Pacifica',
+    2748633318: 'Wormhaven',
 
     /* crimson days */
-    2081576589: 'The Burnout'
+    4012915511: 'The Burnout',
+
+    /* warmind */
+    2262757213: 'Solitude',
+    2473919228: 'Meltdown',
 };
 
 const StatHashes = {
