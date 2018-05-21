@@ -28,6 +28,8 @@ P1
   - save and use local mode icons
   - use Promise.all for resolving multiple promises
   - survival and countdown icons missing from api
+  - move loadWeapons logic to gameModel from activity.jsx
+  - add private matches view
 
 P2
 -
