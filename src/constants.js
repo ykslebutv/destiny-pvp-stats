@@ -106,7 +106,42 @@ const GameModes = {
         responseKey: 'rumble',
         displayName: 'Rumble',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
-    }
+    },
+    32: {
+        responseKey: 'privateMatches',
+        displayName: 'Private Matches',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    51: {
+        responseKey: '',
+        displayName: 'Clash (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+    },
+    52: {
+        responseKey: '',
+        displayName: ' Control (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+    },
+    53: {
+        responseKey: '',
+        displayName: 'Supremacy (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
+    },
+    54: {
+        responseKey: '',
+        displayName: 'Countdown (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
+    },
+    55: {
+        responseKey: '',
+        displayName: 'Survival (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    57: {
+        responseKey: '',
+        displayName: 'Rumble (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
 };
 
 const CharacterTypes = {

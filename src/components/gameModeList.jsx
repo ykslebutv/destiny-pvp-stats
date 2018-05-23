@@ -14,7 +14,8 @@ const MenuModes = [
     39 /* TrialsOfTheNine */,
     19 /* IronBanner */,
     25 /* Mayhem */,
-    15 /* CrimsonDoubles */
+    15 /* CrimsonDoubles */,
+    32 /* Private Matches */,
 ];
 
 const GameModeList = observer(class GameModeList extends React.Component {
