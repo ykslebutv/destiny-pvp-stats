@@ -141,6 +141,7 @@ const Maps = {
     /* warmind */
     2262757213: 'Solitude',
     2473919228: 'Meltdown',
+    2810171920: 'Bannerfall'
 };
 
 const StatHashes = {
