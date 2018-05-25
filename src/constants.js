@@ -176,7 +176,29 @@ const Maps = {
     /* warmind */
     2262757213: 'Solitude',
     2473919228: 'Meltdown',
-    2810171920: 'Bannerfall'
+    2810171920: 'Bannerfall',
+
+    /* private matches */
+
+    3233852802: 'The Dead Cliffs (p)',
+    666770290: 'Altar of Flame (p)',
+    1489679220: 'Endless Vale (p)',
+    1733006874: 'Legion\'s Gulch (p)',
+    1435054848: 'Midtown (p)',
+    1702649201: 'Vostok (p)',
+    1003889713: 'Javelin-4 (p)',
+    990984849: 'Retribution (p)',
+    2800919246: 'The Fortress (p)',
+    1448435553: 'Emperor\'s Respite (p)',
+    3734723183: 'Eternity (p)',
+    3423042035: 'Distant Shore (p)',
+    931636133: 'Radiant Cliffs (p)',
+    3897312654: 'Pacifica (p)',
+    148937731: 'Wormhaven (p)',
+    2271820498: 'The Burnout (p)',
+    3349246768: 'Solitude (p)',
+    3788594815: 'Meltdown (p)',
+    // 2810171920: 'Bannerfall'
 };
 
 const StatHashes = {

@@ -16,6 +16,7 @@ DONE
 - use Font Awesome 5 spinner instead of spin.js
 - daily stat details
 - new map IDs
+- add private matches view
 
 Feat
 - progress messages (searching player, loading characters, loading games)
@@ -29,7 +30,6 @@ P1
   - use Promise.all for resolving multiple promises
   - survival and countdown icons missing from api
   - move loadWeapons logic to gameModel from activity.jsx
-  - add private matches view
 
 P2
 -
