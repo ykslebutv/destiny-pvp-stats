@@ -149,6 +149,11 @@ const GameModes = {
         displayName: 'Survival (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
+    56: {
+        responseKey: '',
+        displayName: 'Mayhem (Private)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
+    },
     57: {
         responseKey: '',
         displayName: 'Rumble (Private)',
