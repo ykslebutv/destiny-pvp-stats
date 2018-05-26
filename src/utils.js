@@ -1,7 +1,7 @@
 /* global Config, localStorage */
 import moment from 'moment';
 
-import { Platforms } from './constants';
+import { Platforms, GameModes } from './constants';
 
 class Utils {
     getRecentPlayers() {
@@ -26,14 +26,19 @@ class Utils {
 
     parseUrlParams(url) {
         const res = {};
-        const match = url.match(/^(.*)\/(psn|xbox|pc|game)\/(.*)$/);
-        if (match) {
-            res.base_url = match[1];
-            if (match[2] === 'game') {
-                res.game = match[3];
+        // params[0] - http
+        // params[1] - host
+        // params[2] - platform or game
+        // params[3] - name||membership
+        // params[4] - mode
+        const params = url.split('/').filter(param => param);
+        if (params && params.length > 2) {
+            res.base_url = `${ params[0] }//${ params[1] }`;
+            if (params[2] === 'game') {
+                res.game = params[3];
             } else {
-                res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].name.toLowerCase() === match[2]), 10);
-                const nameOrId = decodeURIComponent(match[3]);
+                res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].name.toLowerCase() === params[2]), 10);
+                const nameOrId = decodeURIComponent(params[3]);
                 if (this.isNumeric(nameOrId)) {
                     res.id = nameOrId;
                 } else {
@@ -45,9 +50,33 @@ class Utils {
                         }
                     }
                 }
+                if (params[4]) {
+                    res.mode = parseInt(Object.keys(GameModes).find(id => GameModes[id].key === params[4]), 10);
+                }
             }
         }
         return res;
+    }
+
+    route(newParams) {
+        const params = Object.assign({}, this.getUrlParams(), newParams);
+
+        let newUrl = '';
+        if (params.base_url) {
+            newUrl = params.base_url;
+        } else {
+            newUrl = window.location.href.replace(/\/$/, '');
+        }
+        const platformStr = Platforms[params.platform].name.toLowerCase();
+        const nameOrId = (params.name || '').replace('#', '-') || params.id;
+        newUrl = `${ newUrl }/${ platformStr }/${ nameOrId }`;
+
+        const modeStr = GameModes[params.mode].key;
+        if (modeStr) {
+            newUrl = `${ newUrl }/${ modeStr }`;
+        }
+
+        window.location.href = newUrl;
     }
 
     formatDate(period, includeTime) {

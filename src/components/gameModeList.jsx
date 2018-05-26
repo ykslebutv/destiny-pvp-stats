@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import { GameModes } from '../constants';
+import Utils from '../utils';
 
 const MenuModes = [
     5  /* AllPvP */,
@@ -15,12 +16,14 @@ const MenuModes = [
     19 /* IronBanner */,
     25 /* Mayhem */,
     15 /* CrimsonDoubles */,
-    32 /* Private Matches */,
+    32 /* Private Matches */
 ];
 
 const GameModeList = observer(class GameModeList extends React.Component {
     onChange(e) {
-        this.props.viewModel.changeGameMode(e.target.value);
+        Utils.route({
+            mode: e.target.value
+        });
     }
 
     render() {

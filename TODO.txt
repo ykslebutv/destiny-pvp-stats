@@ -17,6 +17,7 @@ DONE
 - daily stat details
 - new map IDs
 - add private matches view
+- game mode routing
 
 Feat
 - progress messages (searching player, loading characters, loading games)

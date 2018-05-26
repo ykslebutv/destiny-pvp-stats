@@ -20,7 +20,7 @@ class Model {
             id: args.id,
             name: args.name,
             platform: args.platform,
-            mode: 5, // AllPvP
+            mode: args.mode || 5,
 
             player: {
                 displayName: '',

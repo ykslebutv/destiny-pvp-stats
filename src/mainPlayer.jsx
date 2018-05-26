@@ -20,7 +20,8 @@ const MainPlayer = observer(class MainPlayer extends React.Component {
             this.viewModel = new Model({
                 id: params.id,
                 name: params.name,
-                platform: params.platform
+                platform: params.platform,
+                mode: params.mode
             });
             this.viewModel.load();
         }

@@ -28,51 +28,61 @@ const Platforms = {
 */
 const GameModes = {
     5: {
+        key: '',
         responseKey: 'allPvP',
         displayName: 'All Modes',
         icon: ''
     },
     10: {
+        key: 'control',
         responseKey: 'control',
         displayName: 'Control',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
     12: {
+        key: 'clash',
         responseKey: 'clash',
         displayName: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     15: {
+        key: 'doubles',
         responseKey: 'crimsonDoubles',
         displayName: 'Crimson Doubles',
         icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
     },
     19: {
+        key: 'ib',
         responseKey: 'ironBanner',
         displayName: 'Iron Banner',
         icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
     25: {
+        key: 'mayhem',
         responseKey: 'allMayhem',
         displayName: 'Mayhem',
         icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
     },
     31: {
+        key: 'supremacy',
         responseKey: 'supremacy',
         displayName: 'Supremacy',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
     },
     37: {
+        key: 'survival',
         responseKey: 'survival',
         displayName: 'Survival',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     38: {
+        key: 'countdown',
         responseKey: 'countdown',
         displayName: 'Countdown',
         icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
     39: {
+        key: 'trials',
         responseKey: 'trialsofthenine',
         displayName: 'Trials of the Nine',
         icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
@@ -103,11 +113,13 @@ const GameModes = {
         icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
     48: {
+        key: 'rumble',
         responseKey: 'rumble',
         displayName: 'Rumble',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     32: {
+        key: 'pm',
         responseKey: 'privateMatches',
         displayName: 'Private Matches',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
@@ -141,7 +153,7 @@ const GameModes = {
         responseKey: '',
         displayName: 'Rumble (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
-    },
+    }
 };
 
 const CharacterTypes = {
@@ -197,7 +209,7 @@ const Maps = {
     148937731: 'Wormhaven (p)',
     2271820498: 'The Burnout (p)',
     3349246768: 'Solitude (p)',
-    3788594815: 'Meltdown (p)',
+    3788594815: 'Meltdown (p)'
     // 2810171920: 'Bannerfall'
 };
 

@@ -33,17 +33,11 @@ const SearchForm = observer(class SearchForm extends React.Component {
             e.preventDefault();
         }
 
-        const params = Utils.getUrlParams();
-        let newUrl = '';
-        if (params.base_url) {
-            newUrl = params.base_url;
-        } else {
-            newUrl = window.location.href.replace(/\/$/, '');
-        }
-        const platformStr = Platforms[this.platform].name.toLowerCase();
-        newUrl = `${ newUrl }/${ platformStr }/${ this.name.replace('#', '-') }`;
-
-        window.location.href = newUrl;
+        Utils.route({
+            platform: this.platform,
+            name: this.name,
+            mode: 5
+        });
     }
 
     showRecentSearches(value) {
