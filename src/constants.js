@@ -158,6 +158,12 @@ const GameModes = {
         responseKey: '',
         displayName: 'Rumble (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    59: {
+        key: 'showdown',
+        responseKey: 'showdown',
+        displayName: 'Showdown',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     }
 };
 
