@@ -25,6 +25,7 @@ Feat
 
 Critical
 - Rumble scoring is wrong in the API
+- Game mode display on mobile
 
 P1
   - emojis in clan names shown as &#9829;

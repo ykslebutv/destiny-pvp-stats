@@ -32,13 +32,14 @@ const GameModeList = observer(class GameModeList extends React.Component {
     }
 
     render() {
+        let key = 0;
         const options = MenuModes.map(id =>
             id ? (
-                <option key={ id } value={ id }>
+                <option key={ key++ } value={ id }>
                     { GameModes[id].displayName }
                 </option>
             ) : (
-                <option disabled>───────</option>
+                <option key={ key++ } className="separator" disabled>───────</option>
             )
         );
 

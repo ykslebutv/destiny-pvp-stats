@@ -88,6 +88,10 @@ body {
 		float: none;
     margin-top: 15px;
 	}
+
+	.separator {
+		display: none;
+	}
 }
 
 .platform_icon {
