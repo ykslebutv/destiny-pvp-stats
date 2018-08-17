@@ -31,7 +31,7 @@ const GameModes = {
         key: '',
         responseKey: 'allPvP',
         displayName: 'All Modes',
-        icon: ''
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     10: {
         key: 'control',

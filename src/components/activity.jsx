@@ -80,7 +80,7 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
                         <td colSpan="2" className="left">{ dailyStat.date }</td>
                         <td colSpan="3">Avg K/D:</td>
                         <td className={ kdClass }>{ kd }</td>
-                        <td>{ wl }%</td>
+                        <td>{ isNaN(wl) ? '???' : `${ wl }%` }</td>
                     </tr>
                 ) }
                 { dailyStat.activities.map(activity => (
@@ -126,14 +126,16 @@ const Activity = observer(class Activity extends React.Component {
     get standing() {
         const { activity } = this.props;
         let standingClass = 'bad';
-        let displayValue = activity.values.standing.basic.displayValue;
+        let displayValue;
 
         if (destiny2.doesActivityCount(activity)) {
+            displayValue = activity.values.standing.basic.displayValue;
             if (destiny2.activityWon(activity)) {
                 standingClass = 'good';
             }
         } else {
-            displayValue = 'Tie';
+            displayValue = activity.values.standing ? 'Tie' : '???';
+            standingClass = 'tie';
         }
 
         return (
@@ -146,20 +148,21 @@ const Activity = observer(class Activity extends React.Component {
     render() {
         const { activity } = this.props;
         const kdClass = activity.values.killsDeathsRatio.basic.value >= 1 ? 'good' : 'bad';
+        let gameMode = GameModes[activity.activityDetails.mode];
 
-        if (!GameModes[activity.activityDetails.mode]) {
+        if (!gameMode) {
             console.log(`Unknown mode ${ activity.activityDetails.mode } for directorActivityHash ${ activity.activityDetails.directorActivityHash }`);
-            return null;
+            gameMode = GameModes[5];
         }
-        const iconPath = `${ Config.baseUrl }${ GameModes[activity.activityDetails.mode].icon }`;
-        const iconClass = activity.activityDetails.mode !== 14 ? 'activity_icon' : 'trials_icon';
+        const iconPath = `${ Config.baseUrl }${ gameMode.icon }`;
+        const iconClass = activity.activityDetails.mode === 14 ? 'trials_icon' : 'activity_icon';
 
         const activityRow = (
             <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
                 <td>
                     { this.gameData.loading
                         ? <Spinner />
-                        : <img src={ iconPath } className={ iconClass } title={ GameModes[activity.activityDetails.mode].displayName } />
+                        : <img src={ iconPath } className={ iconClass } title={ gameMode.displayName } />
                     }
                 </td>
                 <td className="map">
@@ -215,7 +218,8 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
             <Team key={ teamName } teamName={ teamName } team={ teams[teamName] } />
         ));
 
-        const title = `${ GameModes[data.activityDetails.mode].displayName } on ${ Maps[data.activityDetails.referenceId] }`;
+        const gameModeName = data.activityDetails.mode ? GameModes[data.activityDetails.mode].displayName : '???';
+        const title = `${ gameModeName } on ${ Maps[data.activityDetails.referenceId] }`;
         const date = Utils.formatDate(data.period, true);
         const gameUrl = `/game/${ data.activityDetails.instanceId }`;
 
@@ -246,7 +250,7 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
 const Team = observer(class Team extends React.Component {
     render() {
         let teamStat;
-        const standingClass = this.props.team[0].values.standing.basic.displayValue === 'Victory' ? 'good' : 'bad';
+        const standingClass = this.props.team[0].values.standing && this.props.team[0].values.standing.basic.displayValue === 'Victory' ? 'good' : 'bad';
         if (this.props.teamName !== 'rumble') {
             teamStat = (
                 <tr className="team">

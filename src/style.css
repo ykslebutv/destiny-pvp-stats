@@ -224,6 +224,10 @@ td.bad {
 	color: #ed774c;
 }
 
+td.tie {
+	color: #999;
+}
+
 td.stat_label {
 	text-align: right;
 	color: #777;

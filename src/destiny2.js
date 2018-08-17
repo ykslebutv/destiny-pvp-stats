@@ -174,11 +174,15 @@ class Destiny2 {
     }
 
     doesActivityCount(activity) {
-        return activity.values.team.basic.value > 0;
+        return activity.values.team && activity.values.team.basic.value > 0;
     }
 
     getWLRatio(wins, totalGames) {
-        return Math.round((wins / totalGames) * 100);
+        try {
+            return Math.round((wins / totalGames) * 100);
+        } catch (e) {
+            return null;
+        }
     }
 
     dailyWLRatio(dailyStat) {
