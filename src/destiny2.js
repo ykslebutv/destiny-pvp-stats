@@ -127,6 +127,7 @@ class Destiny2 {
         const dailyStats = {};
 
         (activities || []).map(activity => {
+
             activity.date = Utils.formatDate(activity.period);
 
             if (!dailyStats[activity.date]) {
@@ -164,6 +165,10 @@ class Destiny2 {
     }
 
     activityWon(activity) {
+        if (!activity.values.standing) {
+            return false;
+        }
+
         switch (activity.values.standing.basic.displayValue) {
             case '1':
             case 'Victory':

@@ -128,8 +128,13 @@ const Activity = observer(class Activity extends React.Component {
         let standingClass = 'bad';
         let displayValue;
 
-        if (destiny2.doesActivityCount(activity)) {
+        try {
             displayValue = activity.values.standing.basic.displayValue;
+        } catch(e) {
+            displayValue = '???';
+        }
+
+        if (destiny2.doesActivityCount(activity)) {
             if (destiny2.activityWon(activity)) {
                 standingClass = 'good';
             }

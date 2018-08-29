@@ -220,8 +220,8 @@ const Maps = {
     148937731: 'Wormhaven (p)',
     2271820498: 'The Burnout (p)',
     3349246768: 'Solitude (p)',
-    3788594815: 'Meltdown (p)'
-    // 2810171920: 'Bannerfall'
+    3788594815: 'Meltdown (p)',
+    451430877: 'Bannerfall (p)'
 };
 
 const StatHashes = {
