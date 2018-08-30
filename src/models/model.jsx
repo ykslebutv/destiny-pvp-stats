@@ -97,7 +97,7 @@ class Model {
                     destiny2.getCharacterStats(membershipType, membershipId, characterId, this.mode).then(data => {
                         character.setStats(data);
                         destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, 0).then(action(activities => {
-                            character.setActivities(activities);
+                            character.addActivities(activities);
                             loadCount -= 1;
                             if (loadCount === 0) {
                                 this.setStatus(Status.SUCCESS);
@@ -130,14 +130,11 @@ class Model {
         }
         this.page = this.page + 1;
         this.setLoadingPage(true);
-        let loadCount = this.characters.length;
-        this.characters.map(character => {
+        let loadCount = this.player.characters.length;
+        this.player.characters.map(character => {
             const characterId = character.characterId;
             destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, this.page).then(action(activities => {
-                if (activities && activities.length > 0) {
-                    character.activities = character.activities.concat(activities);
-                    character.dailyStats = destiny2.calculateDailyStats(character.activities);
-                }
+                character.addActivities(activities);
                 loadCount -= 1;
                 if (loadCount === 0) {
                     this.setLoadingPage(false);

@@ -2,8 +2,7 @@
 import Promise from 'es6-promise';
 
 import Http from './http';
-import Utils from './utils';
-import { GameModes, StatHashes } from './constants';
+import { GameModes } from './constants';
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
@@ -34,9 +33,7 @@ class Destiny2 {
                 if (res.ErrorStatus === 'Success') {
                     const characterIds = res.Response.profile.data.characterIds;
                     const characters = characterIds.map(characterId => {
-                        const char = res.Response.characters.data[characterId];
-                        this.setMRRStats(char);
-                        return char;
+                        return res.Response.characters.data[characterId];
                     });
                     resolve({
                         userInfo: res.Response.profile.data.userInfo,
@@ -121,74 +118,6 @@ class Destiny2 {
                 }
             });
         });
-    }
-
-    calculateDailyStats(activities) {
-        const dailyStats = {};
-
-        (activities || []).map(activity => {
-
-            activity.date = Utils.formatDate(activity.period);
-
-            if (!dailyStats[activity.date]) {
-                dailyStats[activity.date] = {};
-                dailyStats[activity.date].date = activity.date;
-                dailyStats[activity.date].activities = [];
-                dailyStats[activity.date].kills = 0;
-                dailyStats[activity.date].deaths = 0;
-                dailyStats[activity.date].assists = 0;
-                dailyStats[activity.date].wins = 0;
-                dailyStats[activity.date].losses = 0;
-            }
-
-            dailyStats[activity.date].activities.push(activity);
-            dailyStats[activity.date].kills += activity.values.kills.basic.value;
-            dailyStats[activity.date].deaths += activity.values.deaths.basic.value;
-            dailyStats[activity.date].assists += activity.values.assists.basic.value;
-
-            if (this.doesActivityCount(activity)) {
-                if (this.activityWon(activity)) {
-                    dailyStats[activity.date].wins += 1;
-                } else {
-                    dailyStats[activity.date].losses += 1;
-                }
-            }
-        });
-
-        return dailyStats;
-    }
-
-    setMRRStats(character) {
-        character.mobility = character.stats[StatHashes['Mobility']] || 0;
-        character.resilience = character.stats[StatHashes['Resilience']] || 0;
-        character.recovery = character.stats[StatHashes['Recovery']] || 0;
-    }
-
-    activityWon(activity) {
-        if (!activity.values.standing) {
-            return false;
-        }
-
-        switch (activity.values.standing.basic.displayValue) {
-            case '1':
-            case 'Victory':
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    doesActivityCount(activity) {
-        return activity.values.team && activity.values.team.basic.value > 0;
-    }
-
-    dailyWLRatio(dailyStat) {
-        return this.getWLRatio(dailyStat.wins, dailyStat.wins + dailyStat.losses);
-    }
-
-    dailyKD(dailyStat) {
-        const kd = dailyStat.deaths > 0 ? dailyStat.kills / dailyStat.deaths : dailyStat.kills;
-        return kd.toFixed(2);
     }
 }
 

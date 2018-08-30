@@ -1,4 +1,7 @@
-import { extendObservable, action } from 'mobx';
+/* global Config */
+import { extendObservable } from 'mobx';
+import Utils from '../utils';
+import { StatHashes } from '../constants';
 import ActivityModel from './activityModel.jsx';
 
 class CharacterModel {
@@ -12,11 +15,12 @@ class CharacterModel {
                 emblem: args.emblemBackgroundPath,
                 level: args.baseCharacterLevel,
                 light: args.light,
-                mobility: args.mobility,
-                resilience: args.resilience,
-                recovery: args.recovery
+                mobility: args.stats[StatHashes['Mobility']],
+                resilience: args.stats[StatHashes['Resilience']],
+                recovery: args.stats[StatHashes['Recovery']],
+                activities: []
             });
-        } catch(e) {
+        } catch (e) {
             console.log('CharacterModel::constructor exception', e);
             if (Config.debug) {
                 console.log('args', args);
@@ -52,64 +56,73 @@ class CharacterModel {
             extendObservable(this, {
                 stats: stats
             });
-            this.stats.wl = this.wlRatio;
-        } catch(e) {
-            console.log('CharacterModel::setStats exception', e);
-            console.log('args', data);
-        }
-    }
-
-    setActivities(activities) {
-        if (!activities) {
-            console.log('CharacterModel::setActivities no data for character', this.characterId);
-        }
-
-        extendObservable(this, {
-            activities: (activities || []).map(activity => new ActivityModel(activity))
-        });
-
-        //this.calculateDailyStats();
-    }
-
-    get wlRatio() {
-        try {
-            return Math.round((this.stats.wins / this.stats.totalGames) * 100);
+            this.stats.wl = Utils.wlRatio(this.stats.wins, this.stats.totalGames);
         } catch (e) {
-            return null;
+            console.log('CharacterModel::setStats exception', e);
+            if (Config.debug) {
+                console.log('args', data);
+            }
         }
+    }
+
+    addActivities(activities) {
+        if (!activities || !activities.length) {
+            console.log('CharacterModel::addActivities no data for character', this.characterId);
+            return;
+        }
+
+        const newActivities = activities.map(activity => new ActivityModel(activity));
+        this.activities = this.activities.concat(newActivities);
+
+        this.calculateDailyStats();
     }
 
     calculateDailyStats() {
         const dailyStats = {};
 
-        this.activities.map(activity => {
+        try {
+            this.activities.map(activity => {
 
-            if (!dailyStats[activity.date]) {
-                dailyStats[activity.date] = {};
-                dailyStats[activity.date].date = activity.date;
-                dailyStats[activity.date].activities = [];
-                dailyStats[activity.date].kills = 0;
-                dailyStats[activity.date].deaths = 0;
-                dailyStats[activity.date].assists = 0;
-                dailyStats[activity.date].wins = 0;
-                dailyStats[activity.date].losses = 0;
-            }
-
-            dailyStats[activity.date].activities.push(activity);
-            dailyStats[activity.date].kills += activity.values.kills.basic.value;
-            dailyStats[activity.date].deaths += activity.values.deaths.basic.value;
-            dailyStats[activity.date].assists += activity.values.assists.basic.value;
-
-            if (this.doesActivityCount(activity)) {
-                if (this.activityWon(activity)) {
-                    dailyStats[activity.date].wins += 1;
-                } else {
-                    dailyStats[activity.date].losses += 1;
+                if (!dailyStats[activity.date]) {
+                    dailyStats[activity.date] = {};
+                    dailyStats[activity.date].date = activity.date;
+                    dailyStats[activity.date].activities = [];
+                    dailyStats[activity.date].kills = 0;
+                    dailyStats[activity.date].deaths = 0;
+                    dailyStats[activity.date].assists = 0;
+                    dailyStats[activity.date].wins = 0;
+                    dailyStats[activity.date].totalGames = 0;
                 }
-            }
-        });
 
-        return dailyStats;
+                dailyStats[activity.date].activities.push(activity);
+                dailyStats[activity.date].kills += activity.kills;
+                dailyStats[activity.date].deaths += activity.deaths;
+                dailyStats[activity.date].assists += activity.assists;
+
+                if (activity.doesItCount) {
+                    if (activity.isWon) {
+                        dailyStats[activity.date].wins += 1;
+                    }
+                    dailyStats[activity.date].totalGames += 1;
+                }
+
+
+                dailyStats[activity.date].dailyKD = function () {
+                    const kd = this.deaths > 0 ? this.kills / this.deaths : this.kills;
+                    return kd.toFixed(2);
+                };
+
+                dailyStats[activity.date].dailyWLRatio = function () {
+                    return Utils.wlRatio(this.wins, this.totalGames);
+                };
+            });
+
+            extendObservable(this, {
+                dailyStats: dailyStats
+            });
+        } catch (e) {
+            console.log('CharacterModel::calculateDailyStats exception', e);
+        }
     }
 }
 

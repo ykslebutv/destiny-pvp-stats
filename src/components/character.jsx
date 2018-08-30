@@ -4,7 +4,6 @@ import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
 import { extendObservable, action } from 'mobx';
 
-import destiny2 from '../destiny2';
 import { CharacterTypes } from '../constants';
 import { Activities } from './activity.jsx';
 
@@ -124,11 +123,11 @@ const Character = observer(class Character extends React.Component {
             <div className="col-md-4 character_container">
                 <Banner character={ character } />
                 <CharacterStats stats={ character.stats } />
-                {/* { character.stats ? (
+                { character.dailyStats ? (
                     <div className="activities">
                         <Activities dailyStats={ character.dailyStats } />
                     </div>
-                ) : null } */}
+                ) : null }
             </div>
         );
     }

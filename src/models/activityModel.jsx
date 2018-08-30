@@ -1,5 +1,7 @@
+/* global Config */
+import { extendObservable } from 'mobx';
 import Utils from '../utils';
-import { extendObservable, action } from 'mobx';
+import { GameModes, Maps } from '../constants';
 
 class ActivityModel {
     constructor(args) {
@@ -15,21 +17,47 @@ class ActivityModel {
 
                 duration: args.values.activityDurationSeconds.basic.displayValue,
                 completed: args.values.completed.basic.value,
-                standingDisp: args.values.standing.basic.displayValue,
-                standingVal: args.values.standing.basic.value,
-                team: args.values.team.basic.displayValue,
+                standing: args.values.standing ? args.values.standing.basic.displayValue : '???',
+                team: args.values.team ? args.values.team.basic.displayValue : '???',
 
                 kills: args.values.kills.basic.value,
                 deaths: args.values.deaths.basic.value,
                 assists: args.values.assists.basic.value,
-                killsDeathsRatio: args.values.killsDeathsRatio.basic.value,
+                killsDeathsRatio: args.values.killsDeathsRatio.basic.displayValue,
                 score: args.values.score.basic.value
             });
-        } catch(e) {
+        } catch (e) {
             console.log('ActivityModel::constructor exception', e);
             if (Config.debug) {
                 console.log('args', args);
             }
+        }
+    }
+
+    get gameMode() {
+        let gameMode = GameModes[this.mode];
+        if (!gameMode) {
+            console.log(`Unknown mode ${ this.mode } for directorActivityHash ${ this.directorActivityHash }`);
+            gameMode = GameModes[5];
+        }
+        return gameMode;
+    }
+
+    get mapName() {
+        return Maps[this.referenceId] || this.referenceId;
+    }
+
+    get doesItCount() {
+        return this.standing !== '???';
+    }
+
+    get isWon() {
+        switch (this.standing) {
+            case '1':
+            case 'Victory':
+                return true;
+            default:
+                return false;
         }
     }
 }

@@ -1,4 +1,5 @@
-import { extendObservable, action } from 'mobx';
+/* global Config */
+import { extendObservable } from 'mobx';
 
 import CharacterModel from './characterModel.jsx';
 
@@ -11,7 +12,7 @@ class PlayerModel {
                 membershipType: args.userInfo.membershipType,
                 characters: args.characters.map(character => new CharacterModel(character))
             });
-        } catch(e) {
+        } catch (e) {
             console.log('PlayerModel::constructor exception', e);
             if (Config.debug) {
                 console.log('args', args);

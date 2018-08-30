@@ -86,13 +86,21 @@ class Utils {
     setTitle(playerName) {
         let title = Config.windowTitle;
         if (playerName.length > 0) {
-            title = playerName + ' - ' + title;
+            title = `${ playerName } - ${ title }`;
         }
         document.title = title;
     }
 
     isNumeric(str) {
         return !isNaN(parseFloat(str)) && isFinite(str);
+    }
+
+    wlRatio(wins, totalGames) {
+        try {
+            return Math.round((wins / totalGames) * 100);
+        } catch (e) {
+            return null;
+        }
     }
 }
 

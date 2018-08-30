@@ -60,9 +60,9 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
 
     render() {
         const { dailyStat } = this.props;
-        const kd = destiny2.dailyKD(dailyStat);
+        const kd = dailyStat.dailyKD();
         const kdClass = kd >= 1 ? 'good' : 'bad';
-        const wl = destiny2.dailyWLRatio(dailyStat);
+        const wl = dailyStat.dailyWLRatio();
 
         return (
             <tbody>
@@ -73,7 +73,7 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
                         <td>{ dailyStat.deaths }</td>
                         <td>{ dailyStat.assists }</td>
                         <td className={ kdClass }>{ kd }</td>
-                        <td>{ dailyStat.wins } / { dailyStat.wins + dailyStat.losses }</td>
+                        <td>{ dailyStat.wins } / { dailyStat.totalGames }</td>
                     </tr>
                 ) : (
                     <tr className="daily_stat" onClick={ () => this.toggleDailyStatDetails() }>
@@ -85,7 +85,7 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
                 ) }
                 { dailyStat.activities.map(activity => (
                     <Activity
-                        key={ activity.activityDetails.instanceId }
+                        key={ activity.instanceId }
                         activity={ activity }
                     />
                 ))}
@@ -99,7 +99,7 @@ const Activity = observer(class Activity extends React.Component {
         super(props);
 
         extendObservable(this, {
-            gameData: new GameModel({ activityId: this.props.activity.activityDetails.instanceId }),
+            gameData: new GameModel({ activityId: this.props.activity.instanceId }),
 
             show: false,
 
@@ -126,44 +126,31 @@ const Activity = observer(class Activity extends React.Component {
     get standing() {
         const { activity } = this.props;
         let standingClass = 'bad';
-        let displayValue;
 
-        try {
-            displayValue = activity.values.standing.basic.displayValue;
-        } catch(e) {
-            displayValue = '???';
-        }
-
-        if (destiny2.doesActivityCount(activity)) {
-            if (destiny2.activityWon(activity)) {
+        if (activity.doesItCount) {
+            if (activity.isWon) {
                 standingClass = 'good';
             }
         } else {
-            displayValue = activity.values.standing ? 'Tie' : '???';
             standingClass = 'tie';
         }
 
         return (
             <td className={ standingClass }>
-                { displayValue }
+                { activity.standing }
             </td>
         );
     }
 
     render() {
         const { activity } = this.props;
-        const kdClass = activity.values.killsDeathsRatio.basic.value >= 1 ? 'good' : 'bad';
-        let gameMode = GameModes[activity.activityDetails.mode];
-
-        if (!gameMode) {
-            console.log(`Unknown mode ${ activity.activityDetails.mode } for directorActivityHash ${ activity.activityDetails.directorActivityHash }`);
-            gameMode = GameModes[5];
-        }
+        const kdClass = activity.killsDeathsRatio >= 1 ? 'good' : 'bad';
+        const gameMode = activity.gameMode;
         const iconPath = `${ Config.baseUrl }${ gameMode.icon }`;
-        const iconClass = activity.activityDetails.mode === 14 ? 'trials_icon' : 'activity_icon';
+        const iconClass = activity.mode === 14 ? 'trials_icon' : 'activity_icon';
 
         const activityRow = (
-            <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.activityDetails.instanceId } >
+            <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.instanceId } >
                 <td>
                     { this.gameData.loading
                         ? <Spinner />
@@ -171,26 +158,26 @@ const Activity = observer(class Activity extends React.Component {
                     }
                 </td>
                 <td className="map">
-                    { Maps[activity.activityDetails.referenceId] || activity.activityDetails.referenceId }
+                    { activity.mapName }
                 </td>
                 <td>
-                    { activity.values.kills.basic.displayValue }
+                    { activity.kills }
                 </td>
                 <td>
-                    { activity.values.deaths.basic.displayValue }
+                    { activity.deaths }
                 </td>
                 <td>
-                    { activity.values.assists.basic.displayValue }
+                    { activity.assists }
                 </td>
                 <td className={ kdClass }>
-                    { activity.values.killsDeathsRatio.basic.displayValue }
+                    { activity.killsDeathsRatio }
                 </td>
                 { this.standing }
             </tr>
         );
 
         const gameRow = this.show && this.gameData.success ? (
-            <tr key={ `${ activity.activityDetails.instanceId }-details` }>
+            <tr key={ `${ activity.instanceId }-details` }>
                 <td colSpan="7">
                     <ActivityDetails
                         data={ this.gameData.data }
