@@ -1,6 +1,6 @@
 import { extendObservable, action } from 'mobx';
 
-import destiny2 from './destiny2';
+import destiny2 from '../destiny2';
 
 const Status = {
     NODATA: '',

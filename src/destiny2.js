@@ -182,14 +182,6 @@ class Destiny2 {
         return activity.values.team && activity.values.team.basic.value > 0;
     }
 
-    getWLRatio(wins, totalGames) {
-        try {
-            return Math.round((wins / totalGames) * 100);
-        } catch (e) {
-            return null;
-        }
-    }
-
     dailyWLRatio(dailyStat) {
         return this.getWLRatio(dailyStat.wins, dailyStat.wins + dailyStat.losses);
     }

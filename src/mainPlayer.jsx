@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import Model from './model.jsx';
+import Model from './models/model.jsx';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
@@ -42,22 +42,23 @@ const MainPlayer = observer(class MainPlayer extends React.Component {
     }
 
     render() {
-        const success = this.viewModel && this.viewModel.success;
-        const failed = this.viewModel && this.viewModel.failed;
-        const loadingPage = this.viewModel && this.viewModel.loadingPage;
+        const vm = this.viewModel;
+        const success = vm && vm.success;
+        const failed = vm && vm.failed;
+        const loadingPage = vm && vm.loadingPage;
 
         return (
             <div>
                 <div className="top_container">
                     <SearchForm
-                        loading={ this.viewModel ? this.viewModel.loading : false }
+                        loading={ vm ? vm.loading : false }
                     />
-                    { success ? <PlayerInfo player={ this.viewModel.player } /> : null }
-                    { success ? <GameModeList viewModel={ this.viewModel } /> : null }
+                    { success ? <PlayerInfo player={ vm.player } /> : null }
+                    { success ? <GameModeList viewModel={ vm } /> : null }
                     <div className="clear" />
                 </div>
-                { failed ? <ErrorMessage message={ this.viewModel.error } /> : null }
-                { success ? <CharacterList characters={ this.viewModel.characters } /> : null }
+                { failed ? <ErrorMessage message={ vm.error } /> : null }
+                { success ? <CharacterList characters={ vm.player.characters } /> : null }
                 { loadingPage ? (
                     <div className="bottom-spinner">
                         <Spinner size="fa-2x" />

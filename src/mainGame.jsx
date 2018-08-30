@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import GameModel from './gameModel.jsx';
+import GameModel from './models/gameModel.jsx';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import ErrorMessage from './components/errorMessage.jsx';

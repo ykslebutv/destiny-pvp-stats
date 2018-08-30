@@ -34,10 +34,9 @@ const CharacterList = observer(class CharacterList extends React.Component {
 
 const Banner = props => {
     const { character } = props;
-    const classType = CharacterTypes[character.classType];
-    const backgroundPath = `${ Config.baseUrl }${ character.emblemBackgroundPath }`;
+    const classType = CharacterTypes[character.klass];
     const divStyle = {
-        backgroundImage: `url(${ backgroundPath })`
+        backgroundImage: `url(${ character.emblemUrl })`
     };
     const className = `character ${ props.activeCharacter ? 'col-xs-8 active_character' : '' }`;
     const info = `
@@ -47,7 +46,7 @@ const Banner = props => {
     return (
         <div className={ className } style={ divStyle }>
             <span className="classType">{ classType }</span>
-            <span className="level">Lvl { character.baseCharacterLevel }</span>
+            <span className="level">Lvl { character.level }</span>
             <span className="level light">{ character.light }</span>
             <div className="char_info">
                 { info }
@@ -58,9 +57,8 @@ const Banner = props => {
 
 const Emblem = props => {
     const { character } = props;
-    const backgroundPath = `${ Config.baseUrl }${ character.emblemBackgroundPath }`;
     const divStyle = {
-        backgroundImage: `url(${ backgroundPath })`
+        backgroundImage: `url(${ character.emblemUrl })`
     };
 
     return (
@@ -126,11 +124,11 @@ const Character = observer(class Character extends React.Component {
             <div className="col-md-4 character_container">
                 <Banner character={ character } />
                 <CharacterStats stats={ character.stats } />
-                { character.stats ? (
+                {/* { character.stats ? (
                     <div className="activities">
                         <Activities dailyStats={ character.dailyStats } />
                     </div>
-                ) : null }
+                ) : null } */}
             </div>
         );
     }
@@ -161,39 +159,31 @@ const CharacterStats = observer(class CharacterStats extends React.Component {
             );
         }
 
-        const wl = stats ? destiny2.getWLRatio(stats.activitiesWon.basic.value, stats.activitiesEntered.basic.value) : 0;
-
         const historicalStats = (
             <tbody>
                 <tr>
                     <td className="stat_label">Kills:</td>
-                    <td className="stat_value">{ stats.kills.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.kills }</td>
                     <td className="stat_label">Top game kills:</td>
-                    <td className="stat_value">{ stats.bestSingleGameKills.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.bestSingleGameKills }</td>
                 </tr>
                 <tr>
                     <td className="stat_label">Deaths:</td>
-                    <td className="stat_value">{ stats.deaths.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.deaths }</td>
                     <td className="stat_label">Top kill spree:</td>
-                    <td className="stat_value">{ stats.longestKillSpree.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.longestKillSpree }</td>
                 </tr>
                 <tr>
                     <td className="stat_label">Assists:</td>
-                    <td className="stat_value">{ stats.assists.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.assists }</td>
                     <td className="stat_label">Longest life:</td>
-                    <td className="stat_value">{ stats.longestSingleLife.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.longestSingleLife }</td>
                 </tr>
                 <tr>
                     <td className="stat_label">(K+A)/D:</td>
-                    <td className="stat_value">{ stats.killsDeathsAssists.basic.displayValue }</td>
-                    <td className="stat_label">Orbs D/G:</td>
-                    <td className="stat_value">{ stats.orbsDropped.basic.displayValue }/{ stats.orbsGathered.basic.displayValue }</td>
-                </tr>
-                <tr>
-                    <td className="stat_label">Prec. kills:</td>
-                    <td className="stat_value">{ stats.precisionKills.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.killsDeathsAssists }</td>
                     <td className="stat_label">Best weapon:</td>
-                    <td className="stat_value">{ stats.weaponBestType.basic.displayValue }</td>
+                    <td className="stat_value">{ stats.weaponBestType }</td>
                 </tr>
             </tbody>
         );
@@ -204,10 +194,10 @@ const CharacterStats = observer(class CharacterStats extends React.Component {
                     <tbody>
                         <tr>
                             <td className="stat_label">K/D:</td>
-                            <td className="stat_value">{ stats.killsDeathsRatio.basic.displayValue }</td>
+                            <td className="stat_value" title={ stats.kdlong }>{ stats.kd }</td>
                             <td className="stat_label">Games won:</td>
                             <td className="stat_value">
-                                { stats.activitiesWon.basic.displayValue }/{ stats.activitiesEntered.basic.displayValue } ({ wl }%)
+                                { stats.wins }/{ stats.totalGames } ({ stats.wl }%)
                             </td>
                         </tr>
                         <tr>

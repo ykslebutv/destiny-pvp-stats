@@ -1,8 +1,10 @@
 import Promise from 'es6-promise';
 import { extendObservable, action } from 'mobx';
 
-import Utils from './utils';
-import destiny2 from './destiny2';
+import Utils from '../utils';
+import destiny2 from '../destiny2';
+
+import PlayerModel from './playerModel.jsx';
 
 const Status = {
     NODATA: '',
@@ -22,15 +24,15 @@ class Model {
             platform: args.platform,
             mode: args.mode || 5,
 
-            player: {
-                displayName: '',
-                membershipType: '',
-                membershipId: '',
-                clanName: '',
-                clanTag: ''
-            },
+            // player: {
+            //     displayName: '',
+            //     membershipType: '',
+            //     membershipId: '',
+            //     clanName: '',
+            //     clanTag: ''
+            // },
 
-            characters: [],
+            // characters: [],
 
             status: Status.NODATA,
             error: null,
@@ -87,20 +89,15 @@ class Model {
 
         this.getMembershipInfo().then(playerData => {
             const { membershipType, membershipId } = playerData;
-            destiny2.getProfile(membershipType, membershipId).then(res => {
-                const { userInfo, characters } = res;
-                Object.assign(this.player, userInfo);
-                this.characters = characters;
-                let loadCount = this.characters.length;
-                this.characters.map(character => {
+            destiny2.getProfile(membershipType, membershipId).then(result => {
+                this.player = new PlayerModel(result);
+                let loadCount = this.player.characters.length;
+                this.player.characters.map(character => {
                     const characterId = character.characterId;
                     destiny2.getCharacterStats(membershipType, membershipId, characterId, this.mode).then(data => {
-                        character.stats = data;
+                        character.setStats(data);
                         destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, 0).then(action(activities => {
-                            character.activities = activities || [];
-                            extendObservable(character, {
-                                dailyStats: destiny2.calculateDailyStats(activities)
-                            });
+                            character.setActivities(activities);
                             loadCount -= 1;
                             if (loadCount === 0) {
                                 this.setStatus(Status.SUCCESS);
@@ -112,17 +109,16 @@ class Model {
                         this.setError(error);
                     }); // getCharacterStats
                 }); // characters.map
+
+                destiny2.getClanInfo(membershipType, membershipId).then(clans => {
+                    if (clans && clans.length > 0) {
+                        const clan = clans[0];
+                        this.player.setClanInfo(clan.group.name, clan.group.clanInfo.clanCallsign);
+                    }
+                });
             }, error => {
                 this.setError(error);
             }); // getProfile
-
-            destiny2.getClanInfo(membershipType, membershipId).then(clans => {
-                if (clans && clans.length > 0) {
-                    const clan = clans[0];
-                    this.player.clanName = clan.group.name;
-                    this.player.clanTag = clan.group.clanInfo.clanCallsign;
-                }
-            });
         }, error => {
             this.setError(error);
         }); // getMembershipInfo

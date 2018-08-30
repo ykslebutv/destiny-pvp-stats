@@ -1,0 +1,82 @@
+Model {
+    player = PlayerModel
+}
+
+PlayerModel {
+    membershipType
+    membershipId
+    displayName
+    clanName
+    clanTag
+
+    characters: CharacterModel[]
+}
+
+CharacterModel {
+    characterId
+    classType
+    emblemBackgroundPath
+    baseCharacterLevel
+    light
+
+    stats = {}
+    activities = ActivityModel[]
+}
+
+ActivityModel {
+    instanceId
+    referenceId
+    date (from period)
+    map (from referenceId)
+    mode
+    modeIcon
+    map
+    kills
+    deaths
+    assists
+    standing
+
+    activityDetails = ActivityDetailsModel
+}
+
+ActivityDetailsModel {
+    instanceId
+    referenceId
+    date (from period)
+    map (from referenceId)
+    mode
+
+    title ('mode' on 'map' on 'date')
+    gameUrl
+
+    teams = TeamModel[]
+}
+
+TeamModel {
+    name
+    standing
+
+    players = TeamMemberModel[]
+}
+
+TeamMemberModel {
+    name
+    characterClass
+    kills
+    deaths
+    assists
+    KD
+    score
+
+    playerUrl
+
+    playerDetails = PlayerDetailsModel
+}
+
+TeamMemberModelDetailsModel {
+    weapon rows
+    ability
+    grenade
+    melee
+    super
+}

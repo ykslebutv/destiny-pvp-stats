@@ -7,7 +7,7 @@ import destiny2 from '../destiny2';
 import Utils from '../utils';
 import { GameModes, Maps, Platforms } from '../constants';
 import Spinner from './spinner.jsx';
-import GameModel from '../gameModel.jsx';
+import GameModel from '../models/gameModel.jsx';
 
 const Activities = observer(class Activities extends React.Component {
     render() {
