@@ -24,7 +24,7 @@ const MenuModes = [
     32 /* Private Matches */
 ];
 
-const GameModeList = observer(class GameModeList extends React.Component {
+@observer class GameModeList extends React.Component {
     onChange(e) {
         Utils.route({
             mode: e.target.value
@@ -51,6 +51,6 @@ const GameModeList = observer(class GameModeList extends React.Component {
             </div>
         );
     }
-});
+};
 
 export default GameModeList;

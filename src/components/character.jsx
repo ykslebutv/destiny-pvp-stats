@@ -2,12 +2,12 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
-import { extendObservable, action } from 'mobx';
+import { observable, action } from 'mobx';
 
 import { CharacterTypes } from '../constants';
 import { Activities } from './activity.jsx';
 
-const CharacterList = observer(class CharacterList extends React.Component {
+@observer class CharacterList extends React.Component {
     render() {
         const list = this.props.characters.map(character => (
             <Character
@@ -29,7 +29,7 @@ const CharacterList = observer(class CharacterList extends React.Component {
             </div>
         );
     }
-});
+}
 
 const Banner = props => {
     const { character } = props;
@@ -69,15 +69,18 @@ const Emblem = props => {
     );
 };
 
-const CharacterCarousel = observer(class CharacterCarousel extends React.Component {
+@observer class CharacterCarousel extends React.Component {
+    @observable activeCharacterId;
+    
+    @action setActiveCharacter(characterId) {
+        this.activeCharacterId = characterId;
+    };
+
     constructor(props) {
         super(props);
-        extendObservable(this, {
-            activeCharacterId: props.characters ? props.characters[0].characterId : null,
-            setActiveCharacter: action(characterId => {
-                this.activeCharacterId = characterId;
-            })
-        });
+        if (props.characters) {
+            this.setActiveCharacter(props.characters[0].characterId);
+        }
     }
 
     render() {
@@ -114,9 +117,9 @@ const CharacterCarousel = observer(class CharacterCarousel extends React.Compone
             </div>
         );
     }
-});
+}
 
-const Character = observer(class Character extends React.Component {
+@observer class Character extends React.Component {
     render() {
         const { character } = this.props;
         return (
@@ -131,21 +134,14 @@ const Character = observer(class Character extends React.Component {
             </div>
         );
     }
-});
+}
 
-const CharacterStats = observer(class CharacterStats extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showHistoricalStats: false
-        };
-    }
+@observer class CharacterStats extends React.Component {
+    @observable showHistoricalStats = false;
 
-    handleHistoricalStatsClick(e) {
+    @action handleHistoricalStatsClick(e) {
         e.preventDefault();
-        this.setState({
-            showHistoricalStats: !this.state.showHistoricalStats
-        });
+        this.showHistoricalStats = !this.state.showHistoricalStats;
     }
 
     render() {
@@ -203,11 +199,11 @@ const CharacterStats = observer(class CharacterStats extends React.Component {
                             <td colSpan="4"><span><a href="#" onClick={ e => this.handleHistoricalStatsClick(e) }>Toggle historical stats</a></span></td>
                         </tr>
                     </tbody>
-                    { this.state.showHistoricalStats ? historicalStats : null }
+                    { this.showHistoricalStats ? historicalStats : null }
                 </table>
             </div>
         );
     }
-});
+}
 
 export default CharacterList;

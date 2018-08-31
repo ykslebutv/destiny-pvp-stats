@@ -8,7 +8,7 @@ import ErrorMessage from './components/errorMessage.jsx';
 import Spinner from './components/spinner.jsx';
 import { ActivityDetails } from './components/activity.jsx';
 
-const MainGame = observer(class MainGame extends React.Component {
+@observer class MainGame extends React.Component {
     constructor(props) {
         super(props);
 
@@ -47,6 +47,6 @@ const MainGame = observer(class MainGame extends React.Component {
             </div>
         );
     }
-});
+}
 
 export default MainGame;

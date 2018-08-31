@@ -6,7 +6,8 @@ import { observer } from 'mobx-react';
 import MainPlayer from './mainPlayer.jsx';
 import MainGame from './mainGame.jsx';
 
-const Content = observer(class Content extends React.Component {
+@observer
+class Content extends React.Component {
     render() {
         return (
             <Router>
@@ -20,7 +21,7 @@ const Content = observer(class Content extends React.Component {
             </Router>
         );
     }
-});
+}
 
 ReactDOM.render(
     <Content />,

@@ -1,7 +1,7 @@
 /* global Config */
 import React from 'react';
 import { observer } from 'mobx-react';
-import { extendObservable, action } from 'mobx';
+import { observable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
 import Utils from '../utils';
@@ -9,7 +9,7 @@ import { GameModes, Maps, Platforms } from '../constants';
 import Spinner from './spinner.jsx';
 import GameModel from '../models/gameModel.jsx';
 
-const Activities = observer(class Activities extends React.Component {
+@observer class Activities extends React.Component {
     render() {
         const { dailyStats } = this.props;
         const dates = Object.keys(dailyStats);
@@ -39,23 +39,13 @@ const Activities = observer(class Activities extends React.Component {
             </div>
         );
     }
-});
+}
 
-const DailyStatComp = observer(class DailyStatComp extends React.Component {
-    constructor(props) {
-        super(props);
+@observer class DailyStatComp extends React.Component {
+    @observable showDetails;
 
-        extendObservable(this, {
-            showDetails: false,
-
-            setShowDetails: action(showDetails => {
-                this.showDetails = showDetails;
-            })
-        });
-    }
-
-    toggleDailyStatDetails() {
-        this.setShowDetails(!this.showDetails);
+    @action toggleDailyStatDetails() {
+        this.showDetails = !this.showDetails;
     }
 
     render() {
@@ -92,23 +82,21 @@ const DailyStatComp = observer(class DailyStatComp extends React.Component {
             </tbody>
         );
     }
-});
+}
 
-const Activity = observer(class Activity extends React.Component {
+@observer class Activity extends React.Component {
+    @observable gameData;
+    @observable showDetails;
+
     constructor(props) {
         super(props);
-
-        extendObservable(this, {
-            gameData: new GameModel({ activityId: this.props.activity.instanceId }),
-
-            show: false,
-
-            setShow: action(show => {
-                this.show = show;
-            })
-        });
+        this.gameData = new GameModel({ activityId: this.props.activity.instanceId });
     }
 
+    @action toggleDetails() {
+        this.showDetails = !this.showDetails;
+    }
+    
     handleClick(e) {
         e.preventDefault();
 
@@ -120,7 +108,7 @@ const Activity = observer(class Activity extends React.Component {
             this.gameData.load();
         }
 
-        this.setShow(!this.show);
+        this.toggleDetails();
     }
 
     get standing() {
@@ -176,7 +164,7 @@ const Activity = observer(class Activity extends React.Component {
             </tr>
         );
 
-        const gameRow = this.show && this.gameData.success ? (
+        const gameRow = this.showDetails && this.gameData.success ? (
             <tr key={ `${ activity.instanceId }-details` }>
                 <td colSpan="7">
                     <ActivityDetails
@@ -189,9 +177,9 @@ const Activity = observer(class Activity extends React.Component {
 
         return ([activityRow, gameRow]);
     }
-});
+}
 
-const ActivityDetails = observer(class ActivityDetails extends React.Component {
+@observer class ActivityDetails extends React.Component {
     render() {
         const teams = {};
         const { data } = this.props;
@@ -237,9 +225,9 @@ const ActivityDetails = observer(class ActivityDetails extends React.Component {
             </table>
         );
     }
-});
+}
 
-const Team = observer(class Team extends React.Component {
+@observer class Team extends React.Component {
     render() {
         let teamStat;
         const standingClass = this.props.team[0].values.standing && this.props.team[0].values.standing.basic.displayValue === 'Victory' ? 'good' : 'bad';
@@ -267,24 +255,18 @@ const Team = observer(class Team extends React.Component {
             </tbody>
         );
     }
-});
+}
 
-const Player = observer(class Player extends React.Component {
-    constructor(props) {
-        super(props);
+@observer class Player extends React.Component {
+    @observable loading = false;
+    @observable show = false;
 
-        extendObservable(this, {
-            loading: false,
-            show: false,
+    @action setLoading(loading) {
+        this.loading = loading;
+    }
 
-            setLoading: action(loading => {
-                this.loading = loading;
-            }),
-
-            setShow: action(show => {
-                this.show = show;
-            })
-        });
+    @action setShow(show) {
+        this.show = show;
     }
 
     loadWeapons() {
@@ -439,6 +421,6 @@ const Player = observer(class Player extends React.Component {
             this.show ? this.playerDetails : null
         ];
     }
-});
+}
 
 export { Activities, ActivityDetails };

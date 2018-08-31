@@ -10,7 +10,7 @@ import CharacterList from './components/character.jsx';
 import Spinner from './components/spinner.jsx';
 import ErrorMessage from './components/errorMessage.jsx';
 
-const MainPlayer = observer(class MainPlayer extends React.Component {
+@observer class MainPlayer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -68,7 +68,7 @@ const MainPlayer = observer(class MainPlayer extends React.Component {
             </div>
         );
     }
-});
+}
 
 const About = () => (
     <div className="about">

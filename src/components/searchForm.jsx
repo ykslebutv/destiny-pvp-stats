@@ -1,31 +1,25 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { extendObservable, action } from 'mobx';
+import { observable, action } from 'mobx';
 import { Platforms } from '../constants';
 import Spinner from './spinner.jsx';
 import Utils from '../utils';
 
-const SearchForm = observer(class SearchForm extends React.Component {
-    constructor(props) {
-        super(props);
+@observer class SearchForm extends React.Component {
+    @observable name = '';
+    @observable platform = 0;
+    @observable showRecent = false;
 
-        extendObservable(this, {
-            name: '',
-            platform: 0,
-            showRecent: false
-        });
+    @action setName(name) {
+        this.name = name;
+    }
 
-        extendObservable(this, {
-            setName: action(name => {
-                this.name = name;
-            }),
-            setPlatform: action(platform => {
-                this.platform = platform;
-            }),
-            setShowRecent: action(showRecent => {
-                this.showRecent = showRecent;
-            })
-        });
+    @action setPlatform(platform) {
+        this.platform = platform;
+    }
+
+    @action setShowRecent(showRecent) {
+        this.showRecent = showRecent;
     }
 
     onSubmit(e) {
@@ -88,9 +82,9 @@ const SearchForm = observer(class SearchForm extends React.Component {
             </form>
         );
     }
-});
+}
 
-const RecentSearches = observer(class RecentSearches extends React.Component {
+@observer class RecentSearches extends React.Component {
     onClick(params) {
         this.props.onChange(params);
     }
@@ -111,6 +105,6 @@ const RecentSearches = observer(class RecentSearches extends React.Component {
             </div>
         ) : null;
     }
-});
+}
 
 export default SearchForm;

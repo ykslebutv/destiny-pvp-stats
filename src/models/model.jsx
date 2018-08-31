@@ -1,5 +1,5 @@
 import Promise from 'es6-promise';
-import { extendObservable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 import Utils from '../utils';
 import destiny2 from '../destiny2';
@@ -14,54 +14,48 @@ const Status = {
 };
 
 class Model {
+    @observable id;
+    @observable name;
+    @observable platform;
+    @observable mode;
+    @observable status;
+    @observable error;
+    @observable loadingPage;
+
     constructor(args) {
         this.page = 0;
+        this.id = args.id;
+        this.name = args.name;
+        this.platform = args.platform;
+        this.mode = args.mode || 5;
 
-        extendObservable(this, {
-
-            id: args.id,
-            name: args.name,
-            platform: args.platform,
-            mode: args.mode || 5,
-
-            // player: {
-            //     displayName: '',
-            //     membershipType: '',
-            //     membershipId: '',
-            //     clanName: '',
-            //     clanTag: ''
-            // },
-
-            // characters: [],
-
-            status: Status.NODATA,
-            error: null,
-            loadingPage: false,
-
-            setStatus: action(status => {
-                this.status = status;
-            }),
-
-            setError: action(error => {
-                this.setStatus(Status.FAILED);
-                this.error = error;
-            }),
-
-            setLoadingPage: action(loadingPage => {
-                this.loadingPage = loadingPage;
-            })
-        });
+        this.status = Status.NODATA;
+        this.error = null;
+        this.loadingPage = false;
     }
 
-    get loading() {
+    @action setStatus(status) {
+        this.status = status;
+    }
+
+    @action setError(error) {
+        this.setStatus(Status.FAILED);
+        this.error = error;
+    }
+
+    @action setLoadingPage(loadingPage) {
+        this.loadingPage = loadingPage;
+    }
+
+    @computed get loading() {
         return this.status === Status.LOADING;
     }
 
-    get success() {
+    @computed get success() {
         return this.status === Status.SUCCESS;
     }
 
-    get failed() {
+    @computed get failed() {
         return this.status === Status.FAILED;
     }
 
@@ -83,7 +77,7 @@ class Model {
         });
     }
 
-    load() {
+    @action load() {
         this.page = 0;
         this.setStatus(Status.LOADING);
 
@@ -124,7 +118,7 @@ class Model {
         }); // getMembershipInfo
     }
 
-    loadNextPage() {
+    @action loadNextPage() {
         if (this.loadingPage) {
             return;
         }
@@ -145,7 +139,7 @@ class Model {
         });
     }
 
-    changeGameMode(mode) {
+    @action changeGameMode(mode) {
         this.mode = mode;
         this.load();
     }
