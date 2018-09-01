@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Spinner = (props) => {
+const Spinner = props => {
     const size = props.size || 'fa-sm';
     const classes = `fas fa-spinner fa-pulse ${ size }`;
     return (

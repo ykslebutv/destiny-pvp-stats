@@ -71,10 +71,10 @@ const Emblem = props => {
 
 @observer class CharacterCarousel extends React.Component {
     @observable activeCharacterId;
-    
+
     @action setActiveCharacter(characterId) {
         this.activeCharacterId = characterId;
-    };
+    }
 
     constructor(props) {
         super(props);

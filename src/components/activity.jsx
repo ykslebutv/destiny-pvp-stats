@@ -3,9 +3,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 
-import destiny2 from '../destiny2';
-import Utils from '../utils';
-import { GameModes, Maps, Platforms } from '../constants';
 import Spinner from './spinner.jsx';
 
 @observer class Activities extends React.Component {
@@ -310,9 +307,10 @@ import Spinner from './spinner.jsx';
     }
 
     render() {
+        const { player } = this.props;
         return [
             this.playerRow,
-            this.showDetails && <PlayerDetails player={ this.props.player } />
+            this.showDetails && <PlayerDetails key={ `${ player.characterId }_details` } player={ player } />
         ];
     }
 }
@@ -335,14 +333,11 @@ import Spinner from './spinner.jsx';
     render() {
         const { player } = this.props;
         const weaponStats = player.weaponStats.map(weaponStat =>
-            <WeaponStat
-                key={ weaponStat.referenceId }
-                weaponStat={ weaponStat }
-            />
+            <WeaponStat key={ weaponStat.referenceId } weaponStat={ weaponStat } />
         );
 
         return (
-            <tr key={ `${ player.characterid }_details` } >
+            <tr>
                 <td colSpan="7" style={{ paddingTop: '0px' }}>
                     <table className="player_details fixed">
                         <tbody>

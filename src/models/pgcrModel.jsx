@@ -1,6 +1,5 @@
 /* global Config */
 import { extendObservable, observable, computed, action } from 'mobx';
-import Utils from '../utils';
 import destiny2 from '../destiny2';
 import { Platforms } from '../constants';
 
@@ -37,7 +36,7 @@ class PlayerModel {
 
                 characterClass: args.player.characterClass,
                 characterLevel: args.player.characterLevel,
-                
+
                 kills: args.values.kills.basic.value,
                 deaths: args.values.deaths.basic.value,
                 assists: args.values.assists.basic.value,
@@ -61,12 +60,6 @@ class PlayerModel {
                 console.log('args', args);
             }
         }
-    }
-
-    loadWeapons() {
-        return new Promise((resolve, reject) => { 
-            resolve();
-        })
     }
 
     get description() {
