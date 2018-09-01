@@ -1,7 +1,9 @@
 /* global Config */
-import { extendObservable } from 'mobx';
+import { extendObservable, computed } from 'mobx';
 import Utils from '../utils';
+import destiny2 from '../destiny2';
 import { GameModes, Maps } from '../constants';
+import PGCRModel from './pgcrModel.jsx';
 
 class ActivityModel {
     constructor(args) {
@@ -24,7 +26,9 @@ class ActivityModel {
                 deaths: args.values.deaths.basic.value,
                 assists: args.values.assists.basic.value,
                 killsDeathsRatio: args.values.killsDeathsRatio.basic.displayValue,
-                score: args.values.score.basic.value
+                score: args.values.score.basic.value,
+
+                pcgr: null
             });
         } catch (e) {
             console.log('ActivityModel::constructor exception', e);
@@ -34,7 +38,7 @@ class ActivityModel {
         }
     }
 
-    get gameMode() {
+    @computed get gameMode() {
         let gameMode = GameModes[this.mode];
         if (!gameMode) {
             console.log(`Unknown mode ${ this.mode } for directorActivityHash ${ this.directorActivityHash }`);
@@ -43,8 +47,28 @@ class ActivityModel {
         return gameMode;
     }
 
+    get gameModeName() {
+        return this.gameMode.displayName;
+    }
+
+    get gameModeIcon() {
+        return `${ Config.baseUrl }${ this.gameMode.icon }`;
+    }
+
+    get gameModeIconClass() {
+        return this.mode === 14 ? 'trials_icon' : 'activity_icon';
+    }
+
     get mapName() {
         return Maps[this.referenceId] || this.referenceId;
+    }
+
+    get title() {
+        return `${ this.gameModeName } on ${ this.mapName }, ${ this.date }`;
+    }
+
+    @computed get url() {
+        return `/game/${ this.instanceId }`;
     }
 
     get doesItCount() {
@@ -59,6 +83,12 @@ class ActivityModel {
             default:
                 return false;
         }
+    }
+
+    loadPCGR() {
+        return destiny2.getPostGame(this.instanceId).then(data => {
+            this.pcgr = new PGCRModel(data);
+        });
     }
 }
 

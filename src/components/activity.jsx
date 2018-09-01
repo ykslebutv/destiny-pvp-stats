@@ -7,7 +7,6 @@ import destiny2 from '../destiny2';
 import Utils from '../utils';
 import { GameModes, Maps, Platforms } from '../constants';
 import Spinner from './spinner.jsx';
-import GameModel from '../models/gameModel.jsx';
 
 @observer class Activities extends React.Component {
     render() {
@@ -85,27 +84,31 @@ import GameModel from '../models/gameModel.jsx';
 }
 
 @observer class Activity extends React.Component {
-    @observable gameData;
     @observable showDetails;
-
-    constructor(props) {
-        super(props);
-        this.gameData = new GameModel({ activityId: this.props.activity.instanceId });
-    }
+    @observable loading;
 
     @action toggleDetails() {
         this.showDetails = !this.showDetails;
     }
-    
+
+    @action setLoading(loading) {
+        this.loading = loading;
+    }
+
     handleClick(e) {
         e.preventDefault();
 
-        if (this.gameData.loading) {
+        if (this.loading) {
             return;
         }
 
-        if (!this.gameData.success) {
-            this.gameData.load();
+        const { activity } = this.props;
+
+        if (!activity.pcgr) {
+            this.setLoading(true);
+            activity.loadPCGR().then(res => {
+                this.setLoading(false);
+            });
         }
 
         this.toggleDetails();
@@ -133,16 +136,13 @@ import GameModel from '../models/gameModel.jsx';
     render() {
         const { activity } = this.props;
         const kdClass = activity.killsDeathsRatio >= 1 ? 'good' : 'bad';
-        const gameMode = activity.gameMode;
-        const iconPath = `${ Config.baseUrl }${ gameMode.icon }`;
-        const iconClass = activity.mode === 14 ? 'trials_icon' : 'activity_icon';
 
         const activityRow = (
             <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.instanceId } >
                 <td>
-                    { this.gameData.loading
+                    { this.loading
                         ? <Spinner />
-                        : <img src={ iconPath } className={ iconClass } title={ gameMode.displayName } />
+                        : <img src={ activity.gameModeIcon } className={ activity.gameModeIconClass } title={ activity.gameModeName } />
                     }
                 </td>
                 <td className="map">
@@ -164,11 +164,11 @@ import GameModel from '../models/gameModel.jsx';
             </tr>
         );
 
-        const gameRow = this.showDetails && this.gameData.success ? (
+        const gameRow = this.showDetails && activity.pcgr ? (
             <tr key={ `${ activity.instanceId }-details` }>
                 <td colSpan="7">
                     <ActivityDetails
-                        data={ this.gameData.data }
+                        activity={ activity }
                         showPermalink
                     />
                 </td>
@@ -181,47 +181,31 @@ import GameModel from '../models/gameModel.jsx';
 
 @observer class ActivityDetails extends React.Component {
     render() {
-        const teams = {};
-        const { data } = this.props;
-        data.entries.forEach(player => {
-            let teamName = player.values.team ? player.values.team.basic.displayValue : 'rumble';
-            if (teamName === '-') {
-                teamName = 'No team';
-            }
-            if (!teams[teamName]) {
-                teams[teamName] = [];
-            }
-            teams[teamName].push(player);
-        });
+        const { activity } = this.props;
 
-        const teamList = Object.keys(teams).sort().map(teamName => (
-            <Team key={ teamName } teamName={ teamName } team={ teams[teamName] } />
-        ));
-
-        const gameModeName = data.activityDetails.mode ? GameModes[data.activityDetails.mode].displayName : '???';
-        const title = `${ gameModeName } on ${ Maps[data.activityDetails.referenceId] }`;
-        const date = Utils.formatDate(data.period, true);
-        const gameUrl = `/game/${ data.activityDetails.instanceId }`;
+        const teamList = activity.pcgr.teams.map(team =>
+            <Team key={ team.name } team={ team } />
+        );
 
         return (
             <table className="activity_details fixed">
                 <tbody>
                     <tr className="title">
                         <td colSpan="7">
-                            { title }, { date }
+                            { activity.title }
                         </td>
                     </tr>
                 </tbody>
                 { teamList }
-                { this.props.showPermalink ? (
+                { this.props.showPermalink && (
                     <tbody>
                         <tr className="footer">
                             <td colSpan="7">
-                                <a href={ gameUrl } >Permalink to this game</a>
+                                <a href={ activity.url } >Permalink to this game</a>
                             </td>
                         </tr>
                     </tbody>
-                 ) : null }
+                 ) }
             </table>
         );
     }
@@ -229,28 +213,24 @@ import GameModel from '../models/gameModel.jsx';
 
 @observer class Team extends React.Component {
     render() {
-        let teamStat;
-        const standingClass = this.props.team[0].values.standing && this.props.team[0].values.standing.basic.displayValue === 'Victory' ? 'good' : 'bad';
-        if (this.props.teamName !== 'rumble') {
-            teamStat = (
-                <tr className="team">
-                    <td colSpan="2">{ this.props.teamName }</td>
-                    <td colSpan="4" className={ standingClass }>{ this.props.team[0].values.standing.basic.displayValue }</td>
-                    <td>{ this.props.team[0].values.teamScore.basic.displayValue }</td>
-                </tr>
-            );
-        }
+        const { team } = this.props;
+        const standingClass = team.won ? 'good' : 'bad';
 
-        const playerList = this.props.team.map(playerData => (
-            <Player
-                playerData={ playerData }
-                key={ playerData.player.destinyUserInfo.displayName }
-            />
-        ));
+        const teamStat = team.name && (
+            <tr className="team">
+                <td colSpan="2">{ team.name }</td>
+                <td colSpan="4" className={ standingClass }>{ team.standing }</td>
+                <td>{ team.score }</td>
+            </tr>
+        );
+
+        const playerList = team.players.map(player =>
+            <Player key={ player.characterId } player={ player } />
+        );
 
         return (
             <tbody>
-                { teamStat ? teamStat : null }
+                { teamStat }
                 { playerList }
             </tbody>
         );
@@ -258,153 +238,123 @@ import GameModel from '../models/gameModel.jsx';
 }
 
 @observer class Player extends React.Component {
+    @observable showDetails = false;
     @observable loading = false;
-    @observable show = false;
+
+    @action toggleDetails() {
+        this.showDetails = !this.showDetails;
+    }
 
     @action setLoading(loading) {
         this.loading = loading;
     }
 
-    @action setShow(show) {
-        this.show = show;
-    }
-
-    loadWeapons() {
-        const { playerData } = this.props;
-        const weapons = playerData.extended.weapons || [];
-
-        let count = 0;
-        if (weapons.length > 0) {
-            this.setLoading(true);
-        } else {
-            this.setShow(true);
-        }
-
-        weapons.map(w => {
-            destiny2.getItemDefinition(w.referenceId).then(response => {
-                w.displayProperties = response.displayProperties;
-                count += 1;
-                if (count === weapons.length) {
-                    this.setLoading(false);
-                    this.setShow(true);
-                }
-            });
-        });
-    }
-
     handleClick(e) {
         e.preventDefault();
-        if (this.show) {
-            this.setShow(false);
+
+        if (this.loading) {
+            return;
+        }
+
+        const { player } = this.props;
+
+        const promises = [];
+        player.weaponStats.map(weaponStat => {
+            if (!weaponStat.loaded) {
+                promises.push(weaponStat.load());
+            }
+        });
+
+        if (promises.length) {
+            this.setLoading(true);
+            Promise.all(promises).then(() => {
+                this.setLoading(false);
+                this.toggleDetails();
+            });
         } else {
-            this.loadWeapons();
+            this.toggleDetails();
         }
     }
 
     get playerRow() {
-        const { playerData } = this.props;
-        const scoreClass = playerData.values.completed.basic.value === 0 ? 'bad' : '';
+        const { player } = this.props;
         return (
             <tr
                 className="player"
                 onClick={ e => this.handleClick(e) }
-                key={ playerData.player.destinyUserInfo.displayName }
+                key={ player.characterId }
             >
                 <td />
                 <td className="player">
-                    <span title={ `${ playerData.player.characterClass } lvl ${ playerData.player.characterLevel }` } >
-                        { playerData.player.destinyUserInfo.displayName }
+                    <span title={ player.description } >
+                        { player.name }
                     </span>
                 </td>
                 <td>
-                    { this.loading ? <Spinner /> : playerData.values.kills.basic.displayValue }
+                    { this.loading ? <Spinner /> : player.kills }
                 </td>
                 <td>
-                    { playerData.values.deaths.basic.displayValue }
+                    { player.deaths }
                 </td>
                 <td>
-                    { playerData.values.assists.basic.displayValue }
+                    { player.assists }
                 </td>
                 <td>
-                    { playerData.values.killsDeathsRatio.basic.displayValue }
+                    { player.killsDeathsRatio }
                 </td>
-                <td className={ scoreClass }>
-                    { playerData.values.completed.basic.value === 1 ? playerData.score.basic.displayValue : 'left' }
+                <td className={ player.completed ? '' : 'bad' } >
+                    { player.completed ? player.score : 'left' }
                 </td>
             </tr>
         );
     }
 
-    get playerUrl() {
-        const { membershipType, membershipId } = this.props.playerData.player.destinyUserInfo;
-        return `/${ Platforms[membershipType].name.toLowerCase() }/${ membershipId }`;
+    render() {
+        return [
+            this.playerRow,
+            this.showDetails && <PlayerDetails player={ this.props.player } />
+        ];
     }
+}
 
-    get playerDetails() {
-        const { playerData } = this.props;
-
-        const weaponRows = playerData.extended.weapons ? playerData.extended.weapons.map(w => (
-            <tr key={ w.referenceId }>
-                <td><img className="weapon_icon" src={ `${ Config.baseUrl }${ w.displayProperties.icon }` } /></td>
-                <td>{ w.displayProperties.name }</td>
-                <td>{ w.values.uniqueWeaponKills.basic.displayValue }</td>
+@observer class PlayerDetails extends React.Component {
+    statRow(name, value) {
+        return (
+            <tr key={ name }>
+                <td />
+                <td>{ name }</td>
+                <td>{ value }</td>
                 <td />
                 <td />
                 <td />
                 <td />
             </tr>
-        )) : null;
+        );
+    }
+
+    render() {
+        const { player } = this.props;
+        const weaponStats = player.weaponStats.map(weaponStat =>
+            <WeaponStat
+                key={ weaponStat.referenceId }
+                weaponStat={ weaponStat }
+            />
+        );
 
         return (
-            <tr key={ `${ playerData.player.destinyUserInfo.displayName }_details` } >
+            <tr key={ `${ player.characterid }_details` } >
                 <td colSpan="7" style={{ paddingTop: '0px' }}>
                     <table className="player_details fixed">
                         <tbody>
-                            { weaponRows }
-                            { playerData.extended.values.weaponKillsAbility && playerData.extended.values.weaponKillsAbility.basic.value
-                            ? <tr key="melee">
-                                <td />
-                                <td>Ability</td>
-                                <td>{ playerData.extended.values.weaponKillsAbility.basic.displayValue }</td>
-                                <td />
-                                <td />
-                                <td />
-                                <td />
-                            </tr> : null }
-                            { playerData.extended.values.weaponKillsMelee && playerData.extended.values.weaponKillsMelee.basic.value
-                            ? <tr key="melee">
-                                <td />
-                                <td>Melee</td>
-                                <td>{ playerData.extended.values.weaponKillsMelee.basic.displayValue }</td>
-                                <td />
-                                <td />
-                                <td />
-                                <td />
-                            </tr> : null }
-                            { playerData.extended.values.weaponKillsGrenade && playerData.extended.values.weaponKillsGrenade.basic.value
-                            ? <tr key="grenade">
-                                <td />
-                                <td>Grenade</td>
-                                <td>{ playerData.extended.values.weaponKillsGrenade.basic.displayValue }</td>
-                                <td />
-                                <td />
-                                <td />
-                                <td />
-                            </tr> : null }
-                            { playerData.extended.values.weaponKillsSuper && playerData.extended.values.weaponKillsSuper.basic.value
-                            ? <tr key="super">
-                                <td />
-                                <td>Super</td>
-                                <td>{ playerData.extended.values.weaponKillsSuper.basic.displayValue }</td>
-                                <td />
-                                <td />
-                                <td />
-                                <td />
-                            </tr> : null }
+                            { weaponStats }
+                            { player.abilityKills ? this.statRow('Ability', player.abilityKills) : null }
+                            { player.meleeKills ? this.statRow('Melee', player.meleeKills) : null }
+                            { player.grenadeKills ? this.statRow('Grenade', player.grenadeKills) : null }
+                            { player.superKills ? this.statRow('Super', player.superKills) : null }
                             <tr key="link">
                                 <td colSpan="7">
-                                    <a href={ this.playerUrl } target="_blank" rel="noopener noreferrer">
-                                        Show more about { playerData.player.destinyUserInfo.displayName }
+                                    <a href={ player.url } target="_blank" rel="noopener noreferrer">
+                                        Show more about { player.name }
                                     </a>
                                 </td>
                             </tr>
@@ -414,12 +364,24 @@ import GameModel from '../models/gameModel.jsx';
             </tr>
         );
     }
+}
 
+@observer class WeaponStat extends React.Component {
     render() {
-        return [
-            this.playerRow,
-            this.show ? this.playerDetails : null
-        ];
+        const { weaponStat } = this.props;
+        return (
+            <tr key={ weaponStat.referenceId }>
+                <td>
+                    { weaponStat.iconUrl && <img className="weapon_icon" src={ weaponStat.iconUrl } title={ weaponStat.description } /> }
+                </td>
+                <td>{ weaponStat.name }</td>
+                <td>{ weaponStat.kills }</td>
+                <td />
+                <td />
+                <td />
+                <td />
+            </tr>
+        );
     }
 }
 

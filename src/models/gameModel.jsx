@@ -1,13 +1,7 @@
 import { extendObservable, action } from 'mobx';
 
 import destiny2 from '../destiny2';
-
-const Status = {
-    NODATA: '',
-    LOADING: 'Loading data',
-    SUCCESS: 'Success',
-    FAILED: 'failed'
-};
+import { Status } from '../constants';
 
 class GameModel {
     constructor(args) {
