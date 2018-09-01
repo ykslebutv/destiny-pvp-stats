@@ -141,7 +141,7 @@ const Emblem = props => {
 
     @action handleHistoricalStatsClick(e) {
         e.preventDefault();
-        this.showHistoricalStats = !this.state.showHistoricalStats;
+        this.showHistoricalStats = !this.showHistoricalStats;
     }
 
     render() {
