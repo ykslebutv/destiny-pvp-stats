@@ -4,6 +4,7 @@
         "basePath": "/platform/Destiny2",
         "baseUrl": "https://www.bungie.net",
         "useProxy": true,
-        "proxyUrl": "http://destinypvpstats.com/proxy.php"
+        "proxyUrl": "http://destinypvpstats.com/proxy.php",
+        "debug": false
     }
 }());
