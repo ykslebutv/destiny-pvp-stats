@@ -5,12 +5,13 @@ import CharacterModel from './characterModel.jsx';
 
 class PlayerModel {
     constructor(args) {
+        const sortedChars = args.characters.sort((a, b) => a.characterId > b.characterId);
         try {
             extendObservable(this, {
                 displayName: args.userInfo.displayName,
                 membershipId: args.userInfo.membershipId,
                 membershipType: args.userInfo.membershipType,
-                characters: args.characters.map(character => new CharacterModel(character))
+                characters: sortedChars.map(character => new CharacterModel(character))
             });
         } catch (e) {
             console.log('PlayerModel::constructor exception', e);
