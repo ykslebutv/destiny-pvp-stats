@@ -1,5 +1,5 @@
 /* global Config */
-import { extendObservable } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Utils from '../utils';
 import { StatHashes } from '../constants';
 import ActivityModel from './activityModel.jsx';
@@ -32,7 +32,7 @@ class CharacterModel {
         return `${ Config.baseUrl }${ this.emblem }`;
     }
 
-    setStats(data) {
+    @action setStats(data) {
         if (!data) {
             console.log('CharacterModel::setStats no data for character', this.characterId);
             return;
@@ -65,7 +65,7 @@ class CharacterModel {
         }
     }
 
-    addActivities(activities) {
+    @action addActivities(activities) {
         if (!activities || !activities.length) {
             console.log('CharacterModel::addActivities no data for character', this.characterId);
             return;

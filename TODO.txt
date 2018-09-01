@@ -19,20 +19,20 @@ DONE
 - add private matches view
 - game mode routing
 - add Showdown mode/icon
+- game mode display on mobile
+- reworked data mapping into models
+- use Promise.all for resolving multiple promises
 
 Feat
 - progress messages (searching player, loading characters, loading games)
 
 Critical
 - Rumble scoring is wrong in the API
-- Game mode display on mobile
 
 P1
   - emojis in clan names shown as &#9829;
   - save and use local mode icons
-  - use Promise.all for resolving multiple promises
   - survival and countdown icons missing from api
-  - move loadWeapons logic to gameModel from activity.jsx
 
 P2
 -

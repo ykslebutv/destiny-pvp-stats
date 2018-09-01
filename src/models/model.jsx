@@ -77,6 +77,23 @@ class Model {
         });
     }
 
+    getCharacterInfo(membershipType, membershipId, character) {
+        return new Promise((resolve, reject) => {
+            const characterId = character.characterId;
+            destiny2.getCharacterStats(membershipType, membershipId, characterId, this.mode).then(data => {
+                character.setStats(data);
+                destiny2.getActivityHistory(membershipType, membershipId, characterId, this.mode, 0).then(activities => {
+                    character.addActivities(activities);
+                    resolve(Status.SUCCESS);
+                }, error => {
+                    reject(Status.FAILED);
+                }); // getActivityHistory
+            }, error => {
+                reject(Status.FAILED);
+            }); // getCharacterStats
+        });
+    }
+
     @action load() {
         this.page = 0;
         this.setStatus(Status.LOADING);
@@ -85,24 +102,13 @@ class Model {
             const { membershipType, membershipId } = playerData;
             destiny2.getProfile(membershipType, membershipId).then(result => {
                 this.player = new PlayerModel(result);
-                let loadCount = this.player.characters.length;
-                this.player.characters.map(character => {
-                    const characterId = character.characterId;
-                    destiny2.getCharacterStats(membershipType, membershipId, characterId, this.mode).then(data => {
-                        character.setStats(data);
-                        destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, 0).then(action(activities => {
-                            character.addActivities(activities);
-                            loadCount -= 1;
-                            if (loadCount === 0) {
-                                this.setStatus(Status.SUCCESS);
-                            }
-                        }), error => {
-                            this.setError(error);
-                        }); // getActivityHistory
-                    }, error => {
-                        this.setError(error);
-                    }); // getCharacterStats
-                }); // characters.map
+                const promises = this.player.characters.map(character => this.getCharacterInfo(membershipType, membershipId, character));
+
+                Promise.all(promises).then(statuses => {
+                    let allSuccess = true;
+                    statuses.forEach(status => allSuccess = status === Status.SUCCESS ? allSuccess : false);
+                    this.setStatus(allSuccess ? Status.SUCCESS : Status.FAILED);
+                });
 
                 destiny2.getClanInfo(membershipType, membershipId).then(clans => {
                     if (clans && clans.length > 0) {
@@ -124,19 +130,16 @@ class Model {
         }
         this.page = this.page + 1;
         this.setLoadingPage(true);
-        let loadCount = this.player.characters.length;
-        this.player.characters.map(character => {
-            const characterId = character.characterId;
-            destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, characterId, this.mode, this.page).then(action(activities => {
-                character.addActivities(activities);
-                loadCount -= 1;
-                if (loadCount === 0) {
-                    this.setLoadingPage(false);
-                }
-            }), error => {
-                this.setError(error);
-            });
+        const promises = this.player.characters.map(character => {
+            return destiny2.getActivityHistory(this.player.membershipType, this.player.membershipId, character.characterId, this.mode, this.page)
+                .then(activities => {
+                    character.addActivities(activities);
+                }, error => {
+                    this.setError(error);
+                });
         });
+
+        Promise.all(promises).then(() => this.setLoadingPage(false));
     }
 
     @action changeGameMode(mode) {
