@@ -17,19 +17,23 @@ class ActivityModel {
                 isPrivate: args.activityDetails.isPrivate,
                 mode: args.activityDetails.mode,
 
-                duration: args.values.activityDurationSeconds.basic.displayValue,
-                completed: args.values.completed.basic.value,
-                standing: args.values.standing ? args.values.standing.basic.displayValue : '???',
-                team: args.values.team ? args.values.team.basic.displayValue : '???',
-
-                kills: args.values.kills.basic.value,
-                deaths: args.values.deaths.basic.value,
-                assists: args.values.assists.basic.value,
-                killsDeathsRatio: args.values.killsDeathsRatio.basic.displayValue,
-                score: args.values.score.basic.value,
-
                 pcgr: null
             });
+
+            if (args.values) {
+                extendObservable(this, {
+                    duration: args.values.activityDurationSeconds.basic.displayValue,
+                    completed: args.values.completed.basic.value,
+                    standing: args.values.standing ? args.values.standing.basic.displayValue : '???',
+                    team: args.values.team ? args.values.team.basic.displayValue : '???',
+
+                    kills: args.values.kills.basic.value,
+                    deaths: args.values.deaths.basic.value,
+                    assists: args.values.assists.basic.value,
+                    killsDeathsRatio: args.values.killsDeathsRatio.basic.displayValue,
+                    score: args.values.score.basic.value
+                });
+            }
         } catch (e) {
             console.log('ActivityModel::constructor exception', e);
             if (Config.debug) {
