@@ -11,6 +11,7 @@ class ActivityModel {
             extendObservable(this, {
                 period: args.period,
                 date: Utils.formatDate(args.period),
+                dateTime: Utils.formatDate(args.period, true),
                 directorActivityHash: args.activityDetails.directorActivityHash,
                 instanceId: args.activityDetails.instanceId,
                 referenceId: args.activityDetails.referenceId,
@@ -68,7 +69,7 @@ class ActivityModel {
     }
 
     get title() {
-        return `${ this.gameModeName } on ${ this.mapName }, ${ this.date }`;
+        return `${ this.gameModeName } on ${ this.mapName }, ${ this.dateTime }`;
     }
 
     @computed get url() {

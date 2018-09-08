@@ -30,6 +30,7 @@ Critical
 - Rumble scoring is wrong in the API
 
 P1
+  - exclude private matches from win/loss counts
   - emojis in clan names shown as &#9829;
   - save and use local mode icons
   - survival and countdown icons missing from api
