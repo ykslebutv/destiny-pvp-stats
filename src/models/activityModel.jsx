@@ -82,8 +82,10 @@ class ActivityModel {
 
     get isWon() {
         switch (this.standing) {
-            case '1':
             case 'Victory':
+            case '1':
+            case '2':
+            case '3':
                 return true;
             default:
                 return false;
