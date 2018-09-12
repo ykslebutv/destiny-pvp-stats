@@ -77,6 +77,7 @@ class WeaponModel {
             extendObservable(this, {
                 referenceId: args.referenceId,
                 kills: args.values.uniqueWeaponKills.basic.value,
+                precisionKills: args.values.uniqueWeaponPrecisionKills.basic.value,
                 name: null,
                 description: null,
                 icon: null

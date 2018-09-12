@@ -371,7 +371,12 @@ import Spinner from './spinner.jsx';
                 </td>
                 <td>{ weaponStat.name }</td>
                 <td>{ weaponStat.kills }</td>
-                <td />
+                { weaponStat.precisionKills > 0 ?
+                    <td>
+                        <i className="fas fa-crosshairs fa-xs" style={{ margin: '0px 3px 2px 0px' }} />
+                        { weaponStat.precisionKills }
+                    </td>
+                : <td /> }
                 <td />
                 <td />
                 <td />
