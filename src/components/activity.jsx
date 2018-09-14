@@ -372,14 +372,14 @@ import Spinner from './spinner.jsx';
                 <td>{ weaponStat.name }</td>
                 <td>{ weaponStat.kills }</td>
                 { weaponStat.precisionKills > 0 ?
-                    <td>
+                    <td colSpan="2" style={{ textAlign: 'left' }}>
                         <i className="fas fa-crosshairs fa-xs" style={{ margin: '0px 3px 2px 0px' }} />
                         { weaponStat.precisionKills }
                     </td>
                 : <td /> }
                 <td />
                 <td />
-                <td />
+                { !weaponStat.precisionKills && <td /> }
             </tr>
         );
     }
