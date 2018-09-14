@@ -22,9 +22,11 @@ DONE
 - game mode display on mobile
 - reworked data mapping into models
 - use Promise.all for resolving multiple promises
+- added prec kills to wepon stats
 
 Feat
 - progress messages (searching player, loading characters, loading games)
+- Gambit games
 
 Critical
 - Rumble scoring is wrong in the API

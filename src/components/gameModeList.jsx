@@ -10,16 +10,15 @@ const MenuModes = [
     10 /* Control */,
     12 /* Clash */,
     31 /* Supremacy */,
+    48 /* Rumble */,
     0,
     37 /* Survival */,
     38 /* Countdown */,
     39 /* TrialsOfTheNine */,
     0,
     19 /* IronBanner */,
-    48 /* Rumble */,
     25 /* Mayhem */,
-    15 /* CrimsonDoubles */,
-    59, /* showdown */
+    49 /* Doubles */,
     0,
     32 /* Private Matches */
 ];
@@ -51,6 +50,6 @@ const MenuModes = [
             </div>
         );
     }
-};
+}
 
 export default GameModeList;

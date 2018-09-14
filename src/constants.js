@@ -46,7 +46,7 @@ const GameModes = {
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
     15: {
-        key: 'doubles',
+        key: 'crimsonDoubles',
         responseKey: 'crimsonDoubles',
         displayName: 'Crimson Doubles',
         icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
@@ -68,6 +68,12 @@ const GameModes = {
         responseKey: 'supremacy',
         displayName: 'Supremacy',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
+    },
+    32: {
+        key: 'pm',
+        responseKey: 'privateMatches',
+        displayName: 'Private Matches',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     37: {
         key: 'survival',
@@ -118,11 +124,17 @@ const GameModes = {
         displayName: 'Rumble',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
-    32: {
-        key: 'pm',
-        responseKey: 'privateMatches',
-        displayName: 'Private Matches',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    49: {
+        key: 'doubles',
+        responseKey: 'allDoubles',
+        displayName: 'Doubles',
+        icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
+    },
+    50: {
+        key: 'doubles50',
+        responseKey: 'doubles',
+        displayName: 'Doubles',
+        icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
     },
     51: {
         responseKey: '',
