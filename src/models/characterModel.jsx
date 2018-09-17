@@ -29,7 +29,7 @@ class CharacterModel {
     }
 
     get emblemUrl() {
-        return `${ Config.baseUrl }${ this.emblem }`;
+        return this.emblem ? `${ Config.baseUrl }${ this.emblem }` : '';
     }
 
     @action setStats(data) {

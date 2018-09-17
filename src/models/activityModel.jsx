@@ -2,7 +2,7 @@
 import { extendObservable, computed } from 'mobx';
 import Utils from '../utils';
 import destiny2 from '../destiny2';
-import { GameModes, Maps } from '../constants';
+import { GameModeIds, GameModes, Maps } from '../constants';
 import PGCRModel from './pgcrModel.jsx';
 
 class ActivityModel {
@@ -32,7 +32,8 @@ class ActivityModel {
                     deaths: args.values.deaths.basic.value,
                     assists: args.values.assists.basic.value,
                     killsDeathsRatio: args.values.killsDeathsRatio.basic.displayValue,
-                    score: args.values.score.basic.value
+                    score: args.values.score.basic.value,
+                    teamScore: args.values.teamScore.basic.value
                 });
             }
         } catch (e) {
@@ -47,7 +48,7 @@ class ActivityModel {
         let gameMode = GameModes[this.mode];
         if (!gameMode) {
             console.log(`Unknown mode ${ this.mode } for directorActivityHash ${ this.directorActivityHash }`);
-            gameMode = GameModes[5];
+            gameMode = GameModes[GameModeIds.AllPvp];
         }
         return gameMode;
     }

@@ -1,26 +1,26 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { GameModes } from '../constants';
+import { GameModeIds, GameModes } from '../constants';
 import Utils from '../utils';
 
 const MenuModes = [
-    5  /* AllPvP */,
+    GameModeIds.AllPvp,
     0,
-    10 /* Control */,
-    12 /* Clash */,
-    31 /* Supremacy */,
-    48 /* Rumble */,
+    GameModeIds.Control,
+    GameModeIds.Clash,
+    GameModeIds.Supremacy,
+    GameModeIds.Rumble,
     0,
-    37 /* Survival */,
-    38 /* Countdown */,
-    39 /* TrialsOfTheNine */,
+    GameModeIds.Survival,
+    GameModeIds.Countdown,
+    GameModeIds.Trials,
     0,
-    19 /* IronBanner */,
-    25 /* Mayhem */,
-    49 /* Doubles */,
+    GameModeIds.IronBanner,
+    GameModeIds.Mayhem,
+    GameModeIds.AllDoubles,
     0,
-    32 /* Private Matches */
+    GameModeIds.PrivateMatches
 ];
 
 @observer class GameModeList extends React.Component {

@@ -26,155 +26,201 @@ const Platforms = {
   id is upper camel case while key is lower camel case
   hence the need for 2 fields
 */
+
+const GameModeIds = {
+    Null: 0,
+    AllPvp: 5,
+    Control: 10,
+    Clash: 12,
+    CrimsonDoubles: 15,
+    Mayhem: 25,
+    Supremacy: 31,
+    PrivateMatches: 32,
+    IronBanner: 19,
+    Survival: 37,
+    Countdown: 38,
+    Trials: 39,
+    TrialsCountdown: 41,
+    TrialsSurvival: 42,
+    IronBannerControl: 43,
+    IronBannerClash: 44,
+    IronBannerSupremacy: 45,
+    Rumble: 48,
+    AllDoubles: 49,
+    Doubles: 50,
+    PrivateClash: 51,
+    PrivateControl: 52,
+    PrivateSupremacy: 53,
+    PrivateCountdown: 54,
+    PrivateSurvival: 55,
+    PrivateMayhem: 56,
+    PrivateRumble: 57,
+    Showdown: 59,
+    Gambit: 63,
+    AllPveComp: 64
+};
+
 const GameModes = {
-    5: {
+    [GameModeIds.AllPvp]: {
         key: '',
         responseKey: 'allPvP',
         displayName: 'All Modes',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
-    10: {
+    [GameModeIds.Control]: {
         key: 'control',
         responseKey: 'control',
         displayName: 'Control',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
-    12: {
+    [GameModeIds.Clash]: {
         key: 'clash',
         responseKey: 'clash',
         displayName: 'Clash',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
-    15: {
+    [GameModeIds.CrimsonDoubles]: {
         key: 'crimsonDoubles',
         responseKey: 'crimsonDoubles',
         displayName: 'Crimson Doubles',
         icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
     },
-    19: {
+    [GameModeIds.IronBanner]: {
         key: 'ib',
         responseKey: 'ironBanner',
         displayName: 'Iron Banner',
         icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
-    25: {
+    [GameModeIds.Mayhem]: {
         key: 'mayhem',
         responseKey: 'allMayhem',
         displayName: 'Mayhem',
         icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
     },
-    31: {
+    [GameModeIds.Supremacy]: {
         key: 'supremacy',
         responseKey: 'supremacy',
         displayName: 'Supremacy',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
     },
-    32: {
+    [GameModeIds.PrivateMatches]: {
         key: 'pm',
         responseKey: 'privateMatches',
         displayName: 'Private Matches',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
-    37: {
+    [GameModeIds.Survival]: {
         key: 'survival',
         responseKey: 'survival',
         displayName: 'Survival',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
-    38: {
+    [GameModeIds.Countdown]: {
         key: 'countdown',
         responseKey: 'countdown',
         displayName: 'Countdown',
         icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
-    39: {
+    [GameModeIds.Trials]: {
         key: 'trials',
         responseKey: 'trialsofthenine',
         displayName: 'Trials of the Nine',
         icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
     },
-    41: {
+    [GameModeIds.TrialsCountdown]: {
         responseKey: 'trialsCountdown',
         displayName: 'Trials (Countdown)',
         icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
     },
-    42: {
+    [GameModeIds.TrialsSurvival]: {
         responseKey: 'trialsSurvival',
         displayName: 'Trials (Survival)',
         icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
     },
-    43: {
+    [GameModeIds.IronBannerControl]: {
         responseKey: 'ironBannerControl',
         displayName: 'Iron Banner (Control)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
-    44: {
+    [GameModeIds.IronBannerClash]: {
         responseKey: 'ironBannerClash',
         displayName: 'Iron Banner (Clash)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
-    45: {
+    [GameModeIds.IronBannerSupremacy]: {
         responseKey: 'ironBannerSupremacy',
         displayName: 'Iron Banner (Supremacy)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
     },
-    48: {
+    [GameModeIds.Rumble]: {
         key: 'rumble',
         responseKey: 'rumble',
         displayName: 'Rumble',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
-    49: {
+    [GameModeIds.AllDoubles]: {
         key: 'doubles',
         responseKey: 'allDoubles',
         displayName: 'Doubles',
         icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
     },
-    50: {
+    [GameModeIds.Doubles]: {
         key: 'doubles50',
         responseKey: 'doubles',
         displayName: 'Doubles',
         icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
     },
-    51: {
+    [GameModeIds.PrivateClash]: {
         responseKey: '',
         displayName: 'Clash (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
     },
-    52: {
+    [GameModeIds.PrivateControl]: {
         responseKey: '',
         displayName: ' Control (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
     },
-    53: {
+    [GameModeIds.PrivateSupremacy]: {
         responseKey: '',
         displayName: 'Supremacy (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
     },
-    54: {
+    [GameModeIds.PrivateCountdown]: {
         responseKey: '',
         displayName: 'Countdown (Private)',
         icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
-    55: {
+    [GameModeIds.PrivateSurvival]: {
         responseKey: '',
         displayName: 'Survival (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
-    56: {
+    [GameModeIds.PrivateMayhem]: {
         responseKey: '',
         displayName: 'Mayhem (Private)',
         icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
     },
-    57: {
+    [GameModeIds.PrivateRumble]: {
         responseKey: '',
         displayName: 'Rumble (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
     },
-    59: {
+    [GameModeIds.Showdown]: {
         key: 'showdown',
         responseKey: 'showdown',
         displayName: 'Showdown',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.Gambit]: {
+        key: 'gambit_only',
+        responseKey: 'pvecomp_gambit',
+        displayName: 'Gambit',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.AllPveComp]: {
+        key: 'gambit',
+        responseKey: 'allPvECompetitive',
+        displayName: 'Gambit',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     }
 };
@@ -242,4 +288,4 @@ const StatHashes = {
     'Recovery': 1943323491
 };
 
-export { Platforms, GameModes, CharacterTypes, Maps, StatHashes };
+export { Platforms, GameModeIds, GameModes, CharacterTypes, Maps, StatHashes };
