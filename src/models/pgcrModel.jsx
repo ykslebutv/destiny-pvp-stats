@@ -1,7 +1,7 @@
 /* global Config */
 import { extendObservable, observable, computed, action } from 'mobx';
 import destiny2 from '../destiny2';
-import { Platforms } from '../constants';
+import { Platforms, ExtendedStats } from '../constants';
 
 class TeamModel {
     constructor(args) {
@@ -42,17 +42,16 @@ class PlayerModel {
                 assists: args.values.assists.basic.value,
                 killsDeathsRatio: args.values.killsDeathsRatio.basic.displayValue,
 
-                abilityKills: args.extended.values.weaponKillsAbility.basic.value,
-                meleeKills: args.extended.values.weaponKillsMelee.basic.value,
-                grenadeKills: args.extended.values.weaponKillsGrenade.basic.value,
-                superKills: args.extended.values.weaponKillsSuper.basic.value,
-
                 score: args.values.score.basic.value,
                 teamName: args.values.team ? args.values.team.basic.displayValue : null,
                 standing: args.values.standing ? args.values.standing.basic.displayValue : null,
                 completed: args.values.completed.basic.value,
 
-                weaponStats: args.extended.weapons ? args.extended.weapons.map(weaponArgs => new WeaponModel(weaponArgs)) : []
+                weaponStats: args.extended.weapons ? args.extended.weapons.map(weaponArgs => new WeaponModel(weaponArgs)) : [],
+
+                extendedStats: Object.assign({}, ...Object.keys(ExtendedStats).map(key => {
+                    return args.extended.values[key] && args.extended.values[key].basic.value ? { [key]: args.extended.values[key].basic.displayValue } : {};
+                }))
             });
         } catch (e) {
             console.log('PlayerModel::constructor exception', e);

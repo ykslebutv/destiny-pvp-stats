@@ -19,6 +19,7 @@ const MenuModes = [
     GameModeIds.IronBanner,
     GameModeIds.Mayhem,
     GameModeIds.AllDoubles,
+    GameModeIds.Gambit,
     0,
     GameModeIds.PrivateMatches
 ];

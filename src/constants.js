@@ -64,7 +64,7 @@ const GameModes = {
     [GameModeIds.AllPvp]: {
         key: '',
         responseKey: 'allPvP',
-        displayName: 'All Modes',
+        displayName: 'All PvP Modes',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     [GameModeIds.Control]: {
@@ -212,15 +212,15 @@ const GameModes = {
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     [GameModeIds.Gambit]: {
-        key: 'gambit_only',
+        key: 'gambit',
         responseKey: 'pvecomp_gambit',
         displayName: 'Gambit',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
     [GameModeIds.AllPveComp]: {
-        key: 'gambit',
+        key: 'pvecomp',
         responseKey: 'allPvECompetitive',
-        displayName: 'Gambit',
+        displayName: 'PvE Competitive',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     }
 };
@@ -259,6 +259,9 @@ const Maps = {
     2473919228: 'Meltdown',
     2810171920: 'Bannerfall',
 
+    /* forsaken */
+    1153409123: 'Convergence',
+
     /* private matches */
 
     3233852802: 'The Dead Cliffs (p)',
@@ -279,7 +282,20 @@ const Maps = {
     2271820498: 'The Burnout (p)',
     3349246768: 'Solitude (p)',
     3788594815: 'Meltdown (p)',
-    451430877: 'Bannerfall (p)'
+    451430877: 'Bannerfall (p)',
+
+    /* Gambit */
+    1228482987: 'Cathedral of Scars',
+    3653399243: 'Cathedral of Scars',
+    3146127059: 'Kell\'s Grave',
+    2140443708: 'Kell\'s Grave',
+    4002737048: 'Kell\'s Grave',
+    1065452335: 'Legion\'s Folly',
+    3128368823: 'Legion\'s Folly',
+    249656167: 'Legion\'s Folly',
+    2086906937: 'Emerald Coast',
+    3705383694: 'Emerald Coast',
+    2830257365: 'Emerald Coast'
 };
 
 const StatHashes = {
@@ -288,4 +304,29 @@ const StatHashes = {
     'Recovery': 1943323491
 };
 
-export { Platforms, GameModeIds, GameModes, CharacterTypes, Maps, StatHashes };
+/* map keys in PCGR extended data to display names */
+const ExtendedStats = {
+    weaponKillsAbility: 'Ability',
+    weaponKillsMelee: 'Melee',
+    weaponKillsGrenade: 'Grenade',
+    weaponKillsSuper: 'Super',
+    invasions: 'Invasions',
+    invasionKills: 'Invasion kills',
+    invaderKills: 'Invader kills',
+    invaderDeaths: 'Invader deaths',
+
+    motesGenerated: 'Motes generated',
+    motesDeposited: 'Motes deposited',
+    motesDenied: 'Motes denied',
+    motesStolen: 'Motes stolen',
+    motesLost: 'Motes lost',
+
+    smallBlockersSent: 'Small blockers sent',
+    mediumBlockersSent: 'Medium blockers sent',
+    largeBlockersSent: 'Large blockers sent',
+    highValueKills: 'High value kills',
+    primevalDamage: 'Primeval damage',
+    primevalHealing: 'Primeval healing'
+};
+
+export { Platforms, GameModeIds, GameModes, CharacterTypes, Maps, StatHashes, ExtendedStats };

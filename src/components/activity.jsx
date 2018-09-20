@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 
 import Spinner from './spinner.jsx';
+import { ExtendedStats } from '../constants';
 
 @observer class Activities extends React.Component {
     render() {
@@ -330,22 +331,30 @@ import Spinner from './spinner.jsx';
         );
     }
 
-    render() {
+    get weaponStats() {
         const { player } = this.props;
-        const weaponStats = player.weaponStats.map(weaponStat =>
+        return player.weaponStats.map(weaponStat =>
             <WeaponStat key={ weaponStat.referenceId } weaponStat={ weaponStat } />
         );
+    }
+
+    get extendedStats() {
+        const { player } = this.props;
+        return Object.keys(player.extendedStats).map(extendedStatKey =>
+            player.extendedStats[extendedStatKey] > 0 ? this.statRow(ExtendedStats[extendedStatKey], player.extendedStats[extendedStatKey]) : null
+        );
+    }
+
+    render() {
+        const { player } = this.props;
 
         return (
             <tr>
                 <td colSpan="7" style={{ paddingTop: '0px' }}>
                     <table className="player_details fixed">
                         <tbody>
-                            { weaponStats }
-                            { player.abilityKills ? this.statRow('Ability', player.abilityKills) : null }
-                            { player.meleeKills ? this.statRow('Melee', player.meleeKills) : null }
-                            { player.grenadeKills ? this.statRow('Grenade', player.grenadeKills) : null }
-                            { player.superKills ? this.statRow('Super', player.superKills) : null }
+                            { this.weaponStats }
+                            { this.extendedStats }
                             <tr key="link">
                                 <td colSpan="7">
                                     <a href={ player.url } target="_blank" rel="noopener noreferrer">
