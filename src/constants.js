@@ -29,10 +29,14 @@ const Platforms = {
 
 const GameModeIds = {
     Null: 0,
+    Strike: 3,
+    Raid: 4,
     AllPvp: 5,
     Control: 10,
     Clash: 12,
     CrimsonDoubles: 15,
+    Nightfall: 16,
+    AllStrikes: 18,
     Mayhem: 25,
     Supremacy: 31,
     PrivateMatches: 32,
@@ -45,6 +49,8 @@ const GameModeIds = {
     IronBannerControl: 43,
     IronBannerClash: 44,
     IronBannerSupremacy: 45,
+    ScoredNightfall: 46,
+    ScoredHeroicNightfall: 47,
     Rumble: 48,
     AllDoubles: 49,
     Doubles: 50,
@@ -222,6 +228,34 @@ const GameModes = {
         responseKey: 'allPvECompetitive',
         displayName: 'PvE Competitive',
         icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.AllStrikes]: {
+        key: 'strikes',
+        responseKey: 'allStrikes',
+        displayName: 'Strikes',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.Strike]: {
+        displayName: 'Normal Strike',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.Nightfall]: {
+        displayName: 'Nightfall',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.ScoredNightfall]: {
+        displayName: 'Scored Nightfall',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.ScoredHeroicNightfall]: {
+        displayName: 'Scored Heroic Nightfall',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.Raid]: {
+        key: 'raids',
+        responseKey: 'raid',
+        displayName: 'Raids',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     }
 };
 
@@ -229,73 +263,6 @@ const CharacterTypes = {
     0: 'Titan',
     1: 'Hunter',
     2: 'Warlock'
-};
-
-const Maps = {
-    /* vanilla */
-    3164915257: 'The Dead Cliffs',
-    750001803: 'Altar of Flame',
-    399506119: 'Endless Vale',
-    1711620427: 'Legion\'s Gulch',
-    777592567: 'Midtown',
-    332234118: 'Vostok',
-    806094750: 'Javelin-4',
-    3849796864: 'Retribution',
-    1583254851: 'The Fortress',
-    778271008: 'Emperor\'s Respite',
-    2233665874: 'Eternity',
-    2666761222: 'Distant Shore',
-
-    /* curse of osiris */
-    532383918: 'Radiant Cliffs',
-    1673114595: 'Pacifica',
-    2748633318: 'Wormhaven',
-
-    /* crimson days */
-    4012915511: 'The Burnout',
-
-    /* warmind */
-    2262757213: 'Solitude',
-    2473919228: 'Meltdown',
-    2810171920: 'Bannerfall',
-
-    /* forsaken */
-    1153409123: 'Convergence',
-
-    /* private matches */
-
-    3233852802: 'The Dead Cliffs (p)',
-    666770290: 'Altar of Flame (p)',
-    1489679220: 'Endless Vale (p)',
-    1733006874: 'Legion\'s Gulch (p)',
-    1435054848: 'Midtown (p)',
-    1702649201: 'Vostok (p)',
-    1003889713: 'Javelin-4 (p)',
-    990984849: 'Retribution (p)',
-    2800919246: 'The Fortress (p)',
-    1448435553: 'Emperor\'s Respite (p)',
-    3734723183: 'Eternity (p)',
-    3423042035: 'Distant Shore (p)',
-    931636133: 'Radiant Cliffs (p)',
-    3897312654: 'Pacifica (p)',
-    148937731: 'Wormhaven (p)',
-    2271820498: 'The Burnout (p)',
-    3349246768: 'Solitude (p)',
-    3788594815: 'Meltdown (p)',
-    451430877: 'Bannerfall (p)',
-
-    /* Gambit */
-    1228482987: 'Cathedral of Scars',
-    3653399243: 'Cathedral of Scars',
-    3146127059: 'Kell\'s Grave',
-    2140443708: 'Kell\'s Grave',
-    4002737048: 'Kell\'s Grave',
-    1065452335: 'Legion\'s Folly',
-    3128368823: 'Legion\'s Folly',
-    249656167: 'Legion\'s Folly',
-    2086906937: 'Emerald Coast',
-    3705383694: 'Emerald Coast',
-    2830257365: 'Emerald Coast'
 };
 
 const StatHashes = {
@@ -329,4 +296,4 @@ const ExtendedStats = {
     primevalHealing: 'Primeval healing'
 };
 
-export { Platforms, GameModeIds, GameModes, CharacterTypes, Maps, StatHashes, ExtendedStats };
+export { Platforms, GameModeIds, GameModes, CharacterTypes, StatHashes, ExtendedStats };

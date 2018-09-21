@@ -23,15 +23,17 @@ DONE
 - reworked data mapping into models
 - use Promise.all for resolving multiple promises
 - added prec kills to wepon stats
+- get activity definitions from the manifest
+- Gambit games
 
 Feat
 - progress messages (searching player, loading characters, loading games)
-- Gambit games
 
 Critical
-- Rumble scoring is wrong in the API
+-
 
 P1
+  - filter usernames when typing in the search field
   - exclude private matches from win/loss counts
   - emojis in clan names shown as &#9829;
   - save and use local mode icons

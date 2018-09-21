@@ -46,6 +46,8 @@
     "rosie": "^1.6.0",
     "sinon": "^4.3.0",
     "sinon-as-promised": "^4.0.3",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "json-loader": "^0.5.4",
+    "node-fetch": ""
   }
 }

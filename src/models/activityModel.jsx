@@ -2,8 +2,9 @@
 import { extendObservable, computed } from 'mobx';
 import Utils from '../utils';
 import destiny2 from '../destiny2';
-import { GameModeIds, GameModes, Maps } from '../constants';
+import { GameModeIds, GameModes } from '../constants';
 import PGCRModel from './pgcrModel.jsx';
+import MapDefinitions from '../mapDefinitions.json';
 
 class ActivityModel {
     constructor(args) {
@@ -66,7 +67,8 @@ class ActivityModel {
     }
 
     get mapName() {
-        return Maps[this.referenceId] || this.referenceId;
+        const name = MapDefinitions[this.referenceId];
+        return name ? name : this.referenceId;
     }
 
     get title() {

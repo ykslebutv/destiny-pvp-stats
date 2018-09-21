@@ -39,6 +39,10 @@ var config = {
           presets:['react', 'es2015', "stage-0"],
           plugins: ['transform-decorators-legacy' ]
 	      }
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
       }
     ]
   },

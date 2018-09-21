@@ -45,7 +45,7 @@ class CharacterModel {
                 kills: data.kills.basic.value,
                 deaths: data.deaths.basic.value,
                 assists: data.assists.basic.value,
-                wins: data.activitiesWon.basic.value,
+                wins: data.activitiesWon ? data.activitiesWon.basic.value : 0,
                 totalGames: data.activitiesEntered.basic.value,
                 bestSingleGameKills: data.bestSingleGameKills.basic.value,
                 longestKillSpree: data.longestKillSpree.basic.value,
