@@ -78,7 +78,10 @@ import Utils from '../utils';
                         { this.props.loading ? <Spinner /> : 'search' }
                     </button>
                 </div>
-                { this.showRecent ? <RecentSearches onChange={ params => this.submitRecentSearch(params) } /> : null }
+                { this.showRecent && <RecentSearches
+                    filter={ this.name }
+                    onChange={ params => this.submitRecentSearch(params) }
+                /> }
             </form>
         );
     }
@@ -89,9 +92,16 @@ import Utils from '../utils';
         this.props.onChange(params);
     }
 
+    get recentPlayers() {
+        const filter = this.props.filter.toLowerCase();
+        const maxListSize = 7;
+        return Utils.getRecentPlayers()
+            .filter(player => player.name.toLowerCase().startsWith(filter))
+            .slice(0, maxListSize);
+    }
+
     render() {
-        const players = Utils.getRecentPlayers();
-        const playersList = players.map(player => (
+        const playersList = this.recentPlayers.map(player => (
             <li key={ player.name } onMouseDown={ () => this.onClick(player) } >
                 <i className={ `fab fa-fw fa-${ Platforms[player.platform].faIcon }` } />
                 { player.name }

@@ -9,10 +9,11 @@ class Utils {
     }
 
     saveRecentPlayerInfo(params) {
+        const maxListSize = 25;
         let players = this.getRecentPlayers();
         players = players.filter(p => p.name !== params.name || p.platform !== params.platform);
         players.unshift({ name: params.name, platform: params.platform });
-        players.splice(-1, players.length - 7);
+        players.splice(-1, players.length - maxListSize);
         localStorage.setItem('recentPlayers', JSON.stringify(players));
     }
 

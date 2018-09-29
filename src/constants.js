@@ -162,19 +162,19 @@ const GameModes = {
         key: 'rumble',
         responseKey: 'rumble',
         displayName: 'Rumble',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_rumble.png'
     },
     [GameModeIds.AllDoubles]: {
         key: 'doubles',
         responseKey: 'allDoubles',
         displayName: 'Doubles',
-        icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_doubles.png'
     },
     [GameModeIds.Doubles]: {
         key: 'doubles50',
         responseKey: 'doubles',
         displayName: 'Doubles',
-        icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_doubles.png'
     },
     [GameModeIds.PrivateClash]: {
         responseKey: '',
@@ -209,7 +209,7 @@ const GameModes = {
     [GameModeIds.PrivateRumble]: {
         responseKey: '',
         displayName: 'Rumble (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
+        icon: '/img/theme/destiny/icons/game_modes/crucible_rumble.png'
     },
     [GameModeIds.Showdown]: {
         key: 'showdown',
@@ -233,29 +233,29 @@ const GameModes = {
         key: 'strikes',
         responseKey: 'allStrikes',
         displayName: 'Strikes',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
     },
     [GameModeIds.Strike]: {
         displayName: 'Normal Strike',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
     },
     [GameModeIds.Nightfall]: {
         displayName: 'Nightfall',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/strike_nightfall.png'
     },
     [GameModeIds.ScoredNightfall]: {
         displayName: 'Scored Nightfall',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/strike_nightfall.png'
     },
     [GameModeIds.ScoredHeroicNightfall]: {
         displayName: 'Scored Heroic Nightfall',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/strike_nightfall.png'
     },
     [GameModeIds.Raid]: {
         key: 'raids',
         responseKey: 'raid',
         displayName: 'Raids',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/img/theme/destiny/icons/game_modes/raid.png'
     }
 };
 
