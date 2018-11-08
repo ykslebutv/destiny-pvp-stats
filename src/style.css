@@ -59,6 +59,17 @@ body {
 	line-height: 0.75;
 }
 
+.progression {
+	margin: 10px 15px 0px 15px;
+	text-align: center;
+}
+
+.progression .rank {
+	margin: 8px;
+	display: inline-block;
+	border: 1px solid #666;
+}
+
 .game_mode_list {
 	float: right;
 }

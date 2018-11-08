@@ -2,6 +2,7 @@
 import { extendObservable } from 'mobx';
 
 import CharacterModel from './characterModel.jsx';
+import ProgressionModel from './progressionModel.jsx';
 
 class PlayerModel {
     constructor(args) {
@@ -11,7 +12,8 @@ class PlayerModel {
                 displayName: args.userInfo.displayName,
                 membershipId: args.userInfo.membershipId,
                 membershipType: args.userInfo.membershipType,
-                characters: sortedChars.map(character => new CharacterModel(character))
+                characters: sortedChars.map(character => new CharacterModel(character)),
+                progression: new ProgressionModel(args.progressions)
             });
         } catch (e) {
             console.log('PlayerModel::constructor exception', e);

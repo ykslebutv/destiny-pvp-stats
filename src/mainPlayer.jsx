@@ -5,6 +5,7 @@ import Model from './models/model.jsx';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
+import Progression from './components/progression.jsx';
 import GameModeList from './components/gameModeList.jsx';
 import CharacterList from './components/character.jsx';
 import Spinner from './components/spinner.jsx';
@@ -58,6 +59,7 @@ import ErrorMessage from './components/errorMessage.jsx';
                     <div className="clear" />
                 </div>
                 { failed ? <ErrorMessage message={ vm.error } /> : null }
+                { success ? <Progression player={ vm.player } /> : null }
                 { success ? <CharacterList characters={ vm.player.characters } /> : null }
                 { loadingPage ? (
                     <div className="bottom-spinner">

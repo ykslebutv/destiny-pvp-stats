@@ -28,16 +28,19 @@ class Destiny2 {
 
     getProfile(membershipType, membershipId) {
         return new Promise((resolve, reject) => {
-            const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters`;
+            const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,CharacterProgressions,Characters`;
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     const characterIds = res.Response.profile.data.characterIds;
                     const characters = characterIds.map(characterId => {
                         return res.Response.characters.data[characterId];
                     });
+                    // only for purpose of valor/glory/infamy ranks. For other progressions see other data in Response.characterProgressions.data
+                    const progressions = Object.values(res.Response.characterProgressions.data)[0].progressions;
                     resolve({
                         userInfo: res.Response.profile.data.userInfo,
-                        characters: characters
+                        characters: characters,
+                        progressions: progressions
                     });
                 } else {
                     reject(res.Message);
