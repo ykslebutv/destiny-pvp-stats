@@ -67,8 +67,8 @@ class ActivityModel {
     }
 
     get mapName() {
-        const name = MapDefinitions[this.referenceId];
-        return name ? name : this.referenceId;
+        const name = MapDefinitions[this.referenceId] || this.referenceId;
+        return this.isPrivate ? `${ name } (p)` : name;
     }
 
     get title() {
