@@ -32,6 +32,7 @@ const GameModeIds = {
     Strike: 3,
     Raid: 4,
     AllPvp: 5,
+    AllPve: 7,
     Control: 10,
     Clash: 12,
     CrimsonDoubles: 15,
@@ -256,7 +257,13 @@ const GameModes = {
         responseKey: 'raid',
         displayName: 'Raids',
         icon: '/img/theme/destiny/icons/game_modes/raid.png'
-    }
+    },
+    [GameModeIds.AllPve]: {
+        key: 'allPvE',
+        responseKey: 'allPvE',
+        displayName: 'All PvE Modes',
+        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+    },
 };
 
 const CharacterTypes = {

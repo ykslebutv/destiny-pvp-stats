@@ -27,12 +27,14 @@ DONE
 - Gambit games
 - filter usernames when typing in the search field
 - exclude private matches from win/loss counts
+- add AllPvE filter
 
 Feat
 - progress messages (searching player, loading characters, loading games)
 
 Critical
--
+- exclude games where player is not on the roster (left before game started)
+  from stat calculations (but still show, maybe greyd out)
 
 P1
   - emojis in clan names shown as &#9829;
