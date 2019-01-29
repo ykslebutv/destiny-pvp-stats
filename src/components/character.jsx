@@ -175,7 +175,7 @@ const Emblem = props => {
                     <td className="stat_value">{ stats.longestSingleLife }</td>
                 </tr>
                 <tr>
-                    <td className="stat_label">(K+A)/D:</td>
+                    <td className="stat_label">KDA:</td>
                     <td className="stat_value">{ stats.killsDeathsAssists }</td>
                     <td className="stat_label">Best weapon:</td>
                     <td className="stat_value">{ stats.weaponBestType }</td>

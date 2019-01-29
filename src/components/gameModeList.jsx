@@ -23,6 +23,7 @@ const MenuModes = [
     GameModeIds.Gambit,
     GameModeIds.AllStrikes,
     GameModeIds.Raid,
+    GameModeIds.AllPve,
     0,
     GameModeIds.PrivateMatches
 ];

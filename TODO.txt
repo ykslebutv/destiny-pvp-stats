@@ -26,18 +26,17 @@ DONE
 - get activity definitions from the manifest
 - Gambit games
 - filter usernames when typing in the search field
+- exclude private matches from win/loss counts
+- add AllPvE filter
 
 Feat
 - show valor/glory/infamy ranks
 - progress messages (searching player, loading characters, loading games)
 
 Critical
--
+- exclude games where player is not on the roster (left before game started)
+  from stat calculations (but still show, maybe greyd out)
 
 P1
-  - exclude private matches from win/loss counts
-  - emojis in clan names shown as &#9829;
-  - survival and countdown icons missing from api
-
-P2
--
+- emojis in clan names shown as &#9829;
+- survival and countdown icons missing from api
