@@ -1,6 +1,6 @@
 <?php
 
-$server_url = "https://www.bungie.net";
+$server_url = "https://stats.bungie.net";
 $api_key = "<Bungie API key>";
 
 $options = array
@@ -78,7 +78,7 @@ $headers = explode("\r\n",$response[0]);
 foreach ($headers as $header)
 {
     if ( !preg_match(';^transfer-encoding:;ui', Trim($header)) &&
-         (Trim($header) != 'Access-Control-Allow-Origin: https://www.bungie.net') )
+         (Trim($header) != 'Access-Control-Allow-Origin: https://stats.bungie.net') )
     {
         header($header);
     }

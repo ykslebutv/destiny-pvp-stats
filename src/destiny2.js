@@ -86,6 +86,9 @@ class Destiny2 {
     getPostGame(activityId) {
         return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/Stats/PostGameCarnageReport/${ activityId }/`;
+            if (Config.debug) {
+                console.log(url);
+            }
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response);
