@@ -28,6 +28,7 @@ DONE
 - filter usernames when typing in the search field
 - exclude private matches from win/loss counts
 - add AllPvE filter
+- add AllQuickplay and AllCompetitive modes and comp clash and control
 
 Feat
 - progress messages (searching player, loading characters, loading games)
