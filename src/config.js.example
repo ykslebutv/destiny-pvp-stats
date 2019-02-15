@@ -3,6 +3,7 @@
         "windowTitle": "Destiny 2 PvP Stats",
         "basePath": "/platform/Destiny2",
         "baseUrl": "https://www.bungie.net",
+        "statsUrl": "https://stats.bungie.net",
         "useProxy": true,
         "proxyUrl": "http://destinypvpstats.com/proxy.php",
         "debug": false

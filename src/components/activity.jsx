@@ -136,11 +136,11 @@ import { ExtendedStats } from '../constants';
         const kdClass = activity.killsDeathsRatio >= 1 ? 'good' : 'bad';
 
         const activityRow = (
-            <tr className="activity" onClick={ e => this.handleClick(e) } key={ activity.instanceId } >
+            <tr className="activity" title={ activity.title } onClick={ e => this.handleClick(e) } key={ activity.instanceId } >
                 <td>
                     { this.loading
                         ? <Spinner />
-                        : <img src={ activity.gameModeIcon } className={ activity.gameModeIconClass } title={ activity.gameModeName } />
+                        : <img src={ activity.gameModeIcon } className={ activity.gameModeIconClass } />
                     }
                 </td>
                 <td className="map">

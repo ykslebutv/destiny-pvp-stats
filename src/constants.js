@@ -64,7 +64,17 @@ const GameModeIds = {
     PrivateRumble: 57,
     Showdown: 59,
     Gambit: 63,
-    AllPveComp: 64
+    AllPveComp: 64,
+    Breakthrough: 65,
+    BlackArmoryRun: 66,
+    Salvage: 67,
+    IronBannerSalvage: 68,
+    PvPCompetitive: 69,
+    PvPQuickplay: 70,
+    ClashQuickplay: 71,
+    ClashCompetitive: 72,
+    ControlQuickplay: 73,
+    ControlCompetitive: 74
 };
 
 const GameModes = {
@@ -258,11 +268,53 @@ const GameModes = {
         displayName: 'Raids',
         icon: '/img/theme/destiny/icons/game_modes/raid.png'
     },
+    [GameModeIds.BlackArmoryRun]: {
+        key: 'blackarmory',
+        responseKey: 'blackArmoryRun',
+        displayName: 'Black Armory',
+        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+    },
     [GameModeIds.AllPve]: {
         key: 'allPvE',
         responseKey: 'allPvE',
         displayName: 'All PvE Modes',
         icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+    },
+    [GameModeIds.ControlQuickplay]: {
+        key: 'control',
+        responseKey: 'control',
+        displayName: 'Control',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+    },
+    [GameModeIds.ClashQuickplay]: {
+        key: 'clash',
+        responseKey: 'clash',
+        displayName: 'Clash',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+    },
+    [GameModeIds.PvPQuickplay]: {
+        key: 'quickplay',
+        responseKey: 'pvpQuickplay',
+        displayName: 'All Quickplay',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+    },
+    [GameModeIds.ControlCompetitive]: {
+        key: 'controlcomp',
+        responseKey: 'controlCompetitive',
+        displayName: 'Control (comp)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+    },
+    [GameModeIds.ClashCompetitive]: {
+        key: 'clashcomp',
+        responseKey: 'clashCompetitive',
+        displayName: 'Clash (comp)',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+    },
+    [GameModeIds.PvPCompetitive]: {
+        key: 'competitive',
+        responseKey: 'pvpCompetitive',
+        displayName: 'All Competitive',
+        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
     },
 };
 
