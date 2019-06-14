@@ -8,6 +8,7 @@ class Destiny2 {
     searchPlayer(membershipType, name) {
         return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/SearchDestinyPlayer/${ membershipType }/${ name }/`;
+            debugger
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     if (res.Response.length === 0) {

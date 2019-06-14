@@ -11,7 +11,6 @@ const INFAMY_HASH = 2772425241;
 class ProgressionModel {
     constructor(args) {
         try {
-            debugger
             extendObservable(this, {
                 valor: args[VALOR_HASH],
                 glory: args[GLORY_HASH],

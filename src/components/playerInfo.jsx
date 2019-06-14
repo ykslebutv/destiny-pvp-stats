@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { Platforms } from '../constants';
+import Progression from './progression.jsx';
 
 const PlayerInfo = props => (
     <div className="player_info">
@@ -11,6 +12,7 @@ const PlayerInfo = props => (
             <span className="player_stat">{ props.player.clanName || 'No clan' }</span>
             <span className="clan_tag">{ props.player.clanTag ? ` [${ props.player.clanTag }]` : '' }</span>
         </div>
+        <Progression data={ props.player.progression } />
     </div>
 );
 

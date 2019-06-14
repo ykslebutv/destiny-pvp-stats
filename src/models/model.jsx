@@ -113,6 +113,7 @@ class Model {
 
                 destiny2.getClanInfo(membershipType, membershipId).then(clans => {
                     if (clans && clans.length > 0) {
+                        debugger
                         const clan = clans[0];
                         this.player.setClanInfo(clan.group.name, clan.group.clanInfo.clanCallsign);
                     }
