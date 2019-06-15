@@ -24,12 +24,13 @@ const MenuModes = [
     GameModeIds.Mayhem,
     GameModeIds.AllDoubles,
     0,
-    GameModeIds.Gambit,
+    GameModeIds.AllPveComp,
     0,
     GameModeIds.AllPve,
     GameModeIds.AllStrikes,
     GameModeIds.Raid,
     GameModeIds.BlackArmoryRun,
+    GameModeIds.Reckoning,
     0,
     GameModeIds.PrivateMatches
 ];

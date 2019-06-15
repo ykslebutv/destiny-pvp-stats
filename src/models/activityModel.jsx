@@ -59,7 +59,7 @@ class ActivityModel {
     }
 
     get gameModeIcon() {
-        return `${ Config.baseUrl }${ this.gameMode.icon }`;
+        return this.gameMode.icon;
     }
 
     get gameModeIconClass() {

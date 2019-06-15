@@ -19,19 +19,13 @@ const Platforms = {
 // To get map names and game mode icons:
 // Manifest/DestinyActivityDefinition/{HASH}/
 
-
-/*
-  id field is what passed to the Bungie API as mode
-  key field is name of the response object
-  id is upper camel case while key is lower camel case
-  hence the need for 2 fields
-*/
-
 const GameModeIds = {
     Null: 0,
+    Story: 2,
     Strike: 3,
     Raid: 4,
     AllPvp: 5,
+    Patrol: 6,
     AllPve: 7,
     Control: 10,
     Clash: 12,
@@ -62,7 +56,11 @@ const GameModeIds = {
     PrivateSurvival: 55,
     PrivateMayhem: 56,
     PrivateRumble: 57,
+    HeroicAdventure: 58,
     Showdown: 59,
+    Lockdown: 60,
+    Scorched: 61,
+    ScorchedTeam: 62,
     Gambit: 63,
     AllPveComp: 64,
     Breakthrough: 65,
@@ -74,7 +72,10 @@ const GameModeIds = {
     ClashQuickplay: 71,
     ClashCompetitive: 72,
     ControlQuickplay: 73,
-    ControlCompetitive: 74
+    ControlCompetitive: 74,
+    GambitPrime: 75,
+    Reckoning: 76,
+    Menagerie: 77
 };
 
 const GameModes = {
@@ -82,239 +83,265 @@ const GameModes = {
         key: '',
         responseKey: 'allPvP',
         displayName: 'All PvP Modes',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/crucible_default.png'
     },
     [GameModeIds.Control]: {
         key: 'control',
         responseKey: 'control',
         displayName: 'Control',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+        icon: '/images/icons/crucible_control.png'
     },
     [GameModeIds.Clash]: {
         key: 'clash',
         responseKey: 'clash',
         displayName: 'Clash',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/images/icons/crucible_clash.png'
     },
     [GameModeIds.CrimsonDoubles]: {
         key: 'crimsonDoubles',
         responseKey: 'crimsonDoubles',
         displayName: 'Crimson Doubles',
-        icon: '/img/theme/destiny/icons/game_modes/Crimson_Playlist.png'
+        icon: '/images/icons/crucible_doubles.png'
     },
     [GameModeIds.IronBanner]: {
         key: 'ib',
         responseKey: 'ironBanner',
         displayName: 'Iron Banner',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
+        icon: '/images/icons/crucible_ironbanner.png'
     },
     [GameModeIds.Mayhem]: {
         key: 'mayhem',
         responseKey: 'allMayhem',
         displayName: 'Mayhem',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
+        icon: '/images/icons/crucible_mayhem.png'
     },
     [GameModeIds.Supremacy]: {
         key: 'supremacy',
         responseKey: 'supremacy',
         displayName: 'Supremacy',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
+        icon: '/images/icons/crucible_supremacy.png'
     },
     [GameModeIds.PrivateMatches]: {
         key: 'pm',
         responseKey: 'privateMatches',
         displayName: 'Private Matches',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/crucible_default.png'
     },
     [GameModeIds.Survival]: {
         key: 'survival',
         responseKey: 'survival',
         displayName: 'Survival',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/crucible_default.png'
     },
     [GameModeIds.Countdown]: {
         key: 'countdown',
         responseKey: 'countdown',
         displayName: 'Countdown',
-        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
+        icon: '/images/icons/crucible_countdown.png'
     },
     [GameModeIds.Trials]: {
         key: 'trials',
         responseKey: 'trialsofthenine',
         displayName: 'Trials of the Nine',
-        icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
+        icon: '/images/icons/crucible_trials.png'
     },
     [GameModeIds.TrialsCountdown]: {
         responseKey: 'trialsCountdown',
         displayName: 'Trials (Countdown)',
-        icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
+        icon: '/images/icons/crucible_trials.png'
     },
     [GameModeIds.TrialsSurvival]: {
         responseKey: 'trialsSurvival',
         displayName: 'Trials (Survival)',
-        icon: '/img/theme/destiny/icons/game_modes/trials_of_the_nine.png'
+        icon: '/images/icons/crucible_trials.png'
     },
     [GameModeIds.IronBannerControl]: {
         responseKey: 'ironBannerControl',
         displayName: 'Iron Banner (Control)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
+        icon: '/images/icons/crucible_ironbanner.png'
     },
     [GameModeIds.IronBannerClash]: {
         responseKey: 'ironBannerClash',
         displayName: 'Iron Banner (Clash)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
+        icon: '/images/icons/crucible_ironbanner.png'
     },
     [GameModeIds.IronBannerSupremacy]: {
         responseKey: 'ironBannerSupremacy',
         displayName: 'Iron Banner (Supremacy)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_ironbanner.png'
+        icon: '/images/icons/crucible_ironbanner.png'
     },
     [GameModeIds.Rumble]: {
         key: 'rumble',
         responseKey: 'rumble',
         displayName: 'Rumble',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_rumble.png'
+        icon: '/images/icons/crucible_rumble.png'
     },
     [GameModeIds.AllDoubles]: {
         key: 'doubles',
         responseKey: 'allDoubles',
         displayName: 'Doubles',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_doubles.png'
+        icon: '/images/icons/crucible_doubles.png'
     },
     [GameModeIds.Doubles]: {
         key: 'doubles50',
         responseKey: 'doubles',
         displayName: 'Doubles',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_doubles.png'
+        icon: '/images/icons/crucible_doubles.png'
     },
     [GameModeIds.PrivateClash]: {
         responseKey: '',
         displayName: 'Clash (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/images/icons/crucible_clash.png'
     },
     [GameModeIds.PrivateControl]: {
         responseKey: '',
         displayName: ' Control (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+        icon: '/images/icons/crucible_control.png'
     },
     [GameModeIds.PrivateSupremacy]: {
         responseKey: '',
         displayName: 'Supremacy (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_supremacy.png'
+        icon: '/images/icons/crucible_supremacy.png'
     },
     [GameModeIds.PrivateCountdown]: {
         responseKey: '',
         displayName: 'Countdown (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
+        icon: '/images/icons/crucible_countdown.png'
     },
     [GameModeIds.PrivateSurvival]: {
         responseKey: '',
         displayName: 'Survival (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/allmodes.png'
+        icon: '/images/icons/crucible_default.png'
     },
     [GameModeIds.PrivateMayhem]: {
         responseKey: '',
         displayName: 'Mayhem (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_mayhem.png'
+        icon: '/images/icons/crucible_mayhem.png'
     },
     [GameModeIds.PrivateRumble]: {
         responseKey: '',
         displayName: 'Rumble (Private)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_rumble.png'
+        icon: '/images/icons/crucible_rumble.png'
     },
     [GameModeIds.Showdown]: {
         key: 'showdown',
         responseKey: 'showdown',
         displayName: 'Showdown',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/crucible_default.png'
     },
     [GameModeIds.Gambit]: {
         key: 'gambit',
         responseKey: 'pvecomp_gambit',
         displayName: 'Gambit',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/gambit.png'
+    },
+    [GameModeIds.GambitPrime]: {
+        displayName: 'Gambit Prime',
+        icon: '/images/icons/gambit_prime.png'
+    },
+    [GameModeIds.Reckoning]: {
+        key: 'reckoning',
+        responseKey: 'enigma',
+        displayName: 'Reckoning',
+        icon: '/images/icons/reckoning.png'
     },
     [GameModeIds.AllPveComp]: {
         key: 'pvecomp',
         responseKey: 'allPvECompetitive',
-        displayName: 'PvE Competitive',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        displayName: 'Gambit',
+        icon: '/images/icons/gambit.png'
     },
     [GameModeIds.AllStrikes]: {
         key: 'strikes',
         responseKey: 'allStrikes',
         displayName: 'Strikes',
-        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+        icon: '/images/icons/strike_default.png'
     },
     [GameModeIds.Strike]: {
         displayName: 'Normal Strike',
-        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+        icon: '/images/icons/strike_default.png'
     },
     [GameModeIds.Nightfall]: {
         displayName: 'Nightfall',
-        icon: '/img/theme/destiny/icons/game_modes/strike_nightfall.png'
+        icon: '/images/icons/strike_nightfall.png'
     },
     [GameModeIds.ScoredNightfall]: {
         displayName: 'Scored Nightfall',
-        icon: '/img/theme/destiny/icons/game_modes/strike_nightfall.png'
+        icon: '/images/icons/strike_nightfall.png'
     },
     [GameModeIds.ScoredHeroicNightfall]: {
         displayName: 'Scored Heroic Nightfall',
-        icon: '/img/theme/destiny/icons/game_modes/strike_nightfall.png'
+        icon: '/images/icons/strike_nightfall.png'
     },
     [GameModeIds.Raid]: {
         key: 'raids',
         responseKey: 'raid',
         displayName: 'Raids',
-        icon: '/img/theme/destiny/icons/game_modes/raid.png'
+        icon: '/images/icons/raid.png'
+    },
+    [GameModeIds.Story]: {
+        displayName: 'Story',
+        icon: '/images/icons/story.png'
+    },
+    [GameModeIds.Patrol]: {
+        displayName: 'Patrol',
+        icon: '/images/icons/story.png'
+    },
+    [GameModeIds.HeroicAdventure]: {
+        displayName: 'Heroic Adventure',
+        icon: '/images/icons/heroic_adventure.png'
     },
     [GameModeIds.BlackArmoryRun]: {
         key: 'blackarmory',
         responseKey: 'blackArmoryRun',
         displayName: 'Black Armory',
-        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+        icon: '/images/icons/forge.png'
     },
     [GameModeIds.AllPve]: {
         key: 'allPvE',
         responseKey: 'allPvE',
         displayName: 'All PvE Modes',
-        icon: '/img/theme/destiny/icons/game_modes/strike_default.png'
+        icon: '/images/icons/story.png'
     },
     [GameModeIds.ControlQuickplay]: {
         key: 'control',
         responseKey: 'control',
         displayName: 'Control',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+        icon: '/images/icons/crucible_control.png'
     },
     [GameModeIds.ClashQuickplay]: {
         key: 'clash',
         responseKey: 'clash',
         displayName: 'Clash',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/images/icons/crucible_clash.png'
     },
     [GameModeIds.PvPQuickplay]: {
         key: 'quickplay',
         responseKey: 'pvpQuickplay',
         displayName: 'All Quickplay',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/crucible_default.png'
     },
     [GameModeIds.ControlCompetitive]: {
         key: 'controlcomp',
         responseKey: 'controlCompetitive',
         displayName: 'Control (comp)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_control.png'
+        icon: '/images/icons/crucible_control.png'
     },
     [GameModeIds.ClashCompetitive]: {
         key: 'clashcomp',
         responseKey: 'clashCompetitive',
         displayName: 'Clash (comp)',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_clash.png'
+        icon: '/images/icons/crucible_clash.png'
     },
     [GameModeIds.PvPCompetitive]: {
         key: 'competitive',
         responseKey: 'pvpCompetitive',
         displayName: 'All Competitive',
-        icon: '/img/theme/destiny/icons/game_modes/crucible_default.png'
+        icon: '/images/icons/crucible_default.png'
+    },
+    [GameModeIds.Menagerie]: {
+        displayName: 'The Menagerie',
+        icon: '/images/icons/menagerie.png'
     },
 };
 
@@ -355,4 +382,4 @@ const ExtendedStats = {
     primevalHealing: 'Primeval healing'
 };
 
-export { Platforms, GameModeIds, GameModes, CharacterTypes, StatHashes, ExtendedStats };
+export { Platforms, GameModes, GameModeIds, CharacterTypes, StatHashes, ExtendedStats };
