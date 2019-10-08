@@ -5,7 +5,9 @@ import { Platforms, GameModes } from './constants';
 
 class Utils {
     getRecentPlayers() {
-        return JSON.parse(localStorage.getItem('recentPlayers')) || [];
+        const recentPlayers = JSON.parse(localStorage.getItem('recentPlayers')) || [];
+        // remove cached battle.net players
+        return recentPlayers.filter(player => player.platform !== 4);
     }
 
     saveRecentPlayerInfo(params) {

@@ -59,7 +59,7 @@ import Utils from '../utils';
                     />
                 </div>
                 <div className="search_form_2">
-                    { [2, 1, 4].map(platformId => (
+                    { [2, 1, 3].map(platformId => (
                         <label key={ platformId } >
                             <input
                                 type="radio"
