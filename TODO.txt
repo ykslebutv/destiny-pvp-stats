@@ -34,6 +34,10 @@ Feat
 - progress messages (searching player, loading characters, loading games)
 
 Critical
+- display Alpha team instead of 18
+- add new game types (momentum control, elimination, breakthrough, etc)
+- tool/script to pull/convert the manifest
+- handle multiple search results
 - exclude games where player is not on the roster (left before game started)
   from stat calculations (but still show, maybe greyd out)
 
