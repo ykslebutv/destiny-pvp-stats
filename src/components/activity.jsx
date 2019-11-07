@@ -210,13 +210,19 @@ import { ExtendedStats } from '../constants';
 }
 
 @observer class Team extends React.Component {
+
+    // TODO: remove when fixed in the API
+    displayTeamName(team) {
+        return team.name === '18' ? 'Alpha' : team.name;
+    }
+
     render() {
         const { team } = this.props;
         const standingClass = team.won ? 'good' : 'bad';
 
         const teamStat = team.name && (
             <tr className="team">
-                <td colSpan="2">{ team.name }</td>
+                <td colSpan="2">{ this.displayTeamName(team) }</td>
                 <td colSpan="4" className={ standingClass }>{ team.standing }</td>
                 <td>{ team.score }</td>
             </tr>

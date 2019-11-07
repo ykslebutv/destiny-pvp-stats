@@ -29,12 +29,12 @@ DONE
 - exclude private matches from win/loss counts
 - add AllPvE filter
 - add AllQuickplay and AllCompetitive modes and comp clash and control
+- display Alpha team instead of 18
 
 Feat
 - progress messages (searching player, loading characters, loading games)
 
 Critical
-- display Alpha team instead of 18
 - add new game types (momentum control, elimination, breakthrough, etc)
 - tool/script to pull/convert the manifest
 - handle multiple search results
