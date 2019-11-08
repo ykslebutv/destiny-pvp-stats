@@ -75,7 +75,11 @@ const GameModeIds = {
     ControlCompetitive: 74,
     GambitPrime: 75,
     Reckoning: 76,
-    Menagerie: 77
+    Menagerie: 77,
+    VexOffensive: 78,
+    NightmareHunt: 79,
+    Elimination: 80,
+    Momentum: 81
 };
 
 const GameModes = {
@@ -342,6 +346,22 @@ const GameModes = {
     [GameModeIds.Menagerie]: {
         displayName: 'The Menagerie',
         icon: '/images/icons/menagerie.png'
+    },
+    [GameModeIds.Momentum]: {
+        displayName: 'Momentum Control',
+        icon: '/images/icons/crucible_control.png'
+    },
+    [GameModeIds.Elimination]: {
+        displayName: 'Elimination',
+        icon: '/images/icons/crucible_default.png'
+    },
+    [GameModeIds.VexOffensive]: {
+        displayName: 'Vex Offensive',
+        icon: '/images/icons/vex_offensive.png'
+    },
+    [GameModeIds.NightmareHunt]: {
+        displayName: 'Nightmare Hunt',
+        icon: '/images/icons/story.png'
     },
 };
 
