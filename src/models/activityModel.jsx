@@ -80,7 +80,7 @@ class ActivityModel {
     }
 
     get doesItCount() {
-        return this.standing !== '???' && !this.isPrivate;
+        return this.team !== '-' && this.standing !== '???' && !this.isPrivate;
     }
 
     get isWon() {
