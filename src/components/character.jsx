@@ -38,16 +38,18 @@ const Banner = props => {
         backgroundImage: `url(${ character.emblemUrl })`
     };
     const className = `character ${ props.activeCharacter ? 'col-xs-8 active_character' : '' }`;
-    const info = `
-      Mob ${ character.mobility } / Res ${ character.resilience } / Rec ${ character.recovery }
-    `;
+    const statToInt = (stat) => {
+        return Math.floor(stat/10);
+    }
+    const info = `Mob ${ statToInt(character.mobility) } / Res ${ statToInt(character.resilience) } / Rec ${ statToInt(character.recovery) } / Dis ${ statToInt(character.discipline) } / Int ${ statToInt(character.intellect) } / Str ${ statToInt(character.strength) }`;
+    const infoDetails = `Mob ${ character.mobility } / Res ${ character.resilience } / Rec ${ character.recovery } / Dis ${ character.discipline } / Int ${ character.intellect } / Str ${ character.strength }`;
 
     return (
         <div className={ className } style={ divStyle }>
             <span className="classType">{ classType }</span>
             <span className="level">Lvl { character.level }</span>
             <span className="level light">{ character.light }</span>
-            <div className="char_info">
+            <div className="char_info" title={ infoDetails }>
                 { info }
             </div>
         </div>

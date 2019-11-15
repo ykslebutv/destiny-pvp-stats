@@ -35,9 +35,9 @@ DONE
 - exclude games where player is not on the roster (left before game started)
   from stat calculations (but still show greyd out)
 - handle multiple search results
+- show int/dis/str stats
 
 Feat
-- show int/dis/str stats
 - progress messages (searching player, loading characters, loading games)
 
 Critical

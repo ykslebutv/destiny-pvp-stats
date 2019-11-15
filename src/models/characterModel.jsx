@@ -18,6 +18,9 @@ class CharacterModel {
                 mobility: args.stats[StatHashes['Mobility']],
                 resilience: args.stats[StatHashes['Resilience']],
                 recovery: args.stats[StatHashes['Recovery']],
+                discipline: args.stats[StatHashes['Discipline']],
+                intellect: args.stats[StatHashes['Intellect']],
+                strength: args.stats[StatHashes['Strength']],
                 activities: []
             });
         } catch (e) {
