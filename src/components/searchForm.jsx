@@ -102,7 +102,7 @@ import Utils from '../utils';
 
     render() {
         const playersList = this.recentPlayers.map(player => (
-            <li key={ player.name } onMouseDown={ () => this.onClick(player) } >
+            <li key={ `${player.name}-${player.platform}` } onMouseDown={ () => this.onClick(player) } >
                 <i className={ `fab fa-fw fa-${ Platforms[player.platform].faIcon }` } />
                 { player.name }
             </li>

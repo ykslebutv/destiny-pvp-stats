@@ -65,11 +65,10 @@ class Model {
         // else search player by name
         return new Promise((resolve, reject) => {
             if (this.id) {
-                resolve({ membershipId: this.id, membershipType: this.platform });
+                resolve([{ membershipId: this.id, membershipType: this.platform }]);
             } else {
                 const name = this.name.replace('#', '%23');
                 destiny2.searchPlayer(this.platform, name).then(playerData => {
-                    Utils.saveRecentPlayerInfo({ name: playerData.displayName, platform: playerData.membershipType });
                     resolve(playerData);
                 }, error => {
                     reject(error);
@@ -97,10 +96,23 @@ class Model {
 
     @action load() {
         this.page = 0;
+        this.player = null;
+        this.searchResults = null;
         this.setStatus(Status.LOADING);
 
         this.getMembershipInfo().then(playerData => {
-            const { membershipType, membershipId } = playerData;
+
+            if (playerData.length > 1) {
+                this.searchResults = playerData;
+                this.setStatus(Status.SUCCESS);
+                return;
+            }
+
+            if (this.name && this.platform) {
+                Utils.saveRecentPlayerInfo({ name: this.name, platform: this.platform });
+            }
+
+            const { membershipType, membershipId } = playerData[0];
             destiny2.getProfile(membershipType, membershipId).then(result => {
                 this.player = new PlayerModel(result);
                 const promises = this.player.characters.map(character => this.getCharacterInfo(membershipType, membershipId, character));

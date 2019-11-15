@@ -8,16 +8,16 @@ class Destiny2 {
     searchPlayer(membershipType, name) {
         return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/SearchDestinyPlayer/${ membershipType }/${ name }/`;
+            if (Config.debug) {
+                console.log(url);
+            }
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     if (res.Response.length === 0) {
                         let errorMessage = 'Guardian not found.';
-                        if (membershipType === 4) {
-                            errorMessage = `${ errorMessage } Battle.net ID must be in name#1234 format.`;
-                        }
                         reject(errorMessage);
                     } else {
-                        resolve(res.Response[0]);
+                        resolve(res.Response);
                     }
                 } else {
                     reject(res.Message);
@@ -29,6 +29,9 @@ class Destiny2 {
     getProfile(membershipType, membershipId) {
         return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters`;
+            if (Config.debug) {
+                console.log(url);
+            }
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     const characterIds = res.Response.profile.data.characterIds;
@@ -53,6 +56,9 @@ class Destiny2 {
                 console.log(`Unknown mode ${ mode } in getCharacterStats`);
             }
             const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ mode }`;
+            if (Config.debug) {
+                console.log(url);
+            }
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     if (!res.Response[gameMode.responseKey]) {

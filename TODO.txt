@@ -34,14 +34,13 @@ DONE
 - tool/script to pull/convert the manifest
 - exclude games where player is not on the roster (left before game started)
   from stat calculations (but still show greyd out)
+- handle multiple search results
 
 Feat
-- handle multiple search results
+- show int/dis/str stats
 - progress messages (searching player, loading characters, loading games)
 
 Critical
--
 
 P1
 - emojis in clan names shown as &#9829;
-  

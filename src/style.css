@@ -423,3 +423,8 @@ img.weapon_icon {
 .fa-lg {
 	font-size: 1.6em;
 }
+
+.search-results {
+	margin: 15px 15px 0px 15px;
+	padding: 15px;
+}
