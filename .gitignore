@@ -1,6 +1,7 @@
 src/config.js
 src/proxy.php
 src/index.html
+src/manifest
 src/app.js
 src/app.min.js
 src/*.js.map
@@ -9,4 +10,4 @@ yarn.lock
 node_modules
 prod
 manifest
-src/mapDefinitions.json
+src/Manifest.json
