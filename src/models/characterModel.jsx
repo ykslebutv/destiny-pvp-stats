@@ -1,7 +1,7 @@
 /* global Config */
 import { extendObservable, action } from 'mobx';
 import Utils from '../utils';
-import { StatHashes } from '../constants';
+import DestinyStatDefinition from '../manifest/DestinyStatDefinition.json';
 import ActivityModel from './activityModel.jsx';
 
 class CharacterModel {
@@ -15,14 +15,12 @@ class CharacterModel {
                 emblem: args.emblemBackgroundPath,
                 level: args.baseCharacterLevel,
                 light: args.light,
-                mobility: args.stats[StatHashes['Mobility']],
-                resilience: args.stats[StatHashes['Resilience']],
-                recovery: args.stats[StatHashes['Recovery']],
-                discipline: args.stats[StatHashes['Discipline']],
-                intellect: args.stats[StatHashes['Intellect']],
-                strength: args.stats[StatHashes['Strength']],
                 activities: []
             });
+            Object.keys(args.stats).map(statHash => {
+                const statObj = { [DestinyStatDefinition[statHash].name.toLowerCase()]: args.stats[statHash] };
+                extendObservable(this, statObj);
+            })
         } catch (e) {
             console.log('CharacterModel::constructor exception', e);
             if (Config.debug) {

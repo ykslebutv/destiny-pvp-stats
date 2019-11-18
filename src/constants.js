@@ -371,15 +371,6 @@ const CharacterTypes = {
     2: 'Warlock'
 };
 
-const StatHashes = {
-    'Mobility': 2996146975,
-    'Resilience': 392767087,
-    'Recovery': 1943323491,
-    'Discipline': 1735777505,
-    'Intellect': 144602215,
-    'Strength': 4244567218
-};
-
 /* map keys in PCGR extended data to display names */
 const ExtendedStats = {
     weaponKillsAbility: 'Ability',
@@ -405,4 +396,4 @@ const ExtendedStats = {
     primevalHealing: 'Primeval healing'
 };
 
-export { Platforms, GameModes, GameModeIds, CharacterTypes, StatHashes, ExtendedStats };
+export { Platforms, GameModes, GameModeIds, CharacterTypes, ExtendedStats };
