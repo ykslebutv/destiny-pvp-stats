@@ -1,38 +1,63 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { GameModeIds, GameModes } from '../constants';
+import { GameModes } from '../constants';
 import Utils from '../utils';
+import Manifest from '../manifest.json';
 
 const MenuModes = [
-    GameModeIds.AllPvp,
+    {
+        id: GameModes.AllPvp,
+        label: 'All PvP'
+    },
     0,
-    GameModeIds.PvPQuickplay,
-    GameModeIds.ControlQuickplay,
-    GameModeIds.ClashQuickplay,
-    GameModeIds.Rumble,
-    GameModeIds.Supremacy,
+    {
+        id: GameModes.PvPQuickplay,
+        label: 'Quickplay'
+    },
+    {
+        id: GameModes.PvPCompetitive,
+        label: 'Competitive'
+    },
+    {
+        id: GameModes.Rumble,
+        label: 'Rumble'
+    },
     0,
-    GameModeIds.PvPCompetitive,
-    GameModeIds.Survival,
-    GameModeIds.Countdown,
-    GameModeIds.ControlCompetitive,
-    GameModeIds.ClashCompetitive,
-    GameModeIds.Trials,
+    {
+        id: GameModes.IronBanner,
+        label: 'Iron Banner'
+    },
+    {
+        id: GameModes.Mayhem,
+        label: 'Mayhem'
+    },
+    {
+        id: GameModes.AllDoubles,
+        label: 'Doubles'
+    },
+    {
+        id: GameModes.PrivateMatches,
+        label: 'Private Matches'
+    },
     0,
-    GameModeIds.IronBanner,
-    GameModeIds.Mayhem,
-    GameModeIds.AllDoubles,
+    {
+        id: GameModes.AllPveComp,
+        label: 'Gambit'
+    },
     0,
-    GameModeIds.AllPveComp,
-    0,
-    GameModeIds.AllPve,
-    GameModeIds.AllStrikes,
-    GameModeIds.Raid,
-    GameModeIds.BlackArmoryRun,
-    GameModeIds.Reckoning,
-    0,
-    GameModeIds.PrivateMatches
+    {
+        id: GameModes.AllPve,
+        label: 'All PvE'
+    },
+    {
+        id: GameModes.AllStrikes,
+        label: 'Strikes'
+    },
+    {
+        id: GameModes.Raid,
+        label: 'Raids'
+    }
 ];
 
 @observer class GameModeList extends React.Component {
@@ -44,10 +69,13 @@ const MenuModes = [
 
     render() {
         let key = 0;
-        const options = MenuModes.map(id =>
-            id ? (
-                <option key={ key++ } value={ id }>
-                    { GameModes[id].displayName }
+        const currentMode = Manifest.DestinyActivityModeDefinition[this.props.viewModel.mode].friendlyName;
+        console.log(currentMode)
+
+        const options = MenuModes.map(menuMode =>
+            menuMode.id ? (
+                <option key={ key++ } value={ Manifest.DestinyActivityModeDefinition[menuMode.id].friendlyName }>
+                    { menuMode.label }
                 </option>
             ) : (
                 <option key={ key++ } className="separator" disabled>───────</option>
@@ -56,7 +84,7 @@ const MenuModes = [
 
         return (
             <div className="game_mode_list">
-                <select className="form-control btn btn-primary" value={ this.props.viewModel.mode } onChange={ value => this.onChange(value) }>
+                <select className="form-control btn btn-primary" value={ currentMode } onChange={ value => this.onChange(value) }>
                     { options }
                 </select>
             </div>

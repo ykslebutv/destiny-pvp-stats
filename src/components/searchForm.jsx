@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
-import { Platforms, GameModeIds } from '../constants';
+import { Platforms, GameModes } from '../constants';
 import Spinner from './spinner.jsx';
 import Utils from '../utils';
 
@@ -30,7 +30,7 @@ import Utils from '../utils';
         Utils.route({
             platform: this.platform,
             name: this.name,
-            mode: GameModeIds.AllPvp
+            mode: GameModes.AllPvp
         });
     }
 

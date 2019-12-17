@@ -140,7 +140,7 @@ import { ExtendedStats } from '../constants';
                 <td>
                     { this.loading
                         ? <Spinner />
-                        : <img src={ activity.gameModeIcon } className={ activity.gameModeIconClass } />
+                        : <img src={ activity.gameModeIcon } className="activity_icon" />
                     }
                 </td>
                 <td className="map">

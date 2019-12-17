@@ -1,8 +1,6 @@
 /* global Config */
 import Promise from 'es6-promise';
-
 import Http from './http';
-import { GameModes } from './constants';
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
@@ -28,7 +26,7 @@ class Destiny2 {
 
     getProfile(membershipType, membershipId) {
         return new Promise((resolve, reject) => {
-            const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters`;
+            const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters,CharacterEquipment`;
             if (Config.debug) {
                 console.log(url);
             }
@@ -51,20 +49,14 @@ class Destiny2 {
 
     getCharacterStats(membershipType, membershipId, characterId, mode) {
         return new Promise((resolve, reject) => {
-            const gameMode = GameModes[mode];
-            if (!gameMode) {
-                console.log(`Unknown mode ${ mode } in getCharacterStats`);
-            }
             const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ mode }`;
             if (Config.debug) {
                 console.log(url);
             }
             Http.request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
-                    if (!res.Response[gameMode.responseKey]) {
-                        console.log(`Unknown key ${ gameMode.responseKey } in getCharacterStats`);
-                    }
-                    resolve(res.Response[gameMode.responseKey].allTime);
+                    const responseKey = Object.keys(res.Response)[0];
+                    resolve(res.Response[responseKey].allTime);
                 } else {
                     reject(res.Message);
                 }

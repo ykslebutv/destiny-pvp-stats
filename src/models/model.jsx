@@ -3,7 +3,7 @@ import { observable, action, computed } from 'mobx';
 
 import Utils from '../utils';
 import destiny2 from '../destiny2';
-import { GameModeIds } from '../constants';
+import { GameModes } from '../constants';
 
 import PlayerModel from './playerModel.jsx';
 
@@ -28,7 +28,7 @@ class Model {
         this.id = args.id;
         this.name = args.name;
         this.platform = args.platform;
-        this.mode = args.mode || GameModeIds.AllPvp;
+        this.mode = args.mode || GameModes.AllPvp;
 
         this.status = Status.NODATA;
         this.error = null;

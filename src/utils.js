@@ -1,7 +1,8 @@
 /* global Config, localStorage */
 import moment from 'moment';
 
-import { Platforms, GameModes } from './constants';
+import { Platforms } from './constants';
+import Manifest from './manifest.json';
 
 class Utils {
     getRecentPlayers() {
@@ -54,7 +55,7 @@ class Utils {
                     }
                 }
                 if (params[4]) {
-                    res.mode = parseInt(Object.keys(GameModes).find(id => GameModes[id].key === params[4]), 10);
+                    res.mode = this.findByField(Manifest.DestinyActivityModeDefinition, 'friendlyName', params[4]);
                 }
             }
         }
@@ -74,9 +75,8 @@ class Utils {
         const nameOrId = (params.name || '').replace('#', '-') || params.id;
         newUrl = `${ newUrl }/${ platformStr }/${ nameOrId }`;
 
-        const modeStr = GameModes[params.mode].key;
-        if (modeStr) {
-            newUrl = `${ newUrl }/${ modeStr }`;
+        if (params.mode) {
+            newUrl = `${ newUrl }/${ params.mode }`;
         }
 
         window.location.href = newUrl;
@@ -104,6 +104,10 @@ class Utils {
         } catch (e) {
             return null;
         }
+    }
+
+    findByField(obj, field, value) {
+        return Object.keys(obj).find(key => obj[key][field] === value);
     }
 }
 

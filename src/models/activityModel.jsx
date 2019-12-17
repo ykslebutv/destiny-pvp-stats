@@ -2,9 +2,9 @@
 import { extendObservable, computed } from 'mobx';
 import Utils from '../utils';
 import destiny2 from '../destiny2';
-import { GameModeIds, GameModes } from '../constants';
+import { GameModes } from '../constants';
 import PGCRModel from './pgcrModel.jsx';
-import DestinyActivityDefinition from '../manifest/DestinyActivityDefinition.json';
+import Manifest from '../manifest.json';
 
 class ActivityModel {
     constructor(args) {
@@ -46,30 +46,26 @@ class ActivityModel {
     }
 
     @computed get gameMode() {
-        let gameMode = GameModes[this.mode];
+        let gameMode = Manifest.DestinyActivityModeDefinition[this.mode];
         if (!gameMode) {
             console.log(`Unknown mode ${ this.mode } for directorActivityHash ${ this.directorActivityHash }`);
-            gameMode = GameModes[GameModeIds.AllPvp];
+            gameMode = Manifest.DestinyActivityModeDefinition[GameModes.AllPvp];
         }
         return gameMode;
     }
 
     get gameModeName() {
-        return this.gameMode.displayName;
+        return this.gameMode.name;
     }
 
     get gameModeIcon() {
-        return this.gameMode.icon;
-    }
-
-    get gameModeIconClass() {
-        return this.mode === 14 ? 'trials_icon' : 'activity_icon';
+        return `${ Config.baseUrl }${ this.gameMode.icon }`;
     }
 
     get mapName() {
         let name = this.referenceId;
-        if (DestinyActivityDefinition[this.referenceId]) {
-            name = DestinyActivityDefinition[this.referenceId].name;
+        if (Manifest.DestinyActivityDefinition[this.referenceId]) {
+            name = Manifest.DestinyActivityDefinition[this.referenceId].name;
         }
         return this.isPrivate ? `${ name } (p)` : name;
     }
