@@ -1,7 +1,7 @@
 src/config.js
 src/proxy.php
 src/index.html
-src/manifest
+src/manifest.json
 src/app.js
 src/app.min.js
 src/*.js.map
@@ -9,5 +9,3 @@ src/*.js.map
 yarn.lock
 node_modules
 prod
-manifest
-src/Manifest.json
