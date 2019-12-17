@@ -2,6 +2,7 @@
 import { extendObservable, observable, computed, action } from 'mobx';
 import destiny2 from '../destiny2';
 import { Platforms, ExtendedStats } from '../constants';
+import Manifest from '../manifest.json';
 
 class TeamModel {
     constructor(args) {
@@ -77,9 +78,8 @@ class WeaponModel {
                 referenceId: args.referenceId,
                 kills: args.values.uniqueWeaponKills.basic.value,
                 precisionKills: args.values.uniqueWeaponPrecisionKills.basic.value,
-                name: null,
-                description: null,
-                icon: null
+                name: Manifest.DestinyInventoryItemDefinition[args.referenceId].name,
+                icon: Manifest.DestinyInventoryItemDefinition[args.referenceId].icon
             });
         } catch (e) {
             console.log('WeaponModel::constructor exception', e);
@@ -87,20 +87,6 @@ class WeaponModel {
                 console.log('args', args);
             }
         }
-    }
-
-    @computed get loaded() {
-        return !!this.name;
-    }
-
-    @action setStats(data) {
-        this.name = data.displayProperties.name;
-        this.description = data.displayProperties.description;
-        this.icon = data.displayProperties.icon;
-    }
-
-    load() {
-        return destiny2.getItemDefinition(this.referenceId).then(res => this.setStats(res));
     }
 
     @computed get iconUrl() {

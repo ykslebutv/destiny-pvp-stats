@@ -243,41 +243,9 @@ import { ExtendedStats } from '../constants';
 
 @observer class Player extends React.Component {
     @observable showDetails = false;
-    @observable loading = false;
 
     @action toggleDetails() {
         this.showDetails = !this.showDetails;
-    }
-
-    @action setLoading(loading) {
-        this.loading = loading;
-    }
-
-    handleClick(e) {
-        e.preventDefault();
-
-        if (this.loading) {
-            return;
-        }
-
-        const { player } = this.props;
-
-        const promises = [];
-        player.weaponStats.map(weaponStat => {
-            if (!weaponStat.loaded) {
-                promises.push(weaponStat.load());
-            }
-        });
-
-        if (promises.length) {
-            this.setLoading(true);
-            Promise.all(promises).then(() => {
-                this.setLoading(false);
-                this.toggleDetails();
-            });
-        } else {
-            this.toggleDetails();
-        }
     }
 
     get playerRow() {
@@ -285,7 +253,7 @@ import { ExtendedStats } from '../constants';
         return (
             <tr
                 className="player"
-                onClick={ e => this.handleClick(e) }
+                onClick={ e => this.toggleDetails() }
                 key={ player.characterId }
             >
                 <td />
@@ -295,7 +263,7 @@ import { ExtendedStats } from '../constants';
                     </span>
                 </td>
                 <td>
-                    { this.loading ? <Spinner /> : player.kills }
+                    { player.kills }
                 </td>
                 <td>
                     { player.deaths }
@@ -382,7 +350,7 @@ import { ExtendedStats } from '../constants';
         return (
             <tr key={ weaponStat.referenceId }>
                 <td>
-                    { weaponStat.iconUrl && <img className="weapon_icon" src={ weaponStat.iconUrl } title={ weaponStat.description } /> }
+                    { weaponStat.iconUrl && <img className="weapon_icon" src={ weaponStat.iconUrl } /> }
                 </td>
                 <td>{ weaponStat.name }</td>
                 <td>{ weaponStat.kills }</td>

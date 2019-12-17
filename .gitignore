@@ -2,6 +2,7 @@ src/config.js
 src/proxy.php
 src/index.html
 src/manifest.json
+src/downloadedManifest.json
 src/app.js
 src/app.min.js
 src/*.js.map

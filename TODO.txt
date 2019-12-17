@@ -36,6 +36,7 @@ DONE
   from stat calculations (but still show greyd out)
 - handle multiple search results
 - show int/dis/str stats
+- use manifest to get PCGR weapon names and icons
 
 Feat
 - progress messages (searching player, loading characters, loading games)
