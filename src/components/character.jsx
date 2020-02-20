@@ -41,7 +41,7 @@ const Banner = props => {
     const statToInt = (stat) => {
         return Math.floor(stat/10);
     }
-    const info = `Mob ${ statToInt(character.mobility) } / Res ${ statToInt(character.resilience) } / Rec ${ statToInt(character.recovery) } / Dis ${ statToInt(character.discipline) } / Int ${ statToInt(character.intellect) } / Str ${ statToInt(character.strength) }`;
+    const info = `Mob ${ statToInt(character.mobility) } Res ${ statToInt(character.resilience) } Rec ${ statToInt(character.recovery) } Dis ${ statToInt(character.discipline) } Int ${ statToInt(character.intellect) } Str ${ statToInt(character.strength) }`;
     const infoDetails = `Mob ${ character.mobility } / Res ${ character.resilience } / Rec ${ character.recovery } / Dis ${ character.discipline } / Int ${ character.intellect } / Str ${ character.strength }`;
 
     return (

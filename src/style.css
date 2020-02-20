@@ -131,7 +131,7 @@ body {
 
 .character {
 	background: #eee;
-	padding: 20px;
+	padding: 20px 20px 20px 90px;
 	background-size: cover;
 	color: white;
 	display: block;
@@ -139,7 +139,7 @@ body {
 }
 
 .active_character {
-    padding: 10px;
+    padding: 10px 10px 10px 50px;
     max-width: 275px;
     height: 55px;
     margin: 0px 1px 10px 1px;
@@ -156,7 +156,6 @@ body {
 }
 
 .classType {
-  margin-left: 50px;
 	vertical-align: middle;
 	font-size: 12pt;
 }
@@ -180,7 +179,6 @@ body {
 .char_info {
   color: #fff;
   font-size: 7pt;
-  margin-left: 50px;
 }
 
 .character_stats {

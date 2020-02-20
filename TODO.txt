@@ -37,6 +37,7 @@ DONE
 - handle multiple search results
 - show int/dis/str stats
 - use manifest to get PCGR weapon names and icons
+- fix stat display on mobile
 
 Feat
 - progress messages (searching player, loading characters, loading games)
