@@ -39,12 +39,12 @@ DONE
 - use manifest to get PCGR weapon names and icons
 - fix stat display on mobile
 - add Elimination to game mode menu
+- remove dependency on <base href="...">
 
 Feat
 - progress messages (searching player, loading characters, loading games)
 
 Critical
-- remove dependency on <base href="...">
 - fix trailing /5 in urls
 - open permalink in a new window
 - add Trials to game mode menu

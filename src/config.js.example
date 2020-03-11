@@ -5,7 +5,7 @@
         "baseUrl": "https://www.bungie.net",
         "statsUrl": "https://stats.bungie.net",
         "useProxy": true,
-        "proxyUrl": "http://destinypvpstats.com/proxy.php",
+        "proxyUrl": "proxy.php",
         "debug": false
     }
 }());
