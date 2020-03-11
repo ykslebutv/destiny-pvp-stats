@@ -16,6 +16,8 @@ class Content extends React.Component {
                     <Route path="/psn/:player" component={ MainPlayer } />
                     <Route path="/xbox/:player" component={ MainPlayer } />
                     <Route path="/pc/:player" component={ MainPlayer } />
+                    <Route path="/bnet/:player" component={ MainPlayer } />
+                    <Route path="/stadia/:player" component={ MainPlayer } />
                     <Route path="/game/:id" component={ MainGame } />
                 </div>
             </Router>

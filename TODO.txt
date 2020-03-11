@@ -42,6 +42,7 @@ DONE
 - remove dependency on <base href="...">
 - fix trailing /5 in urls
 - open permalink in a new window
+- support for Stadia accounts and Battle.net accounts that didn't migrate to Steam
 
 Feat
 - progress messages (searching player, loading characters, loading games)

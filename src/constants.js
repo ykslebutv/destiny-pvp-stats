@@ -1,18 +1,23 @@
 const Platforms = {
     1: {
         name: 'Xbox',
-        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_xbl.png',
         faIcon: 'xbox'
     },
     2: {
         name: 'PSN',
-        iconPath: 'https://bungie.net/img/theme/destiny/icons/icon_psn.png',
         faIcon: 'playstation'
     },
     3: {
         name: 'PC',
-        iconPath: 'https://cdn0.iconfinder.com/data/icons/flat-round-system/512/windows-128.png',
+        faIcon: 'steam'
+    },
+    4: {
+        name: 'Bnet',
         faIcon: 'windows'
+    },
+    5: {
+        name: 'Stadia',
+        faIcon: 'gamepad'
     }
 };
 

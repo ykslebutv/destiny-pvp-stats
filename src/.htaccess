@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteRule ^(pc|psn|xbox|game)/(.*?)/?$ /index.html [L]
+RewriteRule ^(pc|psn|xbox|bnet|stadia|game)/(.*?)/?$ /index.html [L]
 RewriteRule ^d1\/(psn|xbox)/(.*?)/?$ /d1/index.html [L]
 
 Header add Access-Control-Allow-Origin *
