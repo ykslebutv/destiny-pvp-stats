@@ -199,7 +199,9 @@ import { ExtendedStats } from '../constants';
                     <tbody>
                         <tr className="footer">
                             <td colSpan="7">
-                                <a href={ activity.url } >Permalink to this game</a>
+                                <a href={ activity.url } target="_blank" rel="noopener noreferrer">
+                                    Permalink to this game
+                                </a>
                             </td>
                         </tr>
                     </tbody>

@@ -29,8 +29,7 @@ import Utils from '../utils';
 
         Utils.route({
             platform: this.platform,
-            name: this.name,
-            mode: GameModes.AllPvp
+            name: this.name
         });
     }
 
