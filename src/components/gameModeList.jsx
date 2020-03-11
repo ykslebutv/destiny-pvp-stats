@@ -37,6 +37,10 @@ const MenuModes = [
         label: 'Doubles'
     },
     {
+        id: GameModes.Elimination,
+        label: 'Elimination'
+    },
+    {
         id: GameModes.PrivateMatches,
         label: 'Private Matches'
     },
@@ -70,7 +74,6 @@ const MenuModes = [
     render() {
         let key = 0;
         const currentMode = Manifest.DestinyActivityModeDefinition[this.props.viewModel.mode].friendlyName;
-        console.log(currentMode)
 
         const options = MenuModes.map(menuMode =>
             menuMode.id ? (
