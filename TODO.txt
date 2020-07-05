@@ -43,12 +43,13 @@ DONE
 - fix trailing /5 in urls
 - open permalink in a new window
 - support for Stadia accounts and Battle.net accounts that didn't migrate to Steam
+- add Trials to game mode menu
 
 Feat
 - progress messages (searching player, loading characters, loading games)
+- import manifest as external script instead of compiling it in
 
 Critical
-- add Trials to game mode menu
 
 P1
 - emojis in clan names shown as &#9829;

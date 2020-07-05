@@ -40,7 +40,8 @@ const GameModes = {
     IronBanner: 19,
     Survival: 37,
     Countdown: 38,
-    Trials: 39,
+    TrialsOfTheNine: 39,
+    Social: 40,
     TrialsCountdown: 41,
     TrialsSurvival: 42,
     IronBannerControl: 43,
@@ -81,7 +82,10 @@ const GameModes = {
     VexOffensive: 78,
     NightmareHunt: 79,
     Elimination: 80,
-    Momentum: 81
+    Momentum: 81,
+    Dungeon: 82,
+    Sundial: 83,
+    TrialsOfOsiris: 84
 };
 
 const CharacterTypes = {

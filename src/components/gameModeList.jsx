@@ -20,8 +20,8 @@ const MenuModes = [
         label: 'Competitive'
     },
     {
-        id: GameModes.Rumble,
-        label: 'Rumble'
+        id: GameModes.TrialsOfOsiris,
+        label: 'Trials of Osiris'
     },
     0,
     {
@@ -39,6 +39,10 @@ const MenuModes = [
     {
         id: GameModes.Elimination,
         label: 'Elimination'
+    },
+    {
+        id: GameModes.Rumble,
+        label: 'Rumble'
     },
     {
         id: GameModes.PrivateMatches,
