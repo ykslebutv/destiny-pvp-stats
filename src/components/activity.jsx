@@ -261,7 +261,7 @@ import { ExtendedStats } from '../constants';
                 <td />
                 <td className="player">
                     <span title={ player.description } >
-                        { player.name }
+                        { player.displayName }
                     </span>
                 </td>
                 <td>
@@ -331,13 +331,15 @@ import { ExtendedStats } from '../constants';
                         <tbody>
                             { this.weaponStats }
                             { this.extendedStats }
-                            <tr key="link">
-                                <td colSpan="7">
-                                    <a href={ player.url } target="_blank" rel="noopener noreferrer">
-                                        Show more about { player.name }
-                                    </a>
-                                </td>
-                            </tr>
+                            { player.name && player.url ? (
+                                <tr key="link">
+                                    <td colSpan="7">
+                                        <a href={ player.url } target="_blank" rel="noopener noreferrer">
+                                            Show more about { player.name }
+                                        </a>
+                                    </td>
+                                </tr>
+                            ) : null }
                         </tbody>
                     </table>
                 </td>

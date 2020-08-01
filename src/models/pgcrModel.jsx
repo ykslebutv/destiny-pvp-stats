@@ -62,12 +62,21 @@ class PlayerModel {
         }
     }
 
+    get displayName() {
+        return this.name || this.membershipId;
+    }
+
     get description() {
         return `${ this.characterClass } lvl ${ this.characterLevel }`;
     }
 
     @computed get url() {
-        return `/${ Platforms[this.membershipType].name.toLowerCase() }/${ this.membershipId }`;
+        try {
+            return `/${ Platforms[this.membershipType].name.toLowerCase() }/${ this.membershipId }`;
+        } catch (e) {
+            console.log('PlayerModel::url exception', e);
+            return '';
+        }
     }
 }
 
