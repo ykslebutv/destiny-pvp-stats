@@ -2,7 +2,7 @@
 import { extendObservable, action } from 'mobx';
 import Utils from '../utils';
 import ActivityModel from './activityModel.jsx';
-import Manifest from '../manifest.json';
+import DestinyStatDefinition from '../manifest/DestinyStatDefinition.json';
 
 class CharacterModel {
     constructor(args) {
@@ -18,7 +18,7 @@ class CharacterModel {
                 activities: []
             });
             Object.keys(args.stats).map(statHash => {
-                const statObj = { [Manifest.DestinyStatDefinition[statHash].name.toLowerCase()]: args.stats[statHash] };
+                const statObj = { [DestinyStatDefinition[statHash].name.toLowerCase()]: args.stats[statHash] };
                 extendObservable(this, statObj);
             })
         } catch (e) {

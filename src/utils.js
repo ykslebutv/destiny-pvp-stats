@@ -2,7 +2,7 @@
 import moment from 'moment';
 
 import { Platforms } from './constants';
-import Manifest from './manifest.json';
+import DestinyActivityModeDefinition from './manifest/DestinyActivityModeDefinition.json';
 
 class Utils {
     getRecentPlayers() {
@@ -55,7 +55,7 @@ class Utils {
                     }
                 }
                 if (params[4]) {
-                    res.mode = this.findByField(Manifest.DestinyActivityModeDefinition, 'friendlyName', params[4]);
+                    res.mode = this.findByField(DestinyActivityModeDefinition, 'friendlyName', params[4]);
                 }
             }
         }

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { GameModes } from '../constants';
 import Utils from '../utils';
-import Manifest from '../manifest.json';
+import DestinyActivityModeDefinition from '../manifest/DestinyActivityModeDefinition.json';
 
 const MenuModes = [
     {
@@ -77,11 +77,11 @@ const MenuModes = [
 
     render() {
         let key = 0;
-        const currentMode = Manifest.DestinyActivityModeDefinition[this.props.viewModel.mode].friendlyName;
+        const currentMode = DestinyActivityModeDefinition[this.props.viewModel.mode].friendlyName;
 
         const options = MenuModes.map(menuMode =>
             menuMode.id ? (
-                <option key={ key++ } value={ Manifest.DestinyActivityModeDefinition[menuMode.id].friendlyName }>
+                <option key={ key++ } value={ DestinyActivityModeDefinition[menuMode.id].friendlyName }>
                     { menuMode.label }
                 </option>
             ) : (

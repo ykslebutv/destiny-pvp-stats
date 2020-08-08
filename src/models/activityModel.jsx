@@ -4,7 +4,8 @@ import Utils from '../utils';
 import destiny2 from '../destiny2';
 import { GameModes } from '../constants';
 import PGCRModel from './pgcrModel.jsx';
-import Manifest from '../manifest.json';
+import DestinyActivityModeDefinition from '../manifest/DestinyActivityModeDefinition.json';
+import DestinyActivityDefinition from '../manifest/DestinyActivityDefinition.json';
 
 class ActivityModel {
     constructor(args) {
@@ -46,10 +47,10 @@ class ActivityModel {
     }
 
     @computed get gameMode() {
-        let gameMode = Manifest.DestinyActivityModeDefinition[this.mode];
+        let gameMode = DestinyActivityModeDefinition[this.mode];
         if (!gameMode) {
             console.log(`Unknown mode ${ this.mode } for directorActivityHash ${ this.directorActivityHash }`);
-            gameMode = Manifest.DestinyActivityModeDefinition[GameModes.AllPvp];
+            gameMode = DestinyActivityModeDefinition[GameModes.AllPvp];
         }
         return gameMode;
     }
@@ -64,8 +65,8 @@ class ActivityModel {
 
     get mapName() {
         let name = this.referenceId;
-        if (Manifest.DestinyActivityDefinition[this.referenceId]) {
-            name = Manifest.DestinyActivityDefinition[this.referenceId].name;
+        if (DestinyActivityDefinition[this.referenceId]) {
+            name = DestinyActivityDefinition[this.referenceId].name;
         }
         return this.isPrivate ? `${ name } (p)` : name;
     }
