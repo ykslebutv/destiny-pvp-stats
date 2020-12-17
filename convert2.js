@@ -15,7 +15,7 @@ const fs = require('fs');
 
 const baseUrl = 'https://www.bungie.net';
 
-const saveManifestComponent = (name, json) => {
+const saveManifestComponent = async (name, json) => {
     const fileName = `./src/manifest/${ name }.json`;
     console.log(`Writing ${ fileName }`);
 
@@ -28,13 +28,33 @@ const saveManifestComponent = (name, json) => {
     reportMemUse();
 }
 
+const saveManifest = (json) => {
+    const fileName = './src/manifest.js';
+    console.log(`Writing ${ fileName }`);
+
+    const header = "(function() {\n    window.Manifest =\n";
+    const footer = "\n}());";
+
+    const jsonStr = JSON.stringify(json, null, 2);
+    fs.writeFile(fileName, header+jsonStr+footer, err => {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
+
 const convertManifest = (json) => {
-    Object.keys(schema).map(componentName => {
+    const manifest = {}
+    const ps = Object.keys(schema).map(componentName => {
         const componentUrl = `${ baseUrl }${ json.Response.jsonWorldComponentContentPaths.en[componentName] }`;
-        fetchManifestComponent(componentName, componentUrl).then(json => {
-            const sectionJson = convertSection(componentName, json, schema[componentName]);
-            saveManifestComponent(componentName, sectionJson);
-        });
+        return fetchManifestComponent(componentName, componentUrl)
+            .then(sectionJson => convertSection(componentName, sectionJson, schema[componentName]))
+            .then(convertedJson => manifest[componentName] = convertedJson);
+    });
+
+    Promise.all(ps).then(() => {
+        saveManifest(manifest);
+        console.log('all done!')
     });
 }
 

@@ -1,8 +1,6 @@
-/* global Config */
+/* global Config, Manifest */
 import { extendObservable, observable, computed, action } from 'mobx';
-import destiny2 from '../destiny2';
 import { Platforms, ExtendedStats } from '../constants';
-import DestinyInventoryItemDefinition from '../manifest/DestinyInventoryItemDefinition.json';
 
 class TeamModel {
     constructor(args) {
@@ -87,8 +85,8 @@ class WeaponModel {
                 referenceId: args.referenceId,
                 kills: args.values.uniqueWeaponKills.basic.value,
                 precisionKills: args.values.uniqueWeaponPrecisionKills.basic.value,
-                name: DestinyInventoryItemDefinition[args.referenceId].name,
-                icon: DestinyInventoryItemDefinition[args.referenceId].icon
+                name: Manifest.DestinyInventoryItemDefinition[args.referenceId].name,
+                icon: Manifest.DestinyInventoryItemDefinition[args.referenceId].icon
             });
         } catch (e) {
             console.log('WeaponModel::constructor exception', e);

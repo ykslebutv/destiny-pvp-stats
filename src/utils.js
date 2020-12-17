@@ -1,8 +1,7 @@
-/* global Config, localStorage */
+/* global Config, Manifest, localStorage */
 import moment from 'moment';
 
 import { Platforms } from './constants';
-import DestinyActivityModeDefinition from './manifest/DestinyActivityModeDefinition.json';
 
 class Utils {
     getRecentPlayers() {
@@ -55,7 +54,7 @@ class Utils {
                     }
                 }
                 if (params[4]) {
-                    res.mode = this.findByField(DestinyActivityModeDefinition, 'friendlyName', params[4]);
+                    res.mode = this.findByField(Manifest.DestinyActivityModeDefinition, 'friendlyName', params[4]);
                 }
             }
         }
