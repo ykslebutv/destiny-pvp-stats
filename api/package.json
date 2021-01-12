@@ -1,0 +1,10 @@
+{
+  "name": "destiny2api",
+  "version": "1.0.0",
+  "main": "destiny2.js",
+  "author": "",
+  "license": "",
+  "description": "",
+  "dependencies": {
+  }
+}

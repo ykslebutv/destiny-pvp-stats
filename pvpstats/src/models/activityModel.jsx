@@ -1,7 +1,7 @@
 /* global Config, Manifest */
 import { extendObservable, computed } from 'mobx';
 import Utils from '../utils';
-import destiny2 from '../destiny2';
+import { destiny2 } from '../../../api/destiny2';
 import { GameModes } from '../constants';
 import PGCRModel from './pgcrModel.jsx';
 

@@ -16,7 +16,7 @@ const fs = require('fs');
 const baseUrl = 'https://www.bungie.net';
 
 const saveManifestComponent = async (name, json) => {
-    const fileName = `./src/manifest/${ name }.json`;
+    const fileName = `./manifest/${ name }.json`;
     console.log(`Writing ${ fileName }`);
 
     const jsonStr = JSON.stringify(json, null, 2);
@@ -29,7 +29,7 @@ const saveManifestComponent = async (name, json) => {
 }
 
 const saveManifest = (json) => {
-    const fileName = './src/manifest.js';
+    const fileName = './manifest.js';
     console.log(`Writing ${ fileName }`);
 
     const header = "(function() {\n    window.Manifest =\n";

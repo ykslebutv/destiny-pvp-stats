@@ -1,6 +1,20 @@
+'use strict';
+
 /* global Config */
-import Promise from 'es6-promise';
-import Http from './http';
+
+function http_request(url) {
+    let headers = {};
+    let fullUrl;
+    if (Config.useProxy) {
+        const encodedUrl = encodeURIComponent(url);
+        fullUrl = `${ Config.proxyUrl }?url=${ encodedUrl }`;
+    } else {
+        headers = { 'x-api-key': Config.apiKey };
+        fullUrl = `${ Config.statsUrl }${ url }`;
+    }
+
+    return fetch(fullUrl, { headers: headers }).then(res => res.json());
+}
 
 class Destiny2 {
     searchPlayer(membershipType, name) {
@@ -9,7 +23,7 @@ class Destiny2 {
             if (Config.debug) {
                 console.log(url);
             }
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     if (res.Response.length === 0) {
                         let errorMessage = 'Guardian not found.';
@@ -30,7 +44,7 @@ class Destiny2 {
             if (Config.debug) {
                 console.log(url);
             }
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     const characterIds = res.Response.profile.data.characterIds;
                     const characters = characterIds.map(characterId => {
@@ -53,7 +67,7 @@ class Destiny2 {
             if (Config.debug) {
                 console.log(url);
             }
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     const responseKey = Object.keys(res.Response)[0];
                     resolve(res.Response[responseKey].allTime);
@@ -71,7 +85,7 @@ class Destiny2 {
             if (Config.debug) {
                 console.log(url);
             }
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response.activities);
                 } else {
@@ -87,7 +101,7 @@ class Destiny2 {
             if (Config.debug) {
                 console.log(url);
             }
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response);
                 } else {
@@ -100,7 +114,7 @@ class Destiny2 {
     getClanInfo(membershipType, membershipId) {
         return new Promise((resolve, reject) => {
             const url = `/platform/GroupV2/User/${ membershipType }/${ membershipId }/All/Clan/`;
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response.results);
                 } else {
@@ -114,7 +128,7 @@ class Destiny2 {
         const itemType = 'DestinyInventoryItemDefinition';
         return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/Manifest/${ itemType }/${ referenceId }/`;
-            Http.request(url).then(res => {
+            http_request(url).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     resolve(res.Response);
                 } else {
@@ -125,4 +139,4 @@ class Destiny2 {
     }
 }
 
-export default new Destiny2();
+module.exports.destiny2 = new Destiny2();

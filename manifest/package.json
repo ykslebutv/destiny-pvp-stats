@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "es6-promise": "^4.0.5",
+    "node-fetch": "^2.6.1"
+  }
+}
