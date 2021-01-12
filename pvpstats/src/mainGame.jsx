@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 
-import destiny2 from './destiny2';
+import { destiny2 } from '../../api/destiny2';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
 import ErrorMessage from './components/errorMessage.jsx';
