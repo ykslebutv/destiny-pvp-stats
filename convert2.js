@@ -143,6 +143,7 @@ const schema = {
   "DestinySandboxPerkDefinition": {
       fields: [
           "displayProperties.name",
+          "displayProperties.description",
           "displayProperties.icon"
       ],
       filter: {
@@ -158,11 +159,14 @@ const schema = {
   "DestinyInventoryItemDefinition": {
       fields: [
           "displayProperties.name",
-          "displayProperties.icon"
+          "displayProperties.icon",
+          "itemType",
+          "itemSubType",
+          "inventory.tierTypeName"
       ],
       filter: {
           field: 'itemType',
-          allowedValues: [2, 3] // just armor and weapons to keep manifest slim
+          allowedValues: [2, 3, 19] // to keep manifest slim: 2-weapons, 3-armor, 19-mods (includes ornaments)
       }
   }
 }
