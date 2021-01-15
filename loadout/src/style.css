@@ -1,0 +1,168 @@
+body {
+    /* padding-left: 20px;
+    padding-right: 20px; */
+    background-color: #ddd;
+    font-size: 10pt;
+}
+
+/* page title */
+h1 {
+    font-size: 24pt;
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+
+label {
+    font-weight: normal;
+}
+
+/* username */
+h2 {
+    padding: 0px;
+    margin: 0px;
+    font-size: 18pt;
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+
+.character-list {
+    border-bottom: 2px solid #999;
+    height: 89px;
+}
+
+.character {
+    background: #eee;
+    padding: 20px 20px 20px 90px;
+    background-size: cover;
+    color: white;
+    display: block;
+    background-size: cover;
+    height: 65px;
+    cursor: pointer;
+}
+
+.character_active {
+    height: 80px;
+}
+
+.character_container {
+    padding: 7px;
+}
+
+.classType {
+	vertical-align: middle;
+	font-size: 14pt;
+}
+
+.light {
+    color: yellow;
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14pt;
+}
+.light:before {
+  content: "◆";
+  font-size: 8pt;
+  margin-right: 2px;
+  vertical-align: text-bottom;
+}
+
+
+.armor_full {
+    width: 220px;
+    display: flex;
+    margin: 3px;
+    padding: 3px;
+    background-color: white;
+}
+
+.armor {
+    width: 55px;
+    margin: 5px;
+    position: relative;
+}
+
+.armor .armor_tooltip {
+    display: none;
+    position: absolute;
+    left: 45px;
+    top: 10px;
+    width: 240px;
+    height: 60px;
+    background-color: white;
+    border: 1px solid #bbb;
+    z-index: 999;
+}
+
+.armor:hover .armor_tooltip {
+    display: block;
+}
+
+.armor_icon {
+  position: relative;
+  width: 55px;
+}
+
+.armor_icon img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.masterwork img {
+    border: 2px solid gold;
+}
+
+.armor_icon .armor_level {
+    position: absolute;
+    margin: 0 auto;
+    left: 15px;
+    top: 38px;
+    color: white;
+    font-size: 9pt;
+}
+
+.armor_info {
+    flex: 1;
+    padding: 3px 5px 0px 10px;
+}
+
+.armor_info .armor_stat {
+    font-size: 9pt;
+}
+
+.armor_info .armor_mod {
+    line-height: 10px;
+    font-size: 7pt;
+    margin: 0
+}
+
+.loadout {
+    border: 1px solid white;
+    padding: 10px;
+    margin: 10px 0px 10px 0px;
+    max-width: 670px;
+}
+
+.loadout .col-armor {
+    width: 60px;
+    padding: 0px;
+}
+
+.loadout .col-stat {
+    width: 100px;
+    padding: 0px;
+}
+
+
+/* boostrap overrides */
+.container {
+    /* padding: 0px;
+    margin: 0px; */
+}
+
+.row {
+    /* margin: 10px 0px 10px 0px; */
+}
+
+.btn-group {
+    vertical-align: top;
+}
