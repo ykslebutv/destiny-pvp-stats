@@ -18,3 +18,6 @@ manifest/node_modules
 manifest/examples
 manifest/yarn.lock
 manifest/manifest.js
+loadout/src/app.js
+loadout/src/app.min.js
+loadout/src/*.js.map
