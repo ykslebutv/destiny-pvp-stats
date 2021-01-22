@@ -3,8 +3,11 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 
+// import { Typography } from 'antd';
+// const { Title } = Typography;
+
 import destiny2 from './destiny2';
-import Character from './models/Character.jsx';
+import { CharacterList } from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 
 
@@ -113,47 +116,43 @@ const Status = {
 
     render() {
         const headerRow = (
-            <div className="row mt-2">
-                <div className="col-sm-6">
+            <div className="flex-container header-container">
+                <div>
                     <h1>D2 Loadout Optimizer</h1>
                 </div>
-                <div className="col-sm-6 pt-2 text-right">
+                <div className="text-right">
                     <h2>{this.userName}</h2>
                 </div>
             </div>
         );
 
-        const characterList = this.status === Status.READY ? (
-            <div className="row">
-            {
-                this.profile.characters.map(character =>
-                    <div className="col character-list">
-                        <Character
-                            key={ character.characterId }
-                            character={ character }
-                            active={this.activeCharacterId === character.characterId}
-                            onClick={this.setActiveCharacter}
-                        />
-                    </div>
-                )
-            }
+        const authorizeRow = this.status === Status.NOT_AUTHORIZED ? (
+            <div>
+                <button type="button" className="btn btn-primary" onClick={this.authorize}>
+                    Authorize with Bungie
+                </button>
             </div>
+        ) : null;
+
+        const characterList = this.status === Status.READY ? (
+            <CharacterList
+                characters={this.profile.characters}
+                activeCharacterId={this.activeCharacterId}
+                onClick={this.setActiveCharacter}
+            />
         ) : null;
 
         const data = this.characterData(this.activeCharacterId);
 
         return (
-            <div className="container">
+            <div>
                 { headerRow }
-                { characterList }
-                { data && <LoadoutOptimizer data={data} />}
-                { this.status === Status.NOT_AUTHORIZED && (
-                    <div className="container">
-                        <button type="button" className="btn btn-primary" onClick={this.authorize}>
-                            Authorize with Bungie
-                        </button>
-                    </div>
-                ) }
+                { authorizeRow }
+                <div className="flex-container">
+                    { characterList }
+                    { data && <LoadoutOptimizer data={data} /> }
+                    <div />
+                </div>
             </div>
         );
     }

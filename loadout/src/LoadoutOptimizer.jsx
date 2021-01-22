@@ -6,6 +6,10 @@ import { observable, action, computed } from 'mobx';
 import Armor from './models/Armor.jsx';
 import Loadout from './models/Loadout.jsx';
 
+import { Radio } from 'antd';
+import { Checkbox } from 'antd';
+import { Tooltip, Button, Divider } from 'antd';
+
 const ItemType = {
     ARMOR: 2
 }
@@ -141,42 +145,34 @@ const SortOrder = {
         //   </div>
         // ));
 
-        const buttonStyle = "btn btn-primary";
-
         const navigationRow = (
-            <div className="container">
-              <div className="row mt-3 mb-2 ">
-                  <div className="col-sm-12 text-right">
-                      <div className="btn-group">
-                          <label className={buttonStyle}>
-                              <input type="checkbox" onChange={this.toggleIncludeMods} /> Include inserted mods (?)
-                          </label>
-                      </div>
-                      <div className="btn-group btn-group-toggle ml-3">
-                          <label className={this.sortby === SortOrder.VALUE ? buttonStyle + " active" : buttonStyle}>
-                              <input type="radio" name="sortby" value={SortOrder.VALUE} onClick={this.changeSortOrder}
-                              /> Sort by value
-                          </label>
-                          <label className={this.sortby === SortOrder.WASTE ? buttonStyle + " active" : buttonStyle}>
-                              <input type="radio" name="sortby" value={SortOrder.WASTE} onClick={this.changeSortOrder}
-                              /> Sort by waste
-                          </label>
-                          <label className={this.sortby === SortOrder.POTENTIAL ? buttonStyle + " active" : buttonStyle}>
-                              <input type="radio" name="sortby" value={SortOrder.POTENTIAL} onClick={this.changeSortOrder}
-                              /> Sort by potential
-                          </label>
-                      </div>
+              <div className="flex-container mb">
+                  <div>
+                      <Checkbox onChange={this.toggleIncludeMods}>
+                          Include inserted mods <Tooltip title="When checked, armor stats and loadout value and potential will be calculated considering currently inserted armor mods." color="blue">(?)</Tooltip>
+                      </Checkbox>
                   </div>
-              </div>
+                  <div>
+                      <Radio.Group
+                        onChange={this.changeSortOrder}
+                        defaultValue={SortOrder.VALUE}
+                        buttonStyle="solid"
+                        size="large"
+                      >
+                          <Radio.Button value={SortOrder.VALUE}>Sort by value</Radio.Button>
+                          <Radio.Button value={SortOrder.WASTE}>Sort by waste</Radio.Button>
+                          <Radio.Button value={SortOrder.POTENTIAL}>Sort by potential</Radio.Button>
+                      </Radio.Group>
+                  </div>
             </div>
         );
 
         return (
-            <div>
+            <div className="loadout-container">
                 {navigationRow}
                 {/* {armorLists} */}
                 {/* { this.props.data ? <pre>{JSON.stringify(this.armorList, null, 2)}</pre> : null } */}
-                <div className="container">
+                <div>
                     {this.sortedLoadouts.slice(0, this.perPage).map(l => l.show())}
                 </div>
                 {this.showRawData && (

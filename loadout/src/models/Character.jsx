@@ -11,16 +11,15 @@ const CharacterTypes = {
 };
 
 const Banner = props => {
-    const { character, active, onClick } = props;
+    const { character, onClick } = props;
     const classType = CharacterTypes[character.classType];
     const divStyle = {
         backgroundImage: `url(${ Config.baseUrl }${ character.emblemBackgroundPath })`
     };
-    const className = active ? "character character_active" : "character";
 
     return (
         <div
-          className={className}
+          className="banner"
           style={ divStyle }
           onClick={() => onClick(character.characterId)}
         >
@@ -30,15 +29,49 @@ const Banner = props => {
     );
 };
 
+const Emblem = props => {
+    const { character, onClick } = props;
+    const divStyle = {
+        backgroundImage: `url(${ Config.baseUrl }${ character.emblemBackgroundPath })`
+    };
+
+    return (
+        <div
+            className="emblem"
+            style={ divStyle }
+            onClick={() => onClick(character.characterId)}
+        />
+    );
+};
+
 @observer class Character extends React.Component {
     render() {
-        const {...rest} = this.props;
+        const { character, active, onClick } = this.props;
+        return active ? (
+            <Banner character={character} onClick={onClick} />
+        ) : (
+            <Emblem character={character} onClick={onClick} />
+        );
+    }
+}
+
+@observer class CharacterList extends React.Component {
+    render() {
         return (
-            <div className="character_container">
-                <Banner {...rest} />
+            <div className="flex-container">
+                {
+                this.props.characters.map(character =>
+                    <Character
+                        key={ character.characterId }
+                        character={ character }
+                        active={this.props.activeCharacterId === character.characterId}
+                        onClick={this.props.onClick}
+                    />
+                )
+                }
             </div>
         );
     }
 }
 
-export default Character;
+export { CharacterList };

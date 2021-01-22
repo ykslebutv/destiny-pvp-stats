@@ -148,28 +148,27 @@ export default class Loadout {
   show() {
     console.log('potentialMap', this.potentialMap)
     return (
-      <div className="row loadout">
-        <div className="col col-armor">{this.helmet.show()}</div>
-        <div className="col col-armor">{this.arms.show()}</div>
-        <div className="col col-armor">{this.chest.show()}</div>
-        <div className="col col-armor">{this.legs.show()}</div>
-        <div className="col col-armor">{this.classitem.show()}</div>
-        <div className="col col-stat">
+      <div className="flex-container loadout">
+        <div className="col-armor">{this.helmet.show()}</div>
+        <div className="col-armor">{this.arms.show()}</div>
+        <div className="col-armor">{this.chest.show()}</div>
+        <div className="col-armor">{this.legs.show()}</div>
+        <div className="col-armor mr">{this.classitem.show()}</div>
+        <div className="col-stat ml">
             Mob: {this.mobility}<br/>
             Res: {this.resilience}<br/>
             Rec: {this.recovery}
         </div>
-        <div className="col col-stat">
+        <div className="col-stat">
             Dis: {this.discipline}<br/>
             Int: {this.intellect}<br/>
             Str: {this.strength}
         </div>
-        <div className="col col-stat">
+        <div className="pr col-stat">
            Value: {this.value}<br/>
            Waste: {this.totalWaste}<br/>
            Potential: {this.potential}
         </div>
-        {/* <div className="col"></div> */}
       </div>
     );
   }
