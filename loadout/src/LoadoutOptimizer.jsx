@@ -9,6 +9,7 @@ import Loadout from './models/Loadout.jsx';
 import { Radio } from 'antd';
 import { Checkbox } from 'antd';
 import { Tooltip, Button, Divider } from 'antd';
+import { Pagination } from 'antd';
 
 const ItemType = {
     ARMOR: 2
@@ -27,7 +28,8 @@ const SortOrder = {
     @observable showRawData = false;
     @observable sortby = SortOrder.VALUE;
 
-    perPage = 20;
+    @observable currentPage = 1;
+    @observable perPage = 20;
 
     @computed get armorList() {
         const data = this.props.data;
@@ -135,6 +137,19 @@ const SortOrder = {
         this.sortby = e.target.value;
     }
 
+    @action.bound onChangePage(currentPage, perPage) {
+        console.log("currentPage", currentPage)
+        console.log("perPage", perPage)
+        this.currentPage = currentPage;
+        this.perPage = perPage;
+    }
+
+    get onePageOfLoauouts() {
+        const start = (this.currentPage-1)*this.perPage;
+        const end = this.currentPage*this.perPage;
+        return this.sortedLoadouts.slice(start, end);
+    }
+
     render() {
         console.log('loadouts', this.loadouts.length)
         console.log('this.sortby', this.sortby)
@@ -173,7 +188,16 @@ const SortOrder = {
                 {/* {armorLists} */}
                 {/* { this.props.data ? <pre>{JSON.stringify(this.armorList, null, 2)}</pre> : null } */}
                 <div>
-                    {this.sortedLoadouts.slice(0, this.perPage).map(l => l.show())}
+                    {this.onePageOfLoauouts.map(l => l.show())}
+                </div>
+                <div className="right mt">
+                    <Pagination
+                        defaultCurrent={1}
+                        defaultPageSize={this.perPage}
+                        current={this.currentPage}
+                        total={this.loadouts.length}
+                        onChange={this.onChangePage}
+                    />
                 </div>
                 {this.showRawData && (
                     <div>

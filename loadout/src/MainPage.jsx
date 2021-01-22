@@ -10,6 +10,7 @@ import destiny2 from './destiny2';
 import { CharacterList } from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 
+import { Divider } from 'antd';
 
 const Status = {
     NOT_AUTHORIZED: null,
@@ -120,7 +121,7 @@ const Status = {
                 <div>
                     <h1>D2 Loadout Optimizer</h1>
                 </div>
-                <div className="text-right">
+                <div className="right">
                     <h2>{this.userName}</h2>
                 </div>
             </div>
@@ -142,6 +143,10 @@ const Status = {
             />
         ) : null;
 
+        const footerRow = (
+            <Divider />
+        )
+
         const data = this.characterData(this.activeCharacterId);
 
         return (
@@ -153,6 +158,7 @@ const Status = {
                     { data && <LoadoutOptimizer data={data} /> }
                     <div />
                 </div>
+                { footerRow }
             </div>
         );
     }

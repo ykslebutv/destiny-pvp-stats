@@ -30,7 +30,11 @@ h2 {
 .header-container {
     margin-bottom: 20px;
     padding-bottom: 5px;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #bbb;
+}
+
+.footer-container {
+    
 }
 
 /* character list */
@@ -174,7 +178,7 @@ label {
     vertical-align: top;
 }
 
-.text-right {
+.right {
     text-align: right;
 }
 

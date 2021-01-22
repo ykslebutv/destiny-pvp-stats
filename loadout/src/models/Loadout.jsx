@@ -146,7 +146,7 @@ export default class Loadout {
   }
 
   show() {
-    console.log('potentialMap', this.potentialMap)
+    //console.log('potentialMap', this.potentialMap)
     return (
       <div className="flex-container loadout">
         <div className="col-armor">{this.helmet.show()}</div>
