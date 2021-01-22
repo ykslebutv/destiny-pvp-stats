@@ -1,6 +1,5 @@
 /* global Config */
 import React from 'react';
-import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 

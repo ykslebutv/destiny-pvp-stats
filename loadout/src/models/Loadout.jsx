@@ -1,5 +1,6 @@
 import { computed } from 'mobx';
 import React from 'react';
+import MediaQuery from 'react-responsive';
 
 export default class Loadout {
   constructor(args) {
@@ -147,29 +148,50 @@ export default class Loadout {
 
   show() {
     //console.log('potentialMap', this.potentialMap)
-    return (
-      <div className="flex-container loadout">
-        <div className="col-armor">{this.helmet.show()}</div>
-        <div className="col-armor">{this.arms.show()}</div>
-        <div className="col-armor">{this.chest.show()}</div>
-        <div className="col-armor">{this.legs.show()}</div>
-        <div className="col-armor mr">{this.classitem.show()}</div>
-        <div className="col-stat ml">
+
+    const armorRow = [
+        <div className="col-armor">{this.helmet.show()}</div>,
+        <div className="col-armor">{this.arms.show()}</div>,
+        <div className="col-armor">{this.chest.show()}</div>,
+        <div className="col-armor">{this.legs.show()}</div>,
+        <div className="col-armor">{this.classitem.show()}</div>
+    ];
+
+    const statRow = [
+        <div className="col-stat">
             Mob: {this.mobility}<br/>
             Res: {this.resilience}<br/>
             Rec: {this.recovery}
-        </div>
+        </div>,
         <div className="col-stat">
             Dis: {this.discipline}<br/>
             Int: {this.intellect}<br/>
             Str: {this.strength}
-        </div>
-        <div className="pr col-stat">
+        </div>,
+        <div className="col-stat">
            Value: {this.value}<br/>
            Waste: {this.totalWaste}<br/>
            Potential: {this.potential}
         </div>
-      </div>
-    );
+    ];
+
+    return [
+      <MediaQuery query="(max-width: 670px)">
+        <div className="loadout">
+          <div className="flex-container">
+            { armorRow }
+          </div>
+          <div className="flex-container mt">
+            { statRow }
+          </div>
+        </div>
+      </MediaQuery>,
+      <MediaQuery query="(min-width: 671px)">
+        <div className="flex-container loadout">
+          { armorRow }
+          { statRow }
+        </div>
+      </MediaQuery>
+    ];
   }
 }

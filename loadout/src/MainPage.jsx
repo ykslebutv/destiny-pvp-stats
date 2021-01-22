@@ -1,10 +1,8 @@
 /* global Workdata, Config */
 import React from 'react';
+import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
-
-// import { Typography } from 'antd';
-// const { Title } = Typography;
 
 import destiny2 from './destiny2';
 import { CharacterList } from './models/Character.jsx';
@@ -136,28 +134,65 @@ const Status = {
         ) : null;
 
         const characterList = this.status === Status.READY ? (
-            <CharacterList
-                characters={this.profile.characters}
-                activeCharacterId={this.activeCharacterId}
-                onClick={this.setActiveCharacter}
-            />
+            <div>
+                <Divider plain>
+                    Select character
+                </Divider>
+                <CharacterList
+                    characters={this.profile.characters}
+                    activeCharacterId={this.activeCharacterId}
+                    onClick={this.setActiveCharacter}
+                />
+            </div>
+        ) : null;
+
+        const filterComp = this.activeCharacterId ? (
+            <div>
+                <Divider plain>
+                    Pin armor items
+                </Divider>
+                lorem shmorem
+            </div>
+        ) : null;
+
+        const data = this.characterData(this.activeCharacterId);
+        const loadoutComp = data ? (
+            <div>
+                <Divider plain>Loadouts</Divider>
+                <LoadoutOptimizer data={data} />
+            </div>
         ) : null;
 
         const footerRow = (
-            <Divider />
+            <Divider plain>
+                &copy; <a href="https://destinypvpstats.com">destinypvpstats.com</a>
+            </Divider>
         )
-
-        const data = this.characterData(this.activeCharacterId);
 
         return (
             <div>
                 { headerRow }
                 { authorizeRow }
-                <div className="flex-container">
+
+                <MediaQuery query="(max-width: 999px)">
                     { characterList }
-                    { data && <LoadoutOptimizer data={data} /> }
-                    <div />
-                </div>
+                    { filterComp }
+                    { loadoutComp }
+                </MediaQuery>
+
+                <MediaQuery query="(min-width: 1000px)">
+                    <div className="flex-container">
+                        <div>
+                            { characterList }
+                            { filterComp }
+                        </div>
+                        <div>
+                            { loadoutComp }
+                        </div>
+                        <div />
+                    </div>
+                </MediaQuery>
+
                 { footerRow }
             </div>
         );
