@@ -3,17 +3,12 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 
-import Armor from './models/Armor.jsx';
 import Loadout from './models/Loadout.jsx';
 
 import { Radio } from 'antd';
 import { Checkbox } from 'antd';
 import { Tooltip, Button, Divider } from 'antd';
 import { Pagination } from 'antd';
-
-const ItemType = {
-    ARMOR: 2
-}
 
 const SortOrder = {
     NONE: 'none',
@@ -31,64 +26,15 @@ const SortOrder = {
     @observable currentPage = 1;
     @observable perPage = 20;
 
-    @computed get armorList() {
-        const data = this.props.data;
-        if (!data) {
-            return [];
-        }
-
-        const list = [];
-
-        const addArmor = (item) => {
-            const instance = data.itemComponents.instances.data[item.itemInstanceId];
-            const statItem = data.itemComponents.stats.data[item.itemInstanceId] ? data.itemComponents.stats.data[item.itemInstanceId].stats : null;
-            const perkItem = data.itemComponents.perks.data[item.itemInstanceId] ? data.itemComponents.perks.data[item.itemInstanceId].perks : null;
-            const manifestItem = Manifest.DestinyInventoryItemDefinition[item.itemHash];
-            
-            const isArmor = manifestItem && manifestItem.itemType === ItemType.ARMOR;
-
-            if (instance && isArmor) {
-
-                const armor = new Armor();
-                armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
-                list.push(armor);
-            }
-        }
-
-        data.equipment.data.items.forEach(item => addArmor(item));
-        data.inventory.data.items.forEach(item => addArmor(item));
-        
-        return list;
-    }
-
-    @computed get helmets() {
-      return this.armorList.filter(item => item.isHelmet);
-    }
-
-    @computed get arms() {
-      return this.armorList.filter(item => item.isArms);
-    }
-
-    @computed get chests() {
-      return this.armorList.filter(item => item.isChest);
-    }
-
-    @computed get legs() {
-      return this.armorList.filter(item => item.isLegs);
-    }
-
-    @computed get classitems() {
-      return this.armorList.filter(item => item.isClassitem);
-    }
-
     @computed get loadouts() {
         console.log('building loadouts')
+        const model = this.props.model;
         const list = [];
-        this.helmets.forEach(helmet => {
-            this.arms.forEach(arm=> {
-                this.chests.forEach(chest => {
-                    this.legs.forEach(leg => {
-                        this.classitems.forEach(classitem => {
+        model.helmets.forEach(helmet => {
+            model.arms.forEach(arm => {
+                model.chests.forEach(chest => {
+                    model.legs.forEach(leg => {
+                        model.classitems.forEach(classitem => {
                             const args = {
                                 helmet: helmet,
                                 arms: arm,
@@ -129,6 +75,14 @@ const SortOrder = {
         });        
     }
 
+    @computed get filteredLoadouts() {
+        const filterItems = this.props.model.armorFilter;
+        if (!filterItems.length) {
+            return this.sortedLoadouts;
+        }
+        return this.sortedLoadouts.filter(loadout => loadout.passesFilter(filterItems));
+    }
+
     @action.bound toggleIncludeMods() {
         this.includeMods = !this.includeMods;
     }
@@ -138,27 +92,19 @@ const SortOrder = {
     }
 
     @action.bound onChangePage(currentPage, perPage) {
-        console.log("currentPage", currentPage)
-        console.log("perPage", perPage)
         this.currentPage = currentPage;
         this.perPage = perPage;
     }
 
-    get onePageOfLoauouts() {
+    get onePageOfLoadouts() {
         const start = (this.currentPage-1)*this.perPage;
         const end = this.currentPage*this.perPage;
-        return this.sortedLoadouts.slice(start, end);
+        return this.filteredLoadouts.slice(start, end);
     }
 
     render() {
         console.log('loadouts', this.loadouts.length)
         console.log('this.sortby', this.sortby)
-
-        // const armorLists = [this.helmets, this.arms, this.chests, this.legs, this.classitems].map(list => (
-        //   <div>
-        //     {list.map(item => item.show())}
-        //   </div>
-        // ));
 
         const navigationRow = (
               <div className="flex-container mb">
@@ -185,10 +131,8 @@ const SortOrder = {
         return (
             <div className="loadout-container">
                 {navigationRow}
-                {/* {armorLists} */}
-                {/* { this.props.data ? <pre>{JSON.stringify(this.armorList, null, 2)}</pre> : null } */}
                 <div>
-                    {this.onePageOfLoauouts.map(l => l.show())}
+                    {this.onePageOfLoadouts.map(l => l.show())}
                 </div>
                 <div className="right mt">
                     <Pagination

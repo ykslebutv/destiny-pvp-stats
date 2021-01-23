@@ -5,8 +5,10 @@ import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 
 import destiny2 from './destiny2';
+import Armor from './models/Armor.jsx';
 import { CharacterList } from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
+import Filter from './Filter.jsx';
 
 import { Divider } from 'antd';
 
@@ -15,6 +17,10 @@ const Status = {
     AUTHORIZING: "authorizing",
     LOADING: "loading",
     READY: "ready"
+}
+
+const ItemType = {
+    ARMOR: 2
 }
 
 @observer export default class MainPage extends React.Component {
@@ -52,6 +58,7 @@ const Status = {
     @observable user = Workdata.user;
     @observable profile = Workdata.profile;
     @observable characters = Workdata.characters;
+    @observable model;
     // @observable user;
     // @observable profile;
     // @observable characters;
@@ -105,8 +112,9 @@ const Status = {
         this.accessToken = null;
     }
 
-    @action.bound setActiveCharacter(characterId) {
+    @action.bound changeCharacter(characterId) {
         this.activeCharacterId = characterId;
+        this.model = new CharacterDataModel({data: this.characterData(this.activeCharacterId)});
     }
 
     characterData(characterId) {
@@ -141,7 +149,7 @@ const Status = {
                 <CharacterList
                     characters={this.profile.characters}
                     activeCharacterId={this.activeCharacterId}
-                    onClick={this.setActiveCharacter}
+                    onClick={this.changeCharacter}
                 />
             </div>
         ) : null;
@@ -151,15 +159,14 @@ const Status = {
                 <Divider plain>
                     Pin armor items
                 </Divider>
-                lorem shmorem
+                <Filter model={this.model} />
             </div>
         ) : null;
 
-        const data = this.characterData(this.activeCharacterId);
-        const loadoutComp = data ? (
+        const loadoutComp = this.model ? (
             <div>
                 <Divider plain>Loadouts</Divider>
-                <LoadoutOptimizer data={data} />
+                <LoadoutOptimizer model={this.model} />
             </div>
         ) : null;
 
@@ -173,6 +180,8 @@ const Status = {
             <div>
                 { headerRow }
                 { authorizeRow }
+
+                {/* { data ? <pre>{JSON.stringify(this.armorList, null, 2)}</pre> : null } */}
 
                 <MediaQuery query="(max-width: 999px)">
                     { characterList }
@@ -197,4 +206,79 @@ const Status = {
             </div>
         );
     }
+}
+
+
+class CharacterDataModel {
+
+    @observable armorFilter = [];
+
+    constructor(args) {
+        Object.assign(this, args);
+        console.log('CharacterDataModel', this)
+    }
+
+    @computed get armorList() {
+        const data = this.data;
+        if (!data) {
+            return [];
+        }
+
+        const list = [];
+
+        const addArmor = (item) => {
+            const instance = data.itemComponents.instances.data[item.itemInstanceId];
+            const statItem = data.itemComponents.stats.data[item.itemInstanceId] ? data.itemComponents.stats.data[item.itemInstanceId].stats : null;
+            const perkItem = data.itemComponents.perks.data[item.itemInstanceId] ? data.itemComponents.perks.data[item.itemInstanceId].perks : null;
+            const manifestItem = Manifest.DestinyInventoryItemDefinition[item.itemHash];
+
+            const isArmor = manifestItem && manifestItem.itemType === ItemType.ARMOR;
+
+            if (instance && isArmor) {
+
+                const armor = new Armor();
+                armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
+                list.push(armor);
+            }
+        }
+
+        data.equipment.data.items.forEach(item => addArmor(item));
+        data.inventory.data.items.forEach(item => addArmor(item));
+
+        return list;
+    }
+
+    @computed get helmets() {
+        return this.armorList.filter(item => item.isHelmet);
+      }
+
+      @computed get arms() {
+        return this.armorList.filter(item => item.isArms);
+      }
+
+      @computed get chests() {
+        return this.armorList.filter(item => item.isChest);
+      }
+
+      @computed get legs() {
+        return this.armorList.filter(item => item.isLegs);
+      }
+
+      @computed get classitems() {
+        return this.armorList.filter(item => item.isClassitem);
+      }
+
+      @action addToArmorFilter(value) {
+          if (!this.armorFilter.find(item => item.id === value )) {
+            this.armorFilter.push(value);
+          }
+      }
+
+      @action removeFromArmorFilter(value) {
+          this.armorFilter = this.armorFilter.filter(id => id !== value);
+      }
+
+      @computed get pinnedItems() {
+          return this.armorList.filter(item => this.armorFilter.find(id => id === item.id));
+      }
 }

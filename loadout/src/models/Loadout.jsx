@@ -89,6 +89,10 @@ export default class Loadout {
     return exotics < 2;
   }
 
+  passesFilter(filterItems) {
+    return filterItems.find(id => this.items.find(item => item.id === id));
+  }
+
   // how valueable this loadout is as a sum of all normalized stats
   // for example, if total stats are 55/62/100/20/84/33,
   // then value is: 5+6+10+2+8+3=21+13=34

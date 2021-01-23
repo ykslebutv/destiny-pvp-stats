@@ -7,7 +7,7 @@ const ArmorType = {
     Chest: 28,
     Legs: 29,
     Classitem: 30
-}
+};
 
 const sep = "+";
 
@@ -16,6 +16,7 @@ export default class Armor {
     }
 
     initFromData(item, instance, manifestItem, statItem, perkItem, includeMods) {
+        this.id = item.itemInstanceId;
         this.itemHash = item.itemHash;
         this.overrideStyleItemHash = item.overrideStyleItemHash;
         this.itemInstanceId = item.itemInstanceId;
@@ -62,6 +63,8 @@ export default class Armor {
 
         this.isExotic = this.tierTypeName === "Exotic";
         this.isMasterworked = this.energyCapacity === 10;
+
+        this.displayName = this.name + ' lvl.' + this.powerLevel + ' val.' + this.total;
     }
 
     @computed get total() {
