@@ -1,4 +1,4 @@
-/* global Workdata, Config */
+/* global Workdata, Config, Manifest */
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
@@ -6,7 +6,7 @@ import { observable, action, computed } from 'mobx';
 
 import destiny2 from './destiny2';
 import Armor from './models/Armor.jsx';
-import { CharacterList } from './models/Character.jsx';
+import CharacterList from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 import Filter from './Filter.jsx';
 
@@ -14,14 +14,14 @@ import { Divider } from 'antd';
 
 const Status = {
     NOT_AUTHORIZED: null,
-    AUTHORIZING: "authorizing",
-    LOADING: "loading",
-    READY: "ready"
-}
+    AUTHORIZING: 'authorizing',
+    LOADING: 'loading',
+    READY: 'ready'
+};
 
 const ItemType = {
     ARMOR: 2
-}
+};
 
 @observer export default class MainPage extends React.Component {
 
@@ -48,9 +48,9 @@ const ItemType = {
     }
 
     @action.bound authorize() {
-        const url = "https://www.bungie.net/en/OAuth/Authorize?client_id=34984&response_type=code";
-        window.open(url, "Authorize with Bungie"); //, "width=600, height=800");
-        window.addEventListener('storage', function(e) {
+        const url = 'https://www.bungie.net/en/OAuth/Authorize?client_id=34984&response_type=code';
+        window.open(url, 'Authorize with Bungie'); // , "width=600, height=800");
+        window.addEventListener('storage', function (e) {
             this.accessToken = localStorage.getItem('accessToken');
         });
     }
@@ -77,14 +77,14 @@ const ItemType = {
     }
 
     getCurrentUser() {
-        destiny2.getCurrentUser(this.accessToken).then(res => {
-            this.receiveUser(res);
-            destiny2.getProfile(this.membershipType, this.membershipId).then(res => {
-                this.receiveProfile(res);
+        destiny2.getCurrentUser(this.accessToken).then(resUser => {
+            this.receiveUser(resUser);
+            destiny2.getProfile(this.membershipType, this.membershipId).then(resProfile => {
+                this.receiveProfile(resProfile);
 
                 this.profile.characters.forEach(character => {
-                    destiny2.getCharacter(this.membershipType, this.membershipId, character.characterId, this.accessToken).then(res => {
-                        this.receiveCharacter(res);
+                    destiny2.getCharacter(this.membershipType, this.membershipId, character.characterId, this.accessToken).then(resChar => {
+                        this.receiveCharacter(resChar);
                     });
                 });
             });
@@ -96,11 +96,11 @@ const ItemType = {
     }
 
     @action receiveUser(data) {
-        this.user = data;   
+        this.user = data;
     }
 
     @action receiveProfile(data) {
-        this.profile = data;   
+        this.profile = data;
     }
 
     @action receiveCharacter(data) {
@@ -108,13 +108,13 @@ const ItemType = {
     }
 
     @action.bound handleFailure() {
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem('accessToken');
         this.accessToken = null;
     }
 
     @action.bound changeCharacter(characterId) {
         this.activeCharacterId = characterId;
-        this.model = new CharacterDataModel({data: this.characterData(this.activeCharacterId)});
+        this.model = new CharacterDataModel({ data: this.characterData(this.activeCharacterId) });
     }
 
     characterData(characterId) {
@@ -135,7 +135,7 @@ const ItemType = {
 
         const authorizeRow = this.status === Status.NOT_AUTHORIZED ? (
             <div>
-                <button type="button" className="btn btn-primary" onClick={this.authorize}>
+                <button type="button" className="btn btn-primary" onClick={ this.authorize }>
                     Authorize with Bungie
                 </button>
             </div>
@@ -147,9 +147,9 @@ const ItemType = {
                     Select character
                 </Divider>
                 <CharacterList
-                    characters={this.profile.characters}
-                    activeCharacterId={this.activeCharacterId}
-                    onClick={this.changeCharacter}
+                    characters={ this.profile.characters }
+                    activeCharacterId={ this.activeCharacterId }
+                    onClick={ this.changeCharacter }
                 />
             </div>
         ) : null;
@@ -159,14 +159,14 @@ const ItemType = {
                 <Divider plain>
                     Pin armor items
                 </Divider>
-                <Filter model={this.model} />
+                <Filter model={ this.model } />
             </div>
         ) : null;
 
         const loadoutComp = this.model ? (
             <div>
                 <Divider plain>Loadouts</Divider>
-                <LoadoutOptimizer model={this.model} />
+                <LoadoutOptimizer model={ this.model } />
             </div>
         ) : null;
 
@@ -174,7 +174,7 @@ const ItemType = {
             <Divider plain>
                 &copy; <a href="https://destinypvpstats.com">destinypvpstats.com</a>
             </Divider>
-        )
+        );
 
         return (
             <div>
@@ -225,7 +225,7 @@ class CharacterDataModel {
 
         const list = [];
 
-        const addArmor = (item) => {
+        const addArmor = item => {
             const instance = data.itemComponents.instances.data[item.itemInstanceId];
             const statItem = data.itemComponents.stats.data[item.itemInstanceId] ? data.itemComponents.stats.data[item.itemInstanceId].stats : null;
             const perkItem = data.itemComponents.perks.data[item.itemInstanceId] ? data.itemComponents.perks.data[item.itemInstanceId].perks : null;
@@ -239,7 +239,7 @@ class CharacterDataModel {
                 armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
                 list.push(armor);
             }
-        }
+        };
 
         data.equipment.data.items.forEach(item => addArmor(item));
         data.inventory.data.items.forEach(item => addArmor(item));
@@ -249,27 +249,27 @@ class CharacterDataModel {
 
     @computed get helmets() {
         return this.armorList.filter(item => item.isHelmet);
-      }
+    }
 
       @computed get arms() {
-        return this.armorList.filter(item => item.isArms);
+          return this.armorList.filter(item => item.isArms);
       }
 
       @computed get chests() {
-        return this.armorList.filter(item => item.isChest);
+          return this.armorList.filter(item => item.isChest);
       }
 
       @computed get legs() {
-        return this.armorList.filter(item => item.isLegs);
+          return this.armorList.filter(item => item.isLegs);
       }
 
       @computed get classitems() {
-        return this.armorList.filter(item => item.isClassitem);
+          return this.armorList.filter(item => item.isClassitem);
       }
 
       @action addToArmorFilter(value) {
-          if (!this.armorFilter.find(item => item.id === value )) {
-            this.armorFilter.push(value);
+          if (!this.armorFilter.find(item => item.id === value)) {
+              this.armorFilter.push(value);
           }
       }
 

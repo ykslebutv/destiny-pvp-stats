@@ -1,12 +1,11 @@
 /* global Config */
 import React from 'react';
 import { observer } from 'mobx-react';
-import { observable, action } from 'mobx';
 
 const CharacterTypes = {
-  0: 'Titan',
-  1: 'Hunter',
-  2: 'Warlock'
+    0: 'Titan',
+    1: 'Hunter',
+    2: 'Warlock'
 };
 
 const Banner = props => {
@@ -18,9 +17,9 @@ const Banner = props => {
 
     return (
         <div
-          className="banner"
-          style={ divStyle }
-          onClick={() => onClick(character.characterId)}
+            className="banner"
+            style={ divStyle }
+            onClick={ () => onClick(character.characterId) }
         >
             <span className="classType">{ classType }</span>
             <span className="level light">{ character.light }</span>
@@ -38,7 +37,7 @@ const Emblem = props => {
         <div
             className="emblem"
             style={ divStyle }
-            onClick={() => onClick(character.characterId)}
+            onClick={ () => onClick(character.characterId) }
         />
     );
 };
@@ -47,9 +46,9 @@ const Emblem = props => {
     render() {
         const { character, active, onClick } = this.props;
         return active ? (
-            <Banner character={character} onClick={onClick} />
+            <Banner character={ character } onClick={ onClick } />
         ) : (
-            <Emblem character={character} onClick={onClick} />
+            <Emblem character={ character } onClick={ onClick } />
         );
     }
 }
@@ -60,12 +59,12 @@ const Emblem = props => {
             <div className="flex-container">
                 {
                 this.props.characters.map(character =>
-                    <Character
+                    (<Character
                         key={ character.characterId }
                         character={ character }
-                        active={this.props.activeCharacterId === character.characterId}
-                        onClick={this.props.onClick}
-                    />
+                        active={ this.props.activeCharacterId === character.characterId }
+                        onClick={ this.props.onClick }
+                    />)
                 )
                 }
             </div>
@@ -73,4 +72,4 @@ const Emblem = props => {
     }
 }
 
-export { CharacterList };
+export default CharacterList;

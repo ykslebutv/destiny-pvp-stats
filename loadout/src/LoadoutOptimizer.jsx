@@ -3,24 +3,19 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 
+import { Checkbox, Radio, Tooltip, Pagination } from 'antd';
 import Loadout from './models/Loadout.jsx';
-
-import { Radio } from 'antd';
-import { Checkbox } from 'antd';
-import { Tooltip, Button, Divider } from 'antd';
-import { Pagination } from 'antd';
 
 const SortOrder = {
     NONE: 'none',
     VALUE: 'value',
     WASTE: 'totalWaste',
     POTENTIAL: 'potential'
-}
+};
 
 @observer export default class LoadoutOptimizer extends React.Component {
 
     @observable includeMods = false;
-    @observable showRawData = false;
     @observable sortby = SortOrder.VALUE;
 
     @observable currentPage = 1;
@@ -39,16 +34,16 @@ const SortOrder = {
                                 arms: arm,
                                 chest: chest,
                                 legs: leg,
-                                classitem: classitem,
+                                classitem: classitem
                             };
                             const loadout = new Loadout(args);
                             if (loadout.isValid) {
                                 list.push(loadout);
                             }
-                        })
-                    })
-                })
-            })
+                        });
+                    });
+                });
+            });
         });
         return list;
     }
@@ -71,7 +66,7 @@ const SortOrder = {
                 return r;
             }
             return 0;
-        });        
+        });
     }
 
     @computed get filteredLoadouts() {
@@ -96,31 +91,31 @@ const SortOrder = {
     }
 
     get onePageOfLoadouts() {
-        const start = (this.currentPage-1)*this.perPage;
-        const end = this.currentPage*this.perPage;
+        const start = (this.currentPage - 1) * this.perPage;
+        const end = this.currentPage * this.perPage;
         return this.filteredLoadouts.slice(start, end);
     }
 
     render() {
         const navigationRow = (
-              <div className="flex-container mb">
-                  <div>
-                      <Checkbox onChange={this.toggleIncludeMods}>
+            <div className="flex-container mb">
+                <div>
+                    <Checkbox onChange={ this.toggleIncludeMods }>
                           Include inserted mods <Tooltip title="When checked, armor stats and loadout value and potential will be calculated considering currently inserted armor mods." color="blue">(?)</Tooltip>
-                      </Checkbox>
-                  </div>
-                  <div>
-                      <Radio.Group
-                        onChange={this.changeSortOrder}
-                        defaultValue={SortOrder.VALUE}
+                    </Checkbox>
+                </div>
+                <div>
+                    <Radio.Group
+                        onChange={ this.changeSortOrder }
+                        defaultValue={ SortOrder.VALUE }
                         buttonStyle="solid"
                         size="large"
-                      >
-                          <Radio.Button value={SortOrder.VALUE}>Sort by value</Radio.Button>
-                          <Radio.Button value={SortOrder.WASTE}>Sort by waste</Radio.Button>
-                          <Radio.Button value={SortOrder.POTENTIAL}>Sort by potential</Radio.Button>
-                      </Radio.Group>
-                  </div>
+                    >
+                        <Radio.Button value={ SortOrder.VALUE }>Sort by value</Radio.Button>
+                        <Radio.Button value={ SortOrder.WASTE }>Sort by waste</Radio.Button>
+                        <Radio.Button value={ SortOrder.POTENTIAL }>Sort by potential</Radio.Button>
+                    </Radio.Group>
+                </div>
             </div>
         );
 
@@ -132,28 +127,13 @@ const SortOrder = {
                 </div>
                 <div className="right mt">
                     <Pagination
-                        defaultCurrent={1}
-                        defaultPageSize={this.perPage}
-                        current={this.currentPage}
-                        total={this.loadouts.length}
-                        onChange={this.onChangePage}
+                        defaultCurrent={ 1 }
+                        defaultPageSize={ this.perPage }
+                        current={ this.currentPage }
+                        total={ this.loadouts.length }
+                        onChange={ this.onChangePage }
                     />
                 </div>
-                {this.showRawData && (
-                    <div>
-                        <pre>
-                            {JSON.stringify(this.user, null, 2)}
-                        </pre>
-                        <br/>
-                        Destiny Profile
-                        <pre>
-                            {JSON.stringify(this.profile, null, 2)}
-                        </pre>
-                        <pre>
-                            {JSON.stringify(data, null, 2)}
-                        </pre>
-                    </div>
-                )}
             </div>
         );
     }

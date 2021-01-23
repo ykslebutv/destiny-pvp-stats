@@ -1,5 +1,6 @@
+/* global Manifest, Config */
 import React from 'react';
-import { observable, action, computed } from 'mobx';
+import { computed } from 'mobx';
 
 const ArmorType = {
     Helmet: 26,
@@ -9,11 +10,9 @@ const ArmorType = {
     Classitem: 30
 };
 
-const sep = "+";
+const sep = '+';
 
 export default class Armor {
-    constructor() {
-    }
 
     initFromData(item, instance, manifestItem, statItem, perkItem, includeMods) {
         this.id = item.itemInstanceId;
@@ -26,7 +25,7 @@ export default class Armor {
             const overrideManifestItem = Manifest.DestinyInventoryItemDefinition[this.overrideStyleItemHash];
             this.icon = overrideManifestItem.icon;
         }
-        
+
         this.itemLevel = instance.itemLevel;
         this.powerLevel = instance.primaryStat.value;
         this.energyCapacity = instance.energy ? instance.energy.energyCapacity : 0;
@@ -55,16 +54,16 @@ export default class Armor {
         if (!includeMods) {
             this.statMods.forEach(m => {
                 const c = m.description.split(' ');
-                const val = parseInt(c[0]);
+                const val = parseInt(c[0], 10);
                 const stat = c[1].toLowerCase();
                 this[stat] = this[stat] - val;
-            })
+            });
         }
 
-        this.isExotic = this.tierTypeName === "Exotic";
+        this.isExotic = this.tierTypeName === 'Exotic';
         this.isMasterworked = this.energyCapacity === 10;
 
-        this.displayName = this.name + ' lvl.' + this.powerLevel + ' val.' + this.total;
+        this.displayName = `${ this.name } lvl.${ this.powerLevel } val.${ this.total }`;
     }
 
     @computed get total() {
@@ -72,7 +71,7 @@ export default class Armor {
     }
 
     @computed get statMods() {
-        return this.perks.filter(p => p.name === "Stat Increase" || p.name === "Stat Penalty");
+        return this.perks.filter(p => p.name === 'Stat Increase' || p.name === 'Stat Penalty');
     }
 
     get iconUrl() {
@@ -100,10 +99,11 @@ export default class Armor {
     }
 
     showArmorDetails() {
+        let modkey = 0;
         return (
             <div className="armor_info">
                 {this.name}
-                <br/>
+                <br />
                 <span className="armor_stat">
                     {this.mobility}{sep}
                     {this.resilience}{sep}
@@ -113,10 +113,10 @@ export default class Armor {
                     {this.strength}
                     ={this.total}
                 </span>
-                <br/>
+                <br />
                 {this.statMods.length > 0 ? (
                     <p className="armor_mod">
-                        {this.statMods.map(m => <span>{m.description.slice(0, -1)}</span>)}
+                        {this.statMods.map(m => <span key={ modkey++ }>{m.description.slice(0, -1)}</span>)}
                     </p>
                 ) : null}
             </div>
@@ -124,16 +124,17 @@ export default class Armor {
     }
 
     showFull() {
-        const iconStyle = this.isMasterworked ? "armor_icon masterwork" : "armor_icon";
+        const iconStyle = this.isMasterworked ? 'armor_icon masterwork' : 'armor_icon';
+        let modkey = 0;
         return (
             <div className="armor_full">
-                <div className={iconStyle}>
-                    <img src={this.iconUrl} />
+                <div className={ iconStyle }>
+                    <img src={ this.iconUrl } />
                     <div className="armor_level">◆{this.powerLevel}</div>
                 </div>
                 <div className="armor_info">
                     {this.name}
-                    <br/>
+                    <br />
                     <span className="armor_stat">
                         {this.mobility}{sep}
                         {this.resilience}{sep}
@@ -143,10 +144,10 @@ export default class Armor {
                         {this.strength}
                         ={this.total}
                     </span>
-                    <br/>
+                    <br />
                     {this.statMods.length > 0 ? (
                         <p className="armor_mod">
-                            {this.statMods.map(m => <span>{m.description.slice(0, -1)}</span>)}
+                            {this.statMods.map(m => <span key={ modkey }>{m.description.slice(0, -1)}</span>)}
                         </p>
                     ) : null}
                 </div>
@@ -155,11 +156,11 @@ export default class Armor {
     }
 
     show() {
-        const iconStyle = this.isMasterworked ? "armor_icon masterwork" : "armor_icon";
+        const iconStyle = this.isMasterworked ? 'armor_icon masterwork' : 'armor_icon';
         return (
             <div className="armor">
-                <div className={iconStyle}>
-                    <img src={this.iconUrl} />
+                <div className={ iconStyle }>
+                    <img src={ this.iconUrl } />
                     <div className="armor_level">◆{this.powerLevel}</div>
                 </div>
                 <div className="armor_tooltip">
