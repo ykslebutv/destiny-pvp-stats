@@ -27,7 +27,6 @@ const SortOrder = {
     @observable perPage = 20;
 
     @computed get loadouts() {
-        console.log('building loadouts')
         const model = this.props.model;
         const list = [];
         model.helmets.forEach(helmet => {
@@ -103,9 +102,6 @@ const SortOrder = {
     }
 
     render() {
-        console.log('loadouts', this.loadouts.length)
-        console.log('this.sortby', this.sortby)
-
         const navigationRow = (
               <div className="flex-container mb">
                   <div>

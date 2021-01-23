@@ -215,7 +215,6 @@ class CharacterDataModel {
 
     constructor(args) {
         Object.assign(this, args);
-        console.log('CharacterDataModel', this)
     }
 
     @computed get armorList() {

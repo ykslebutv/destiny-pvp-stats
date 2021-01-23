@@ -151,8 +151,6 @@ export default class Loadout {
   }
 
   show() {
-    //console.log('potentialMap', this.potentialMap)
-
     const armorRow = [
         <div className="col-armor">{this.helmet.show()}</div>,
         <div className="col-armor">{this.arms.show()}</div>,

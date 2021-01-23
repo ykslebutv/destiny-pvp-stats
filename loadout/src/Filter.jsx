@@ -18,7 +18,6 @@ import { Select, Button } from 'antd';
     }
 
     @action.bound onSelect(value) {
-      console.log(value)
       this.props.model.addToArmorFilter(value);
     }
 
@@ -35,8 +34,6 @@ import { Select, Button } from 'antd';
           this.bulidOptions("Legs", model.legs),
           this.bulidOptions("Class items", model.classitems)
         ];
-
-        console.log("model.pinnedItems", model.pinnedItems)
 
         const pinndedItems = model.pinnedItems.map(item => {
           return(
