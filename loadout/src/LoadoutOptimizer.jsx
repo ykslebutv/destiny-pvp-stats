@@ -15,93 +15,35 @@ const SortOrder = {
 
 @observer export default class LoadoutOptimizer extends React.Component {
 
-    @observable includeMods = false;
-    @observable sortby = SortOrder.VALUE;
-
+    @observable sortby = SortOrder.NONE;
     @observable currentPage = 1;
     @observable perPage = 20;
-
-    @computed get loadouts() {
-        const model = this.props.model;
-        const list = [];
-        model.helmets.forEach(helmet => {
-            model.arms.forEach(arm => {
-                model.chests.forEach(chest => {
-                    model.legs.forEach(leg => {
-                        model.classitems.forEach(classitem => {
-                            const args = {
-                                helmet: helmet,
-                                arms: arm,
-                                chest: chest,
-                                legs: leg,
-                                classitem: classitem
-                            };
-                            const loadout = new Loadout(args);
-                            if (loadout.isValid) {
-                                list.push(loadout);
-                            }
-                        });
-                    });
-                });
-            });
-        });
-        return list;
-    }
-
-    @computed get sortedLoadouts() {
-        if (this.sortby === SortOrder.NONE) {
-            return this.loadouts;
-        }
-
-        let r = 1;
-        if (this.sortby === SortOrder.WASTE) {
-            r = -1;
-        }
-
-        return this.loadouts.sort((a, b) => {
-            if (a[this.sortby] > b[this.sortby]) {
-                return -r;
-            }
-            if (a[this.sortby] < b[this.sortby]) {
-                return r;
-            }
-            return 0;
-        });
-    }
-
-    @computed get filteredLoadouts() {
-        const filterItems = this.props.model.armorFilter;
-        if (!filterItems.length) {
-            return this.sortedLoadouts;
-        }
-        return this.sortedLoadouts.filter(loadout => loadout.passesFilter(filterItems));
-    }
-
-    @action.bound toggleIncludeMods() {
-        this.includeMods = !this.includeMods;
-    }
-
-    @action.bound changeSortOrder(e) {
-        this.sortby = e.target.value;
-    }
 
     @action.bound onChangePage(currentPage, perPage) {
         this.currentPage = currentPage;
         this.perPage = perPage;
     }
 
-    get onePageOfLoadouts() {
-        const start = (this.currentPage - 1) * this.perPage;
-        const end = this.currentPage * this.perPage;
-        return this.filteredLoadouts.slice(start, end);
+    @action.bound changeSortOrder(e) {
+        this.sortby = e.target.value;
     }
+
+    @action.bound toggleIncludeMods() {
+        this.props.model.toggleIncludeMods();
+    }
+
+    // @computed get onePageOfLoadouts() {
+    //     console.log('onePageOfLoadouts')
+    //     const start = (this.currentPage - 1) * this.perPage;
+    //     const end = this.currentPage * this.perPage;
+    // }
 
     render() {
         const navigationRow = (
             <div className="flex-container mb">
                 <div>
                     <Checkbox onChange={ this.toggleIncludeMods }>
-                          Include inserted mods <Tooltip title="When checked, armor stats and loadout value and potential will be calculated considering currently inserted armor mods." color="blue">(?)</Tooltip>
+                        Include inserted mods <Tooltip title="When checked, armor stats and loadout value and potential will be calculated considering currently inserted armor mods." color="blue">(?)</Tooltip>
                     </Checkbox>
                 </div>
                 <div>
@@ -119,18 +61,42 @@ const SortOrder = {
             </div>
         );
 
+        console.log('render');
+
+        const loadouts = this.props.model.loadouts;
+        let sortedLoadouts;
+        if (this.sortby === SortOrder.NONE) {
+            sortedLoadouts = loadouts;
+        } else {
+            let r = 1;
+            if (this.sortby === SortOrder.WASTE) {
+                r = -1;
+            }
+            sortedLoadouts = loadouts.sort((a, b) => {
+                if (a[this.sortby] > b[this.sortby]) {
+                    return -r;
+                }
+                if (a[this.sortby] < b[this.sortby]) {
+                    return r;
+                }
+                return 0;
+            });
+        }
+
+        const start = (this.currentPage - 1) * this.perPage;
+        const end = this.currentPage * this.perPage;
+        const loadoutsRow = sortedLoadouts.slice(start, end).map(l => l.show());
+
         return (
             <div className="loadout-container">
                 {navigationRow}
-                <div>
-                    {this.onePageOfLoadouts.map(l => l.show())}
-                </div>
+                {loadoutsRow}
                 <div className="right mt">
                     <Pagination
                         defaultCurrent={ 1 }
                         defaultPageSize={ this.perPage }
                         current={ this.currentPage }
-                        total={ this.loadouts.length }
+                        total={ sortedLoadouts.length }
                         onChange={ this.onChangePage }
                     />
                 </div>
@@ -138,4 +104,3 @@ const SortOrder = {
         );
     }
 }
-

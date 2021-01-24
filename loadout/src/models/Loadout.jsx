@@ -69,9 +69,9 @@ export default class Loadout {
         return this.calcWaste('strength');
     }
 
-  @computed get totalWaste() {
-      return this.mobilityWaste + this.resilienceWaste + this.recoveryWaste + this.disciplineWaste + this.intellectWaste + this.strengthWaste;
-  }
+    @computed get totalWaste() {
+        return this.mobilityWaste + this.resilienceWaste + this.recoveryWaste + this.disciplineWaste + this.intellectWaste + this.strengthWaste;
+    }
 
     get averageWaste() {
         return (this.totalWaste / 6).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 2 });
@@ -90,22 +90,25 @@ export default class Loadout {
     }
 
     passesFilter(filterItems) {
+        if (!filterItems.length) {
+            return true;
+        }
         return filterItems.find(id => this.items.find(item => item.id === id));
     }
 
-  // how valueable this loadout is as a sum of all normalized stats
-  // for example, if total stats are 55/62/100/20/84/33,
-  // then value is: 5+6+10+2+8+3=21+13=34
-  @computed get value() {
-      return (
-        Math.floor(this.mobility / 10) +
-        Math.floor(this.resilience / 10) +
-        Math.floor(this.recovery / 10) +
-        Math.floor(this.discipline / 10) +
-        Math.floor(this.intellect / 10) +
-        Math.floor(this.strength / 10)
-      );
-  }
+    // how valueable this loadout is as a sum of all normalized stats
+    // for example, if total stats are 55/62/100/20/84/33,
+    // then value is: 5+6+10+2+8+3=21+13=34
+    @computed get value() {
+        return (
+          Math.floor(this.mobility / 10) +
+          Math.floor(this.resilience / 10) +
+          Math.floor(this.recovery / 10) +
+          Math.floor(this.discipline / 10) +
+          Math.floor(this.intellect / 10) +
+          Math.floor(this.strength / 10)
+        );
+    }
 
     get numberOfItemsThatCanBeMasterworked() {
         let nMasterworked = 0;
@@ -113,33 +116,33 @@ export default class Loadout {
         return 5 - nMasterworked;
     }
 
-  @computed get potential() {
-      const potentials = Object.values(this.potentialMap);
-      if (potentials.length > 0) {
-          return Math.max(...potentials);
-      }
-      return this.value;
+    @computed get potential() {
+        const potentials = Object.values(this.potentialMap);
+        if (potentials.length > 0) {
+            return Math.max(...potentials);
+        }
+        return this.value;
 
-  }
+    }
 
-  @computed get potentialMap() {
-      const potentials = {};
-      const d = 2;
-      for (let m = 1; m <= this.numberOfItemsThatCanBeMasterworked; m++) {
-          let potValue = this.value;
-          const s = d * m;
-          potValue = (
-            Math.floor((this.mobility + s) / 10) +
-            Math.floor((this.resilience + s) / 10) +
-            Math.floor((this.recovery + s) / 10) +
-            Math.floor((this.discipline + s) / 10) +
-            Math.floor((this.intellect + s) / 10) +
-            Math.floor((this.strength + s) / 10)
-        );
-          potentials[m] = potValue;
-      }
-      return potentials;
-  }
+    @computed get potentialMap() {
+        const potentials = {};
+        const d = 2;
+        for (let m = 1; m <= this.numberOfItemsThatCanBeMasterworked; m++) {
+            let potValue = this.value;
+            const s = d * m;
+            potValue = (
+              Math.floor((this.mobility + s) / 10) +
+              Math.floor((this.resilience + s) / 10) +
+              Math.floor((this.recovery + s) / 10) +
+              Math.floor((this.discipline + s) / 10) +
+              Math.floor((this.intellect + s) / 10) +
+              Math.floor((this.strength + s) / 10)
+          );
+            potentials[m] = potValue;
+        }
+        return potentials;
+    }
 
     info() {
         console.log('stats: ', this.mobility, '/', this.resilience, '/', this.recovery, '/',

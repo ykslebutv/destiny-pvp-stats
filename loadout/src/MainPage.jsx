@@ -6,6 +6,7 @@ import { observable, action, computed } from 'mobx';
 
 import destiny2 from './destiny2';
 import Armor from './models/Armor.jsx';
+import Loadout from './models/Loadout.jsx';
 import CharacterList from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 import Filter from './Filter.jsx';
@@ -211,6 +212,7 @@ const ItemType = {
 
 class CharacterDataModel {
 
+    @observable includeMods = false;
     @observable armorFilter = [];
 
     constructor(args) {
@@ -251,33 +253,64 @@ class CharacterDataModel {
         return this.armorList.filter(item => item.isHelmet);
     }
 
-      @computed get arms() {
-          return this.armorList.filter(item => item.isArms);
-      }
+    @computed get arms() {
+        return this.armorList.filter(item => item.isArms);
+    }
 
-      @computed get chests() {
-          return this.armorList.filter(item => item.isChest);
-      }
+    @computed get chests() {
+        return this.armorList.filter(item => item.isChest);
+    }
 
-      @computed get legs() {
-          return this.armorList.filter(item => item.isLegs);
-      }
+    @computed get legs() {
+        return this.armorList.filter(item => item.isLegs);
+    }
 
-      @computed get classitems() {
-          return this.armorList.filter(item => item.isClassitem);
-      }
+    @computed get classitems() {
+        return this.armorList.filter(item => item.isClassitem);
+    }
 
-      @action addToArmorFilter(value) {
-          if (!this.armorFilter.find(item => item.id === value)) {
-              this.armorFilter.push(value);
-          }
-      }
+    @computed get loadouts() {
+        console.log('building loadouts');
+        const list = [];
+        this.helmets.forEach(helmet => {
+            this.arms.forEach(arm => {
+                this.chests.forEach(chest => {
+                    this.legs.forEach(leg => {
+                        this.classitems.forEach(classitem => {
+                            const args = {
+                                helmet: helmet,
+                                arms: arm,
+                                chest: chest,
+                                legs: leg,
+                                classitem: classitem
+                            };
+                            const loadout = new Loadout(args);
+                            if (loadout.isValid && loadout.passesFilter(this.armorFilter)) {
+                                list.push(loadout);
+                            }
+                        });
+                    });
+                });
+            });
+        });
+        return list;
+    }
 
-      @action removeFromArmorFilter(value) {
-          this.armorFilter = this.armorFilter.filter(id => id !== value);
-      }
+    @action addToArmorFilter(value) {
+        if (!this.armorFilter.find(item => item.id === value)) {
+            this.armorFilter.push(value);
+        }
+    }
 
-      @computed get pinnedItems() {
-          return this.armorList.filter(item => this.armorFilter.find(id => id === item.id));
-      }
+    @action removeFromArmorFilter(value) {
+        this.armorFilter = this.armorFilter.filter(id => id !== value);
+    }
+
+    @computed get pinnedItems() {
+        return this.armorList.filter(item => this.armorFilter.find(id => id === item.id));
+    }
+
+    @action toggleIncludeMods() {
+        this.includeMods = !this.includeMods;
+    }
 }
