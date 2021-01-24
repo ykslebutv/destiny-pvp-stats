@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 
 import { Checkbox, Radio, Tooltip, Pagination } from 'antd';
-import Loadout from './models/Loadout.jsx';
 
 const SortOrder = {
     NONE: 'none',
@@ -32,11 +31,26 @@ const SortOrder = {
         this.props.model.toggleIncludeMods();
     }
 
-    // @computed get onePageOfLoadouts() {
-    //     console.log('onePageOfLoadouts')
-    //     const start = (this.currentPage - 1) * this.perPage;
-    //     const end = this.currentPage * this.perPage;
-    // }
+    get sortedLoadouts() {
+        const loadouts = this.props.model.loadouts;
+        if (this.sortby === SortOrder.NONE) {
+            return loadouts;
+        }
+
+        let r = 1;
+        if (this.sortby === SortOrder.WASTE) {
+            r = -1;
+        }
+        return loadouts.sort((a, b) => {
+            if (a[this.sortby] > b[this.sortby]) {
+                return -r;
+            }
+            if (a[this.sortby] < b[this.sortby]) {
+                return r;
+            }
+            return 0;
+        });
+    }
 
     render() {
         const navigationRow = (
@@ -63,29 +77,9 @@ const SortOrder = {
 
         console.log('render');
 
-        const loadouts = this.props.model.loadouts;
-        let sortedLoadouts;
-        if (this.sortby === SortOrder.NONE) {
-            sortedLoadouts = loadouts;
-        } else {
-            let r = 1;
-            if (this.sortby === SortOrder.WASTE) {
-                r = -1;
-            }
-            sortedLoadouts = loadouts.sort((a, b) => {
-                if (a[this.sortby] > b[this.sortby]) {
-                    return -r;
-                }
-                if (a[this.sortby] < b[this.sortby]) {
-                    return r;
-                }
-                return 0;
-            });
-        }
-
         const start = (this.currentPage - 1) * this.perPage;
         const end = this.currentPage * this.perPage;
-        const loadoutsRow = sortedLoadouts.slice(start, end).map(l => l.show());
+        const loadoutsRow = this.sortedLoadouts.slice(start, end).map(l => l.show());
 
         return (
             <div className="loadout-container">
@@ -96,7 +90,7 @@ const SortOrder = {
                         defaultCurrent={ 1 }
                         defaultPageSize={ this.perPage }
                         current={ this.currentPage }
-                        total={ sortedLoadouts.length }
+                        total={ this.sortedLoadouts.length }
                         onChange={ this.onChangePage }
                     />
                 </div>
