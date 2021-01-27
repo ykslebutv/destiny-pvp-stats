@@ -1,19 +1,20 @@
 <script>
-    const queryString = window.location.search;    
-    console.log('queryString', queryString);
+    const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
-    console.log('code', code);
-
-    console.log('fetching token');
     const data = "client_id=34984&grant_type=authorization_code&code=" + code;
 
-    fetch("https://www.bungie.net/Platform/App/OAuth/Token/", {    
-      body: data,
-      method: 'post',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    fetch("https://www.bungie.net/Platform/App/OAuth/Token/", {
+        body: data,
+        method: 'post',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).then(response => response.json()).then(response => {
-      console.log("got response", response);
-      localStorage.setItem("accessToken", response.access_token);
+        console.log("got response", response);
+        if (response.access_token) {
+            localStorage.setItem("accessToken", response.access_token);
+        } else {
+            localStorage.setItem("accessTokenError", response.error);
+        }
+        close();
     });
 </script>

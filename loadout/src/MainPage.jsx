@@ -11,7 +11,7 @@ import CharacterList from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 import Filter from './Filter.jsx';
 
-import { Divider } from 'antd';
+import { Divider, Button } from 'antd';
 
 const Status = {
     NOT_AUTHORIZED: null,
@@ -26,43 +26,53 @@ const ItemType = {
 
 @observer export default class MainPage extends React.Component {
 
+    @observable accessToken = "CMPzAhKGAgAgrWyTZ0awJs3znNQ5opyLtljmlwPoqDHc93G5Fi0NFJvgAAAA6aP9vHKUsWfnmh8bOyDxm7+/BznEwyYfuCKORwMXNsc7s5XaKRwgcLWa55QUf+4OjSpK1mE2OI0JuReJujpmTRNdsEIDXdCk465GIqhsHOrr9kAzgUG57sSXhUq+U9h/dz/j2e47v5EypLoLuDj8/8NnV5j5hFhwH9h4nXrZZYTv64DIElBYUJTwcy7/oEdjUADLtrMvxQS8MmskO8HCCWGX1u7r6bKbaCs4zbECQvjMy4zv0aOmYiAeNQurQOD9jLB4JztWoWQQDHZZdkkxgbvWovR2npYG814HmZeDh9A=";
+
     constructor() {
         super();
 
-        // if (!this.accessToken) {
-        //     this.getCurrentUser();
-        // }
+        //this.accessToken = localStorage.getItem('accessToken');
+        if (this.accessToken) {
+            this.getCurrentUser();
+        }
     }
 
     @computed get status() {
-        return Status.READY;
-
         if (!this.accessToken) {
+            console.log('status: not authorized')
             return Status.NOT_AUTHORIZED;
         }
 
-        if (!this.user) {
-            return Status.LOADING;
+        if (this.profile && this.profile.characters.length === this.characters.length) {
+            console.log('status: ready')
+            return Status.READY;
         }
 
-        return Status.READY;
+        console.log('status: loading')
+        return Status.LOADING;
     }
 
     @action.bound authorize() {
         const url = 'https://www.bungie.net/en/OAuth/Authorize?client_id=34984&response_type=code';
         window.open(url, 'Authorize with Bungie'); // , "width=600, height=800");
-        window.addEventListener('storage', function (e) {
-            this.accessToken = localStorage.getItem('accessToken');
-        });
+        window.addEventListener('storage', this.authorized);
     }
 
-    @observable user = Workdata.user;
-    @observable profile = Workdata.profile;
-    @observable characters = Workdata.characters;
+    @action.bound authorized() {
+        console.log('getting access token from localStorage')
+        this.accessToken = localStorage.getItem('accessToken');
+        this.accessTokenError = localStorage.getItem('accessTokenError');
+        console.log('got token', this.accessToken);
+        this.getCurrentUser();
+    }
+
+    // @observable user = Workdata.user;
+    // @observable profile = Workdata.profile;
+    // @observable characters = Workdata.characters;
+    @observable user;
+    @observable profile;
+    @observable characters = [];
     @observable model;
-    // @observable user;
-    // @observable profile;
-    // @observable characters;
     @observable activeCharacterId;
 
     get userName() {
@@ -91,7 +101,7 @@ const ItemType = {
             });
         })
         .catch(error => {
-            console.log(error);
+            console.log('getCurrentUser error', error);
             this.handleFailure();
         });
     }
@@ -106,6 +116,10 @@ const ItemType = {
 
     @action receiveCharacter(data) {
         this.characters.push(data);
+    }
+
+    @computed get charactersLoaded() {
+        this.characters.length > 0;
     }
 
     @action.bound handleFailure() {
@@ -136,9 +150,13 @@ const ItemType = {
 
         const authorizeRow = this.status === Status.NOT_AUTHORIZED ? (
             <div>
-                <button type="button" className="btn btn-primary" onClick={ this.authorize }>
-                    Authorize with Bungie
-                </button>
+                <Button type="primary" size="large" onClick={this.authorize}>Authorize with Bungie</Button>
+            </div>
+        ) : null;
+
+        const loadingRow = this.status === Status.LOADING ? (
+            <div>
+                <h1>LOADING...</h1>
             </div>
         ) : null;
 
@@ -181,6 +199,7 @@ const ItemType = {
             <div>
                 { headerRow }
                 { authorizeRow }
+                { loadingRow }
 
                 {/* { data ? <pre>{JSON.stringify(this.armorList, null, 2)}</pre> : null } */}
 
@@ -234,6 +253,8 @@ class CharacterDataModel {
             const manifestItem = Manifest.DestinyInventoryItemDefinition[item.itemHash];
 
             const isArmor = manifestItem && manifestItem.itemType === ItemType.ARMOR;
+
+            //todo: check that armor class matches character class
 
             if (instance && isArmor) {
 

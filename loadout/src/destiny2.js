@@ -3,30 +3,9 @@ import Promise from 'es6-promise';
 //import Http from './http';
 
 class Destiny2 {
-    // searchPlayer(membershipType, name) {
-    //     return new Promise((resolve, reject) => {
-    //         const url = `${ Config.basePath }/SearchDestinyPlayer/${ membershipType }/${ name }/`;
-    //         if (Config.debug) {
-    //             console.log(url);
-    //         }
-    //         Http.request(url).then(res => {
-    //             if (res.ErrorStatus === 'Success') {
-    //                 if (res.Response.length === 0) {
-    //                     let errorMessage = 'Guardian not found.';
-    //                     reject(errorMessage);
-    //                 } else {
-    //                     resolve(res.Response);
-    //                 }
-    //             } else {
-    //                 reject(res.Message);
-    //             }
-    //         });
-    //     });
-    // }
-
     getProfile(membershipType, membershipId) {
         return new Promise((resolve, reject) => {
-            const url = `${ Config.baseUrl }${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters,CharacterEquipment`;
+            const url = `${ Config.baseUrl }${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters,CharacterEquipment,ProfileInventories`;
             const headers = { 'x-api-key': Config.apiKey };
             if (Config.debug) {
                 console.log(url);
@@ -61,6 +40,10 @@ class Destiny2 {
             fetch(url, { headers: headers }).then(res => res.json()).then(res => {
                 if (res.ErrorStatus === 'Success') {
                     res.Response["characterId"] = characterId;
+
+                    console.log('equipment items', res.Response.equipment.data.items.length)
+                    console.log('inventory items', res.Response.inventory.data.items.length)
+
                     resolve(res.Response);
                 } else {
                     reject(res.Message);
@@ -68,83 +51,6 @@ class Destiny2 {
             });
         });
     }
-
-    // getCharacterStats(membershipType, membershipId, characterId, mode) {
-    //     return new Promise((resolve, reject) => {
-    //         const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/?modes=${ mode }`;
-    //         if (Config.debug) {
-    //             console.log(url);
-    //         }
-    //         Http.request(url).then(res => {
-    //             if (res.ErrorStatus === 'Success') {
-    //                 const responseKey = Object.keys(res.Response)[0];
-    //                 resolve(res.Response[responseKey].allTime);
-    //             } else {
-    //                 reject(res.Message);
-    //             }
-    //         });
-    //     });
-    // }
-
-    // getActivityHistory(membershipType, membershipId, characterId, mode, page) {
-    //     return new Promise((resolve, reject) => {
-    //         const count = 50;
-    //         const url = `${ Config.basePath }/${ membershipType }/Account/${ membershipId }/Character/${ characterId }/Stats/Activities/?mode=${ mode }&count=${ count }&page=${ page }`;
-    //         if (Config.debug) {
-    //             console.log(url);
-    //         }
-    //         Http.request(url).then(res => {
-    //             if (res.ErrorStatus === 'Success') {
-    //                 resolve(res.Response.activities);
-    //             } else {
-    //                 reject(res.Message);
-    //             }
-    //         });
-    //     });
-    // }
-
-    // getPostGame(activityId) {
-    //     return new Promise((resolve, reject) => {
-    //         const url = `${ Config.basePath }/Stats/PostGameCarnageReport/${ activityId }/`;
-    //         if (Config.debug) {
-    //             console.log(url);
-    //         }
-    //         Http.request(url).then(res => {
-    //             if (res.ErrorStatus === 'Success') {
-    //                 resolve(res.Response);
-    //             } else {
-    //                 reject(res.Message);
-    //             }
-    //         });
-    //     });
-    // }
-
-    // getClanInfo(membershipType, membershipId) {
-    //     return new Promise((resolve, reject) => {
-    //         const url = `/platform/GroupV2/User/${ membershipType }/${ membershipId }/All/Clan/`;
-    //         Http.request(url).then(res => {
-    //             if (res.ErrorStatus === 'Success') {
-    //                 resolve(res.Response.results);
-    //             } else {
-    //                 reject(res.Message);
-    //             }
-    //         });
-    //     });
-    // }
-
-    // getItemDefinition(referenceId) {
-    //     const itemType = 'DestinyInventoryItemDefinition';
-    //     return new Promise((resolve, reject) => {
-    //         const url = `${ Config.basePath }/Manifest/${ itemType }/${ referenceId }/`;
-    //         Http.request(url).then(res => {
-    //             if (res.ErrorStatus === 'Success') {
-    //                 resolve(res.Response);
-    //             } else {
-    //                 reject(res.Message);
-    //             }
-    //         });
-    //     });
-    // }
 
     getCurrentUser(accessToken) {
         return new Promise((resolve, reject) => {
@@ -163,7 +69,7 @@ class Destiny2 {
                 } else {
                     return {
                         'ErrorStatus': 'Error',
-                        'Message': 'Failed getting current user (token expired?)'
+                        'error': 'access token expired?'
                     };
                 }
             })
