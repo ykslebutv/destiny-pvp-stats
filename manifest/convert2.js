@@ -162,6 +162,7 @@ const schema = {
           "displayProperties.icon",
           "itemType",
           "itemSubType",
+          "classType",
           "inventory.tierTypeName"
       ],
       filter: {

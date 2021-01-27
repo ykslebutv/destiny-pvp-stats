@@ -21,3 +21,4 @@ manifest/manifest.js
 loadout/src/app.js
 loadout/src/app.min.js
 loadout/src/*.js.map
+loadout/src/proxy.php

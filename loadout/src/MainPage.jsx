@@ -26,12 +26,12 @@ const ItemType = {
 
 @observer export default class MainPage extends React.Component {
 
-    @observable accessToken = "CMPzAhKGAgAgrWyTZ0awJs3znNQ5opyLtljmlwPoqDHc93G5Fi0NFJvgAAAA6aP9vHKUsWfnmh8bOyDxm7+/BznEwyYfuCKORwMXNsc7s5XaKRwgcLWa55QUf+4OjSpK1mE2OI0JuReJujpmTRNdsEIDXdCk465GIqhsHOrr9kAzgUG57sSXhUq+U9h/dz/j2e47v5EypLoLuDj8/8NnV5j5hFhwH9h4nXrZZYTv64DIElBYUJTwcy7/oEdjUADLtrMvxQS8MmskO8HCCWGX1u7r6bKbaCs4zbECQvjMy4zv0aOmYiAeNQurQOD9jLB4JztWoWQQDHZZdkkxgbvWovR2npYG814HmZeDh9A=";
+    @observable accessToken;
 
     constructor() {
         super();
 
-        //this.accessToken = localStorage.getItem('accessToken');
+        this.accessToken = localStorage.getItem('accessToken');
         if (this.accessToken) {
             this.getCurrentUser();
         }
@@ -54,7 +54,7 @@ const ItemType = {
 
     @action.bound authorize() {
         const url = 'https://www.bungie.net/en/OAuth/Authorize?client_id=34984&response_type=code';
-        window.open(url, 'Authorize with Bungie'); // , "width=600, height=800");
+        window.open(url, 'Authorize with Bungie');
         window.addEventListener('storage', this.authorized);
     }
 
@@ -72,27 +72,27 @@ const ItemType = {
     @observable user;
     @observable profile;
     @observable characters = [];
+    @observable valut;
     @observable model;
     @observable activeCharacterId;
 
     get userName() {
-        return this.user ? this.user.destinyMemberships[0].LastSeenDisplayName : null;
+        return this.user ? this.user.LastSeenDisplayName : null;
     }
 
     get membershipType() {
-        return this.user ? this.user.destinyMemberships[0].membershipType : null;
+        return this.user ? this.user.membershipType : null;
     }
 
     get membershipId() {
-        return this.user ? this.user.destinyMemberships[0].membershipId : null;
+        return this.user ? this.user.membershipId : null;
     }
 
     getCurrentUser() {
         destiny2.getCurrentUser(this.accessToken).then(resUser => {
             this.receiveUser(resUser);
-            destiny2.getProfile(this.membershipType, this.membershipId).then(resProfile => {
+            destiny2.getProfile(this.membershipType, this.membershipId, this.accessToken).then(resProfile => {
                 this.receiveProfile(resProfile);
-
                 this.profile.characters.forEach(character => {
                     destiny2.getCharacter(this.membershipType, this.membershipId, character.characterId, this.accessToken).then(resChar => {
                         this.receiveCharacter(resChar);
@@ -107,7 +107,7 @@ const ItemType = {
     }
 
     @action receiveUser(data) {
-        this.user = data;
+        this.user = data.destinyMemberships.find(item => item.membershipId === data.primaryMembershipId);
     }
 
     @action receiveProfile(data) {
@@ -129,7 +129,19 @@ const ItemType = {
 
     @action.bound changeCharacter(characterId) {
         this.activeCharacterId = characterId;
-        this.model = new CharacterDataModel({ data: this.characterData(this.activeCharacterId) });
+
+        this.model = new CharacterDataModel({
+            character: this.characterProfile(this.activeCharacterId),
+            data: this.characterData(this.activeCharacterId),
+            vaultData: {
+                items: this.profile.profileInventory,
+                itemComponents: this.profile.itemComponents
+            }
+        });
+    }
+
+    characterProfile(characterId) {
+        return this.profile.characters ? this.profile.characters.find(c => c.characterId === characterId) : null;
     }
 
     characterData(characterId) {
@@ -243,21 +255,25 @@ class CharacterDataModel {
         if (!data) {
             return [];
         }
+        const vaultData = this.vaultData;
 
         const list = [];
 
         const addArmor = item => {
-            const instance = data.itemComponents.instances.data[item.itemInstanceId];
-            const statItem = data.itemComponents.stats.data[item.itemInstanceId] ? data.itemComponents.stats.data[item.itemInstanceId].stats : null;
-            const perkItem = data.itemComponents.perks.data[item.itemInstanceId] ? data.itemComponents.perks.data[item.itemInstanceId].perks : null;
+            const instance = data.itemComponents.instances.data[item.itemInstanceId] || vaultData.itemComponents.instances.data[item.itemInstanceId];
+
+            const statSource = data.itemComponents.stats.data[item.itemInstanceId] || vaultData.itemComponents.stats.data[item.itemInstanceId];
+            const statItem = statSource ? statSource.stats : null;
+
+            const perkSource = data.itemComponents.perks.data[item.itemInstanceId] || vaultData.itemComponents.perks.data[item.itemInstanceId];
+            const perkItem = perkSource ? perkSource.perks : null;
+
             const manifestItem = Manifest.DestinyInventoryItemDefinition[item.itemHash];
 
+            const matchClass = manifestItem && manifestItem.classType === this.character.classType;
             const isArmor = manifestItem && manifestItem.itemType === ItemType.ARMOR;
 
-            //todo: check that armor class matches character class
-
-            if (instance && isArmor) {
-
+            if (instance && isArmor && matchClass) {
                 const armor = new Armor();
                 armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
                 list.push(armor);
@@ -266,6 +282,7 @@ class CharacterDataModel {
 
         data.equipment.data.items.forEach(item => addArmor(item));
         data.inventory.data.items.forEach(item => addArmor(item));
+        vaultData.items.data.items.forEach(item => addArmor(item));
 
         return list;
     }
