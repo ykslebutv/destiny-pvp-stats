@@ -63,7 +63,7 @@ export default class Armor {
         this.isExotic = this.tierTypeName === 'Exotic';
         this.isMasterworked = this.energyCapacity === 10;
 
-        this.displayName = `${ this.name } lvl.${ this.powerLevel } val.${ this.total }`;
+        this.displayName = `${ this.name } / ${ this.powerLevel } / ${ this.total }`;
     }
 
     @computed get total() {
@@ -125,7 +125,7 @@ export default class Armor {
 
     showFull() {
         const iconStyle = this.isMasterworked ? 'armor_icon masterwork' : 'armor_icon';
-        let modkey = 0;
+        const modkey = 0;
         return (
             <div className="armor_full">
                 <div className={ iconStyle }>

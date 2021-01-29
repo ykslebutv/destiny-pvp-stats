@@ -39,16 +39,16 @@ const ItemType = {
 
     @computed get status() {
         if (!this.accessToken) {
-            console.log('status: not authorized')
+            console.log('status: not authorized');
             return Status.NOT_AUTHORIZED;
         }
 
         if (this.profile && this.profile.characters.length === this.characters.length) {
-            console.log('status: ready')
+            console.log('status: ready');
             return Status.READY;
         }
 
-        console.log('status: loading')
+        console.log('status: loading');
         return Status.LOADING;
     }
 
@@ -59,7 +59,7 @@ const ItemType = {
     }
 
     @action.bound authorized() {
-        console.log('getting access token from localStorage')
+        console.log('getting access token from localStorage');
         this.accessToken = localStorage.getItem('accessToken');
         this.accessTokenError = localStorage.getItem('accessTokenError');
         console.log('got token', this.accessToken);
@@ -162,7 +162,7 @@ const ItemType = {
 
         const authorizeRow = this.status === Status.NOT_AUTHORIZED ? (
             <div>
-                <Button type="primary" size="large" onClick={this.authorize}>Authorize with Bungie</Button>
+                <Button type="primary" size="large" onClick={ this.authorize }>Authorize with Bungie</Button>
             </div>
         ) : null;
 
@@ -195,10 +195,7 @@ const ItemType = {
         ) : null;
 
         const loadoutComp = this.model ? (
-            <div>
-                <Divider plain>Loadouts</Divider>
-                <LoadoutOptimizer model={ this.model } />
-            </div>
+            <LoadoutOptimizer model={ this.model } />
         ) : null;
 
         const footerRow = (
@@ -255,12 +252,34 @@ class CharacterDataModel {
         if (!data) {
             return [];
         }
+
+        const t1 = performance.now();
+
         const vaultData = this.vaultData;
 
         const list = [];
 
         const addArmor = item => {
+
             const instance = data.itemComponents.instances.data[item.itemInstanceId] || vaultData.itemComponents.instances.data[item.itemInstanceId];
+            if (!instance) {
+                return;
+            }
+
+            const manifestItem = Manifest.DestinyInventoryItemDefinition[item.itemHash];
+            if (!manifestItem) {
+                return;
+            }
+
+            const isArmor = manifestItem && manifestItem.itemType === ItemType.ARMOR;
+            if (!isArmor) {
+                return;
+            }
+
+            const matchClass = manifestItem && manifestItem.classType === this.character.classType;
+            if (!matchClass) {
+                return;
+            }
 
             const statSource = data.itemComponents.stats.data[item.itemInstanceId] || vaultData.itemComponents.stats.data[item.itemInstanceId];
             const statItem = statSource ? statSource.stats : null;
@@ -268,14 +287,9 @@ class CharacterDataModel {
             const perkSource = data.itemComponents.perks.data[item.itemInstanceId] || vaultData.itemComponents.perks.data[item.itemInstanceId];
             const perkItem = perkSource ? perkSource.perks : null;
 
-            const manifestItem = Manifest.DestinyInventoryItemDefinition[item.itemHash];
-
-            const matchClass = manifestItem && manifestItem.classType === this.character.classType;
-            const isArmor = manifestItem && manifestItem.itemType === ItemType.ARMOR;
-
-            if (instance && isArmor && matchClass) {
-                const armor = new Armor();
-                armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
+            const armor = new Armor();
+            armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
+            if (armor.total >= 50 || (armor.total >= 12 && armor.isClassitem)) {
                 list.push(armor);
             }
         };
@@ -283,6 +297,9 @@ class CharacterDataModel {
         data.equipment.data.items.forEach(item => addArmor(item));
         data.inventory.data.items.forEach(item => addArmor(item));
         vaultData.items.data.items.forEach(item => addArmor(item));
+
+        const t2 = performance.now();
+        console.log(`Creating armor list (${ list.length } items) took ${ t2 - t1 } milliseconds.`);
 
         return list;
     }
@@ -308,7 +325,9 @@ class CharacterDataModel {
     }
 
     @computed get loadouts() {
-        console.log('building loadouts');
+        const t1 = performance.now();
+        const filter = this.armorFilter.slice();
+        console.log('building loadouts with filter', filter);
         const list = [];
         this.helmets.forEach(helmet => {
             this.arms.forEach(arm => {
@@ -320,10 +339,11 @@ class CharacterDataModel {
                                 arms: arm,
                                 chest: chest,
                                 legs: leg,
-                                classitem: classitem
+                                classitem: classitem,
+                                filter: filter
                             };
-                            const loadout = new Loadout(args);
-                            if (loadout.isValid && loadout.passesFilter(this.armorFilter)) {
+                            const loadout = Loadout.CreateLoadout(args);
+                            if (loadout) {
                                 list.push(loadout);
                             }
                         });
@@ -331,6 +351,10 @@ class CharacterDataModel {
                 });
             });
         });
+
+        const t2 = performance.now();
+        console.log(`Building ${ list.length } loadouts took ${ t2 - t1 } milliseconds.`);
+
         return list;
     }
 

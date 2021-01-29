@@ -3,7 +3,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 
-import { Checkbox, Radio, Tooltip, Pagination } from 'antd';
+import { Divider, Checkbox, Radio, Tooltip, Pagination } from 'antd';
 
 const SortOrder = {
     NONE: 'none',
@@ -14,7 +14,7 @@ const SortOrder = {
 
 @observer export default class LoadoutOptimizer extends React.Component {
 
-    @observable sortby = SortOrder.NONE;
+    @observable sortby = SortOrder.VALUE;
     @observable currentPage = 1;
     @observable perPage = 20;
 
@@ -32,6 +32,8 @@ const SortOrder = {
     }
 
     get sortedLoadouts() {
+        const t1 = performance.now();
+
         const loadouts = this.props.model.loadouts;
         if (this.sortby === SortOrder.NONE) {
             return loadouts;
@@ -41,7 +43,7 @@ const SortOrder = {
         if (this.sortby === SortOrder.WASTE) {
             r = -1;
         }
-        return loadouts.sort((a, b) => {
+        const list = loadouts.sort((a, b) => {
             if (a[this.sortby] > b[this.sortby]) {
                 return -r;
             }
@@ -50,6 +52,11 @@ const SortOrder = {
             }
             return 0;
         });
+
+        const t2 = performance.now();
+        console.log(`Sorting loadouts by ${ this.sortby } took ${ t2 - t1 } milliseconds.`);
+
+        return list;
     }
 
     render() {
@@ -79,10 +86,12 @@ const SortOrder = {
 
         const start = (this.currentPage - 1) * this.perPage;
         const end = this.currentPage * this.perPage;
-        const loadoutsRow = this.sortedLoadouts.slice(start, end).map(l => l.show());
+        const sortedLoadouts = this.sortedLoadouts;
+        const loadoutsRow = sortedLoadouts.slice(start, end).map(l => l.show());
 
         return (
             <div className="loadout-container">
+                <Divider plain>{sortedLoadouts.length} loadouts</Divider>
                 {navigationRow}
                 {loadoutsRow}
                 <div className="right mt">
@@ -90,7 +99,7 @@ const SortOrder = {
                         defaultCurrent={ 1 }
                         defaultPageSize={ this.perPage }
                         current={ this.currentPage }
-                        total={ this.sortedLoadouts.length }
+                        total={ sortedLoadouts.length }
                         onChange={ this.onChangePage }
                     />
                 </div>
