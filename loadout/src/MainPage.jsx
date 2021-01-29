@@ -289,7 +289,7 @@ class CharacterDataModel {
 
             const armor = new Armor();
             armor.initFromData(item, instance, manifestItem, statItem, perkItem, this.includeMods);
-            if (armor.total >= 50 || (armor.total >= 12 && armor.isClassitem)) {
+            if (armor.total >= 50 || armor.isClassitem) {
                 list.push(armor);
             }
         };

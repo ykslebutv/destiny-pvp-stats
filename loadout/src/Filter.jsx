@@ -34,7 +34,7 @@ import { Select, Button } from 'antd';
         const pinndedItems = model.pinnedItems.map(item => (
             <div className="flex-container mt" key={ item.id }>
                 { item.showFull() }
-                <Button size="small" onClick={ () => this.unpin(item.id) } style={{ width: '50px' }}>unpin</Button>
+                <Button size="small" onClick={ () => this.unpin(item.id) } className="unpin">unpin</Button>
             </div>
           ));
 

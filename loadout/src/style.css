@@ -107,34 +107,16 @@ h2 {
 
 .armor {
     width: 55px;
-    /* margin: 5px; */
     position: relative;
-}
-
-.armor .armor_tooltip {
-    display: none;
-    position: absolute;
-    left: 45px;
-    top: 10px;
-    width: 240px;
-    height: 60px;
-    background-color: white;
-    border: 1px solid #bbb;
-    z-index: 999;
-}
-
-.armor:hover .armor_tooltip {
-    display: block;
 }
 
 .armor_icon {
   position: relative;
-  width: 55px;
 }
 
 .armor_icon img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 55px;
+    width: 55px;
     display: block;
 }
 
@@ -145,27 +127,37 @@ h2 {
 .armor_icon .armor_level {
     position: absolute;
     margin: 0 auto;
-    left: 15px;
-    top: 38px;
+    left: 13px;
+    top: 36px;
     color: white;
-    font-size: 9pt;
+    font-size: 12px;
 }
 
 .armor_info {
     flex: 1;
-    padding: 3px 5px 0px 10px;
+    padding: 0px 5px 0px 10px;
+}
+
+.armor_info .armor_name {
+    font-size: 14px;
+    line-height: 18px;
+    margin: 0;
 }
 
 .armor_info .armor_stat {
-    font-size: 9pt;
+    font-size: 12px;
+    margin: 0;
 }
 
 .armor_info .armor_mod {
-    line-height: 10px;
-    font-size: 7pt;
-    margin: 0
+    font-size: 10px;
+    margin: 0;
 }
 
+.unpin {
+    width: 50px;
+    margin-top: 7px;
+}
 
 label {
     font-weight: normal;

@@ -2,6 +2,8 @@
 import React from 'react';
 import { computed } from 'mobx';
 
+import { Popover } from 'antd';
+
 const ArmorType = {
     Helmet: 26,
     Arms: 27,
@@ -102,9 +104,8 @@ export default class Armor {
         let modkey = 0;
         return (
             <div className="armor_info">
-                {this.name}
-                <br />
-                <span className="armor_stat">
+                <div className="armor_name">{this.name}</div>
+                <div className="armor_stat">
                     {this.mobility}{sep}
                     {this.resilience}{sep}
                     {this.recovery}{sep}
@@ -112,12 +113,11 @@ export default class Armor {
                     {this.intellect}{sep}
                     {this.strength}
                     ={this.total}
-                </span>
-                <br />
+                </div>
                 {this.statMods.length > 0 ? (
-                    <p className="armor_mod">
+                    <div className="armor_mod">
                         {this.statMods.map(m => <span key={ modkey++ }>{m.description.slice(0, -1)}</span>)}
-                    </p>
+                    </div>
                 ) : null}
             </div>
         );
@@ -133,9 +133,8 @@ export default class Armor {
                     <div className="armor_level">◆{this.powerLevel}</div>
                 </div>
                 <div className="armor_info">
-                    {this.name}
-                    <br />
-                    <span className="armor_stat">
+                    <p className="armor_name">{this.name}</p>
+                    <p className="armor_stat">
                         {this.mobility}{sep}
                         {this.resilience}{sep}
                         {this.recovery}{sep}
@@ -143,8 +142,7 @@ export default class Armor {
                         {this.intellect}{sep}
                         {this.strength}
                         ={this.total}
-                    </span>
-                    <br />
+                    </p>
                     {this.statMods.length > 0 ? (
                         <p className="armor_mod">
                             {this.statMods.map(m => <span key={ modkey }>{m.description.slice(0, -1)}</span>)}
@@ -159,13 +157,12 @@ export default class Armor {
         const iconStyle = this.isMasterworked ? 'armor_icon masterwork' : 'armor_icon';
         return (
             <div className="armor">
-                <div className={ iconStyle }>
-                    <img src={ this.iconUrl } />
-                    <div className="armor_level">◆{this.powerLevel}</div>
-                </div>
-                <div className="armor_tooltip">
-                    {this.showArmorDetails()}
-                </div>
+                <Popover placement="right" content={ this.showArmorDetails() }>
+                    <div className={ iconStyle }>
+                        <img src={ this.iconUrl } />
+                        <div className="armor_level">◆{this.powerLevel}</div>
+                    </div>
+                </Popover>
             </div>
         );
     }
