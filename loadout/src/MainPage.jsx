@@ -11,7 +11,7 @@ import CharacterList from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 import Filter from './Filter.jsx';
 
-import { Divider, Button } from 'antd';
+import { Divider, Button, Tooltip } from 'antd';
 
 const Status = {
     NOT_AUTHORIZED: null,
@@ -185,12 +185,37 @@ const ItemType = {
             </div>
         ) : null;
 
-        const filterComp = this.activeCharacterId ? (
+        const orFilterComp = this.activeCharacterId ? (
             <div>
                 <Divider plain>
-                    Pin armor items
+                    Pin armor items - OR &nbsp;
+                    <Tooltip title="Show loadouts containing ANY of the pinned items. This is useful for example to compare loadouts with 2 instances of the same exotic." color="blue">
+                        <span style={{ cursor: 'pointer' }}>(?)</span>
+                    </Tooltip>
                 </Divider>
-                <Filter model={ this.model } />
+                <Filter
+                    model={ this.model }
+                    pinnedItems={ this.model.pinnedOrItems }
+                    onAdd={ this.model.addToOrFilter }
+                    onRemove={ this.model.removeFromOrFilter }
+                />
+            </div>
+        ) : null;
+
+        const andFilterComp = this.activeCharacterId ? (
+            <div>
+                <Divider plain>
+                    Pin armor items - AND &nbsp;
+                    <Tooltip title="Only show loadouts containing the pinned items." color="blue">
+                        <span style={{ cursor: 'pointer' }}>(?)</span>
+                    </Tooltip>
+                </Divider>
+                <Filter
+                    model={ this.model }
+                    pinnedItems={ this.model.pinnedAndItems }
+                    onAdd={ this.model.addToAndFilter }
+                    onRemove={ this.model.removeFromAndFilter }
+                />
             </div>
         ) : null;
 
@@ -214,7 +239,8 @@ const ItemType = {
 
                 <MediaQuery query="(max-width: 999px)">
                     { characterList }
-                    { filterComp }
+                    { orFilterComp }
+                    { andFilterComp }
                     { loadoutComp }
                 </MediaQuery>
 
@@ -222,7 +248,8 @@ const ItemType = {
                     <div className="flex-container">
                         <div>
                             { characterList }
-                            { filterComp }
+                            { orFilterComp }
+                            { andFilterComp }
                         </div>
                         <div>
                             { loadoutComp }
@@ -241,7 +268,8 @@ const ItemType = {
 class CharacterDataModel {
 
     @observable includeMods = false;
-    @observable armorFilter = [];
+    @observable orFilter = [];
+    @observable andFilter = [];
 
     constructor(args) {
         Object.assign(this, args);
@@ -326,8 +354,9 @@ class CharacterDataModel {
 
     @computed get loadouts() {
         const t1 = performance.now();
-        const filter = this.armorFilter.slice();
-        console.log('building loadouts with filter', filter);
+        const orFilter = this.orFilter.slice();
+        const andFilter = this.andFilter.slice();
+        console.log('building loadouts');
         const list = [];
         this.helmets.forEach(helmet => {
             this.arms.forEach(arm => {
@@ -340,7 +369,8 @@ class CharacterDataModel {
                                 chest: chest,
                                 legs: leg,
                                 classitem: classitem,
-                                filter: filter
+                                orFilter: orFilter,
+                                andFilter: andFilter
                             };
                             const loadout = Loadout.CreateLoadout(args);
                             if (loadout) {
@@ -358,18 +388,32 @@ class CharacterDataModel {
         return list;
     }
 
-    @action addToArmorFilter(value) {
-        if (!this.armorFilter.find(item => item.id === value)) {
-            this.armorFilter.push(value);
+    @action.bound addToOrFilter(value) {
+        if (!this.orFilter.find(item => item.id === value)) {
+            this.orFilter.push(value);
         }
     }
 
-    @action removeFromArmorFilter(value) {
-        this.armorFilter = this.armorFilter.filter(id => id !== value);
+    @action.bound removeFromOrFilter(value) {
+        this.orFilter = this.orFilter.filter(id => id !== value);
     }
 
-    @computed get pinnedItems() {
-        return this.armorList.filter(item => this.armorFilter.find(id => id === item.id));
+    @computed get pinnedOrItems() {
+        return this.armorList.filter(item => this.orFilter.find(id => id === item.id));
+    }
+
+    @action.bound addToAndFilter(value) {
+        if (!this.andFilter.find(item => item.id === value)) {
+            this.andFilter.push(value);
+        }
+    }
+
+    @action.bound removeFromAndFilter(value) {
+        this.andFilter = this.andFilter.filter(id => id !== value);
+    }
+
+    @computed get pinnedAndItems() {
+        return this.armorList.filter(item => this.andFilter.find(id => id === item.id));
     }
 
     @action toggleIncludeMods() {

@@ -6,12 +6,12 @@ import { Select, Button } from 'antd';
 
 @observer export default class Filter extends React.Component {
 
-    @action.bound onSelect(value) {
-        this.props.model.addToArmorFilter(value);
+    pin(value) {
+        this.props.onAdd(value);
     }
 
-    @action unpin(value) {
-        this.props.model.removeFromArmorFilter(value);
+    unpin(value) {
+        this.props.onRemove(value);
     }
 
     bulidOptions(groupName, items) {
@@ -22,19 +22,19 @@ import { Select, Button } from 'antd';
     }
 
     render() {
-        const model = this.props.model;
+        const { model, pinnedItems } = this.props;
         const options = [
             this.bulidOptions('Helmets', model.helmets),
-            this.bulidOptions('Arms', model.arms),
-            this.bulidOptions('Chest', model.chests),
-            this.bulidOptions('Legs', model.legs),
+            this.bulidOptions('Gauntlets', model.arms),
+            this.bulidOptions('Chest armor', model.chests),
+            this.bulidOptions('Leg armor', model.legs),
             this.bulidOptions('Class items', model.classitems)
         ];
 
-        const pinndedItems = model.pinnedItems.map(item => (
+        const pinndedItems = pinnedItems.map(item => (
             <div className="flex-container mt" key={ item.id }>
                 { item.showFull() }
-                <Button size="small" onClick={ () => this.unpin(item.id) } className="unpin">unpin</Button>
+                <Button size="small" onClick={ () => this.props.onRemove(item.id) } className="unpin">unpin</Button>
             </div>
           ));
 
@@ -46,7 +46,7 @@ import { Select, Button } from 'antd';
                     placeholder="Type item name"
                     options={ options }
                     optionFilterProp="label"
-                    onSelect={ this.onSelect }
+                    onSelect={ id => this.props.onAdd(id) }
                     value=""
                 />
                 { pinndedItems }

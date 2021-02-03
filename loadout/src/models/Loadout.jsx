@@ -139,19 +139,30 @@ export default class Loadout {
 Loadout.CreateLoadout = args => {
     let exotics = 0;
     const items = [args.helmet, args.arms, args.chest, args.legs, args.classitem];
-    const filter = args.filter || [];
-    let passesFilter = filter.length === 0;
+
+    const orFilter = args.orFilter || [];
+    let passesOrFilter = orFilter.length === 0;
+
+    const andFilter = args.andFilter || [];
+    let andItemsFound = 0;
 
     items.forEach(item => {
         if (item.isExotic) {
-            exotics++;
+            exotics += 1;
         }
-        if (!passesFilter) {
-            passesFilter = !!filter.find(id => item.id === id);
+
+        if (!passesOrFilter) {
+            passesOrFilter = !!orFilter.find(id => item.id === id);
+        }
+
+        if (andFilter.find(id => item.id === id)) {
+            andItemsFound += 1;
         }
     });
 
-    if (exotics <= 1 && passesFilter) {
+    const passesANDFilter = andItemsFound === andFilter.length;
+
+    if (exotics <= 1 && passesOrFilter && passesANDFilter) {
         return new Loadout(args);
     }
     return null;
