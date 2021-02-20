@@ -86,7 +86,7 @@ h2 {
 }
 
 .loadout .col-armor {
-    width: 60px;
+    width: 67px;
     padding: 0px;
     margin: 0px 5px 0px 5px;
 }
@@ -99,6 +99,7 @@ h2 {
 
 .armor_full {
     width: 220px;
+    height: 60px;
     display: flex;
     margin: 3px;
     padding: 3px;
@@ -112,11 +113,13 @@ h2 {
 
 .armor_icon {
   position: relative;
+  padding-right: 70px;
 }
 
 .armor_icon img {
-    width: 55px;
-    width: 55px;
+    position: absolute;
+    width: 65px;
+    width: 65px;
     display: block;
 }
 
@@ -127,15 +130,15 @@ h2 {
 .armor_icon .armor_level {
     position: absolute;
     margin: 0 auto;
-    left: 13px;
-    top: 36px;
+    left: 22px;
+    top: 45px;
     color: white;
     font-size: 12px;
 }
 
 .armor_info {
     flex: 1;
-    padding: 0px 5px 0px 10px;
+    padding: 0px 5px 0px 5px;
 }
 
 .armor_info .armor_name {

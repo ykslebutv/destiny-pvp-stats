@@ -70,7 +70,7 @@ const convertSection = (section, json, schema) => {
       const path = field.split('.');
       let i = 0;
       let o = obj;
-      while(path[i]) {
+      while(o && path[i]) {
           o = o[path[i]];
           i = i + 1;
       }
@@ -163,7 +163,8 @@ const schema = {
           "itemType",
           "itemSubType",
           "classType",
-          "inventory.tierTypeName"
+          "inventory.tierTypeName",
+          "quality.displayVersionWatermarkIcons"
       ],
       filter: {
           field: 'itemType',

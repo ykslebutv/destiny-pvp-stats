@@ -28,6 +28,10 @@ export default class Armor {
             this.icon = overrideManifestItem.icon;
         }
 
+        if (manifestItem.displayVersionWatermarkIcons) {
+            this.watermarkIcon = manifestItem.displayVersionWatermarkIcons[0];
+        }
+
         this.itemLevel = instance.itemLevel;
         this.powerLevel = instance.primaryStat.value;
         this.energyCapacity = instance.energy ? instance.energy.energyCapacity : 0;
@@ -80,6 +84,10 @@ export default class Armor {
         return Config.baseUrl + this.icon;
     }
 
+    get watermakrIconUrl() {
+        return this.watermarkIcon ? Config.baseUrl + this.watermarkIcon : null;
+    }
+
     get isHelmet() {
         return this.itemSubType === ArmorType.Helmet;
     }
@@ -130,6 +138,7 @@ export default class Armor {
             <div className="armor_full">
                 <div className={ iconStyle }>
                     <img src={ this.iconUrl } />
+                    <img src={ this.watermakrIconUrl } />
                     <div className="armor_level">◆{this.powerLevel}</div>
                 </div>
                 <div className="armor_info">
@@ -160,6 +169,7 @@ export default class Armor {
                 <Popover placement="right" content={ this.showArmorDetails() }>
                     <div className={ iconStyle }>
                         <img src={ this.iconUrl } />
+                        <img src={ this.watermakrIconUrl } />
                         <div className="armor_level">◆{this.powerLevel}</div>
                     </div>
                 </Popover>
