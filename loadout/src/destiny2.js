@@ -70,7 +70,7 @@ class Destiny2 {
 
     getCharacter(membershipType, membershipId, characterId, accessToken) {
         return new Promise((resolve, reject) => {
-            const url = `${ Config.baseUrl }${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/Character/${ characterId }/?components=CharacterInventories,CharacterEquipment,ItemStats,ItemPerks,ItemInstances,ItemSockets`;
+            const url = `${ Config.baseUrl }${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/Character/${ characterId }/?components=CharacterInventories,CharacterEquipment,ItemStats,ItemPerks,ItemInstances`;
             if (Config.debug) {
                 console.log(url);
             }

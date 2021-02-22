@@ -98,8 +98,8 @@ const convertSection = (section, json, schema) => {
 }
 
 const fetchManifest = () => {
-    console.log('Getting the manifest...');
     const url = `${ baseUrl }/platform/Destiny2/Manifest/`;
+    console.log('Getting the manifest from', url);
     return new Promise((resolve, reject) => {
         fetch(url)
             .then(res => resolve(res.json()));
@@ -164,12 +164,18 @@ const schema = {
           "itemSubType",
           "classType",
           "inventory.tierTypeName",
+          "quality.versions",
           "quality.displayVersionWatermarkIcons"
       ],
       filter: {
           field: 'itemType',
           allowedValues: [2, 3, 19] // to keep manifest slim: 2-weapons, 3-armor, 19-mods (includes ornaments)
       }
+  },
+  "DestinyPowerCapDefinition": {
+      fields: [
+        "powerCap"
+      ]
   }
 }
 

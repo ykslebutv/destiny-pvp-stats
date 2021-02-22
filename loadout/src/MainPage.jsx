@@ -10,6 +10,7 @@ import Loadout from './models/Loadout.jsx';
 import CharacterList from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 import Filter from './Filter.jsx';
+import PowerFilter from './PowerFilter.jsx';
 
 import { Divider, Button, Tooltip } from 'antd';
 
@@ -185,6 +186,21 @@ const ItemType = {
             </div>
         ) : null;
 
+        const powerCapFilterComp = this.activeCharacterId ? (
+            <div>
+                <Divider plain>
+                    Min power cap &nbsp;
+                    <Tooltip title="Show only items that can be infused to this power level (because Bungie doesn't want you to keep the nice things you grinded hard for)" color="blue">
+                        <span style={{ cursor: 'pointer' }}>(?)</span>
+                    </Tooltip>
+                </Divider>
+                <PowerFilter
+                    value={ this.model.powerCapFilter }
+                    onChange={ this.model.setPowerCapFilter }
+                />
+            </div>
+        ) : null;
+
         const orFilterComp = this.activeCharacterId ? (
             <div>
                 <Divider plain>
@@ -248,6 +264,7 @@ const ItemType = {
                     <div className="flex-container">
                         <div>
                             { characterList }
+                            { powerCapFilterComp }
                             { orFilterComp }
                             { andFilterComp }
                         </div>
@@ -270,6 +287,7 @@ class CharacterDataModel {
     @observable includeMods = false;
     @observable orFilter = [];
     @observable andFilter = [];
+    @observable powerCapFilter = 0;
 
     constructor(args) {
         Object.assign(this, args);
@@ -333,23 +351,23 @@ class CharacterDataModel {
     }
 
     @computed get helmets() {
-        return this.armorList.filter(item => item.isHelmet);
+        return this.armorList.filter(item => item.isHelmet && item.powerCap >= this.powerCapFilter);
     }
 
     @computed get arms() {
-        return this.armorList.filter(item => item.isArms);
+        return this.armorList.filter(item => item.isArms && item.powerCap >= this.powerCapFilter);
     }
 
     @computed get chests() {
-        return this.armorList.filter(item => item.isChest);
+        return this.armorList.filter(item => item.isChest && item.powerCap >= this.powerCapFilter);
     }
 
     @computed get legs() {
-        return this.armorList.filter(item => item.isLegs);
+        return this.armorList.filter(item => item.isLegs && item.powerCap >= this.powerCapFilter);
     }
 
     @computed get classitems() {
-        return this.armorList.filter(item => item.isClassitem);
+        return this.armorList.filter(item => item.isClassitem && item.powerCap >= this.powerCapFilter);
     }
 
     @computed get loadouts() {
@@ -370,7 +388,8 @@ class CharacterDataModel {
                                 legs: leg,
                                 classitem: classitem,
                                 orFilter: orFilter,
-                                andFilter: andFilter
+                                andFilter: andFilter,
+                                powerCapFilter: this.powerCapFilter
                             };
                             const loadout = Loadout.CreateLoadout(args);
                             if (loadout) {
@@ -410,6 +429,10 @@ class CharacterDataModel {
 
     @action.bound removeFromAndFilter(value) {
         this.andFilter = this.andFilter.filter(id => id !== value);
+    }
+
+    @action.bound setPowerCapFilter(value) {
+        this.powerCapFilter = value;
     }
 
     @computed get pinnedAndItems() {

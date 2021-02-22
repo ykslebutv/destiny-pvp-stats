@@ -32,6 +32,11 @@ export default class Armor {
             this.watermarkIcon = manifestItem.displayVersionWatermarkIcons[0];
         }
 
+        if (manifestItem.versions && manifestItem.versions.length > 0) {
+            const powerCapHash = manifestItem.versions[0].powerCapHash;
+            this.powerCap = Manifest.DestinyPowerCapDefinition[powerCapHash].powerCap;
+        }
+
         this.itemLevel = instance.itemLevel;
         this.powerLevel = instance.primaryStat.value;
         this.energyCapacity = instance.energy ? instance.energy.energyCapacity : 0;
@@ -127,6 +132,9 @@ export default class Armor {
                         {this.statMods.map(m => <span key={ modkey++ }>{m.description.slice(0, -1)}</span>)}
                     </div>
                 ) : null}
+                <p className="armor_mod">
+                    Power cap: {this.isExotic ? '∞' : this.powerCap}
+                </p>
             </div>
         );
     }
@@ -141,23 +149,7 @@ export default class Armor {
                     <img src={ this.watermakrIconUrl } />
                     <div className="armor_level">◆{this.powerLevel}</div>
                 </div>
-                <div className="armor_info">
-                    <p className="armor_name">{this.name}</p>
-                    <p className="armor_stat">
-                        {this.mobility}{sep}
-                        {this.resilience}{sep}
-                        {this.recovery}{sep}
-                        {this.discipline}{sep}
-                        {this.intellect}{sep}
-                        {this.strength}
-                        ={this.total}
-                    </p>
-                    {this.statMods.length > 0 ? (
-                        <p className="armor_mod">
-                            {this.statMods.map(m => <span key={ modkey }>{m.description.slice(0, -1)}</span>)}
-                        </p>
-                    ) : null}
-                </div>
+                {this.showArmorDetails()}
             </div>
         );
     }
