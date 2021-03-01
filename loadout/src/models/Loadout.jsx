@@ -162,9 +162,21 @@ Loadout.CreateLoadout = args => {
 
     const passesANDFilter = andItemsFound === andFilter.length;
 
-    if (exotics <= 1 && passesOrFilter && passesANDFilter) {
-        return new Loadout(args);
+    if (exotics > 1 || !passesOrFilter || !passesANDFilter) {
+        return null;
     }
-    return null;
 
+    const loadout = new Loadout(args);
+
+    let passesStatsFilter = true;
+    STATS.forEach(stat => {
+        if (loadout[stat] < args.statsFilter[stat]) {
+            passesStatsFilter = false;
+        }
+    });
+    if (!passesStatsFilter) {
+        return null;
+    }
+
+    return loadout;
 };

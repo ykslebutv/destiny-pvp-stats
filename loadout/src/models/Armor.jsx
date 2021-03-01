@@ -35,6 +35,9 @@ export default class Armor {
         if (manifestItem.versions && manifestItem.versions.length > 0) {
             const powerCapHash = manifestItem.versions[0].powerCapHash;
             this.powerCap = Manifest.DestinyPowerCapDefinition[powerCapHash].powerCap;
+            if (this.powerCap === 999960) {
+                this.powerCap = -1;
+            }
         }
 
         this.itemLevel = instance.itemLevel;

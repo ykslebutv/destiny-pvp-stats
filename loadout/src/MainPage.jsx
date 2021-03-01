@@ -2,7 +2,7 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import { observer } from 'mobx-react';
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, extendObservable } from 'mobx';
 
 import destiny2 from './destiny2';
 import Armor from './models/Armor.jsx';
@@ -11,6 +11,7 @@ import CharacterList from './models/Character.jsx';
 import LoadoutOptimizer from './LoadoutOptimizer.jsx';
 import Filter from './Filter.jsx';
 import PowerFilter from './PowerFilter.jsx';
+import StatsFilter from './StatsFilter.jsx';
 
 import { Divider, Button, Tooltip } from 'antd';
 
@@ -39,14 +40,14 @@ const ItemType = {
     }
 
     @computed get status() {
-        if (!this.accessToken) {
-            console.log('status: not authorized');
-            return Status.NOT_AUTHORIZED;
-        }
-
         if (this.profile && this.profile.characters.length === this.characters.length) {
             console.log('status: ready');
             return Status.READY;
+        }
+
+        if (!this.accessToken) {
+            console.log('status: not authorized');
+            return Status.NOT_AUTHORIZED;
         }
 
         console.log('status: loading');
@@ -73,7 +74,6 @@ const ItemType = {
     @observable user;
     @observable profile;
     @observable characters = [];
-    @observable valut;
     @observable model;
     @observable activeCharacterId;
 
@@ -187,7 +187,7 @@ const ItemType = {
         ) : null;
 
         const powerCapFilterComp = this.activeCharacterId ? (
-            <div>
+            <div className="card mt">
                 <Divider plain>
                     Min power cap &nbsp;
                     <Tooltip title="Show only items that can be infused to this power level (because Bungie doesn't want you to keep the nice things you grinded hard for)" color="blue">
@@ -201,8 +201,20 @@ const ItemType = {
             </div>
         ) : null;
 
+        const statsFilterComp = this.activeCharacterId ? (
+            <div className="card mt">
+                <Divider plain>
+                    Min stats
+                </Divider>
+                <StatsFilter
+                    model={ this.model }
+                    onChange={ this.model.setStatsFilter }
+                />
+            </div>
+        ) : null;
+
         const orFilterComp = this.activeCharacterId ? (
-            <div>
+            <div className="card mt mb">
                 <Divider plain>
                     Pin armor items - OR &nbsp;
                     <Tooltip title="Show loadouts containing ANY of the pinned items. This is useful for example to compare loadouts with 2 instances of the same exotic." color="blue">
@@ -219,7 +231,7 @@ const ItemType = {
         ) : null;
 
         const andFilterComp = this.activeCharacterId ? (
-            <div>
+            <div className="card mt">
                 <Divider plain>
                     Pin armor items - AND &nbsp;
                     <Tooltip title="Only show loadouts containing the pinned items." color="blue">
@@ -255,6 +267,8 @@ const ItemType = {
 
                 <MediaQuery query="(max-width: 999px)">
                     { characterList }
+                    { powerCapFilterComp }
+                    { statsFilterComp }
                     { orFilterComp }
                     { andFilterComp }
                     { loadoutComp }
@@ -265,6 +279,7 @@ const ItemType = {
                         <div>
                             { characterList }
                             { powerCapFilterComp }
+                            { statsFilterComp }
                             { orFilterComp }
                             { andFilterComp }
                         </div>
@@ -281,6 +296,7 @@ const ItemType = {
     }
 }
 
+const STATS = ['mobility', 'resilience', 'recovery', 'discipline', 'intellect', 'strength'];
 
 class CharacterDataModel {
 
@@ -291,6 +307,10 @@ class CharacterDataModel {
 
     constructor(args) {
         Object.assign(this, args);
+
+        STATS.forEach(stat =>
+            extendObservable(this, { [`${ stat }Filter`]: 1 })
+        );
     }
 
     @computed get armorList() {
@@ -374,7 +394,11 @@ class CharacterDataModel {
         const t1 = performance.now();
         const orFilter = this.orFilter.slice();
         const andFilter = this.andFilter.slice();
+        const statsFilter = {};
+        STATS.map(stat => statsFilter[stat] = 10 * this[`${ stat }Filter`]);
+
         console.log('building loadouts');
+        console.log('statsFilter', statsFilter);
         const list = [];
         this.helmets.forEach(helmet => {
             this.arms.forEach(arm => {
@@ -389,6 +413,7 @@ class CharacterDataModel {
                                 classitem: classitem,
                                 orFilter: orFilter,
                                 andFilter: andFilter,
+                                statsFilter: statsFilter,
                                 powerCapFilter: this.powerCapFilter
                             };
                             const loadout = Loadout.CreateLoadout(args);
@@ -431,12 +456,16 @@ class CharacterDataModel {
         this.andFilter = this.andFilter.filter(id => id !== value);
     }
 
+    @computed get pinnedAndItems() {
+        return this.armorList.filter(item => this.andFilter.find(id => id === item.id));
+    }
+
     @action.bound setPowerCapFilter(value) {
         this.powerCapFilter = value;
     }
 
-    @computed get pinnedAndItems() {
-        return this.armorList.filter(item => this.andFilter.find(id => id === item.id));
+    @action.bound setStatsFilter(stat, value) {
+        this[`${ stat }Filter`] = value;
     }
 
     @action toggleIncludeMods() {
