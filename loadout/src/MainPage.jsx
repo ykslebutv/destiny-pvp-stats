@@ -309,7 +309,7 @@ class CharacterDataModel {
         Object.assign(this, args);
 
         STATS.forEach(stat =>
-            extendObservable(this, { [`${ stat }Filter`]: 1 })
+            extendObservable(this, { [stat+'Filter']: 1 })
         );
     }
 
@@ -395,10 +395,10 @@ class CharacterDataModel {
         const orFilter = this.orFilter.slice();
         const andFilter = this.andFilter.slice();
         const statsFilter = {};
-        STATS.map(stat => statsFilter[stat] = 10 * this[`${ stat }Filter`]);
+        STATS.map(stat => statsFilter[stat] = 10*this[stat+'Filter']);
 
         console.log('building loadouts');
-        console.log('statsFilter', statsFilter);
+        console.log('statsFilter', statsFilter)
         const list = [];
         this.helmets.forEach(helmet => {
             this.arms.forEach(arm => {
@@ -465,7 +465,7 @@ class CharacterDataModel {
     }
 
     @action.bound setStatsFilter(stat, value) {
-        this[`${ stat }Filter`] = value;
+        this[stat+'Filter'] = value;
     }
 
     @action toggleIncludeMods() {
