@@ -31,28 +31,17 @@ class Utils {
         const res = {};
         // params[0] - http
         // params[1] - host
-        // params[2] - platform or game
-        // params[3] - name||membership
-        // params[4] - mode
+        // params[2] - :platform_id | game
+        // params[3] - :membership_id | :game_id
+        // params[4] - :mode
         const params = url.split('/').filter(param => param);
         if (params && params.length > 2) {
             res.base_url = `${ params[0] }//${ params[1] }`;
             if (params[2] === 'game') {
                 res.game = params[3];
             } else {
-                res.platform = parseInt(Object.keys(Platforms).find(key => Platforms[key].name.toLowerCase() === params[2]), 10);
-                const nameOrId = decodeURIComponent(params[3]);
-                if (this.isNumeric(nameOrId)) {
-                    res.id = nameOrId;
-                } else {
-                    res.name = nameOrId;
-                    if (Platforms[res.platform].name === 'PC') {
-                        const matchRes = res.name.match(/(.+)-(\d{3,})/);
-                        if (matchRes) {
-                            res.name = `${ matchRes[1] }#${ matchRes[2] }`;
-                        }
-                    }
-                }
+                res.platform = params[2];
+                res.id = params[3];
                 if (params[4]) {
                     res.mode = this.findByField(Manifest.DestinyActivityModeDefinition, 'friendlyName', params[4]);
                 }
@@ -70,10 +59,8 @@ class Utils {
         } else {
             newUrl = window.location.href.replace(/\/$/, '');
         }
-        const platformStr = Platforms[params.platform].name.toLowerCase();
-        const nameOrId = (params.name || '').replace('#', '-') || params.id;
-        newUrl = `${ newUrl }/${ platformStr }/${ nameOrId }`;
 
+        newUrl = `${ newUrl }/${ params.membershipType }/${ params.membershipId }`;
         if (params.mode) {
             newUrl = `${ newUrl }/${ params.mode }`;
         }

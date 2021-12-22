@@ -17,10 +17,10 @@ import ErrorMessage from './components/errorMessage.jsx';
 
         const params = Utils.getUrlParams();
 
-        if (params.platform && (params.name || params.id)) {
+        if (params.name || params.id) {
             this.viewModel = new Model({
-                id: params.id,
                 name: params.name,
+                id: params.id,
                 platform: params.platform,
                 mode: params.mode
             });

@@ -28,7 +28,7 @@ class PlayerModel {
     constructor(args) {
         try {
             extendObservable(this, {
-                name: args.player.destinyUserInfo.displayName,
+                name: args.player.destinyUserInfo.bungieGlobalDisplayName,
                 characterId: args.characterId,
                 membershipId: args.player.destinyUserInfo.membershipId,
                 membershipType: args.player.destinyUserInfo.membershipType,
@@ -70,7 +70,7 @@ class PlayerModel {
 
     @computed get url() {
         try {
-            return `/${ Platforms[this.membershipType].name.toLowerCase() }/${ this.membershipId }`;
+            return `/${ this.membershipType }/${ this.membershipId }`;
         } catch (e) {
             console.log('PlayerModel::url exception', e);
             return '';

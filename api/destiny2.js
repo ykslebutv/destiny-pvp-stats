@@ -38,6 +38,22 @@ class Destiny2 {
         });
     }
 
+    searchPlayerByPrefix(prefix) {
+        return new Promise((resolve, reject) => {
+            const url = `/platform/User/Search/Prefix/${prefix}/0/`;
+            if (Config.debug) {
+                console.log(url);
+            }
+            http_request(url).then(res => {
+                if (res.ErrorStatus === 'Success') {
+                    resolve(res.Response);
+                } else {
+                    reject(res.Message);
+                }
+            });
+        });
+    }
+
     getProfile(membershipType, membershipId) {
         return new Promise((resolve, reject) => {
             const url = `${ Config.basePath }/${ membershipType }/Profile/${ membershipId }/?components=Profiles,Characters,CharacterEquipment`;

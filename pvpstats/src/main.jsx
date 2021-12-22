@@ -13,12 +13,12 @@ class Content extends React.Component {
             <Router>
                 <div>
                     <Route exact path="/" component={ MainPlayer } />
-                    <Route path="/psn/:player" component={ MainPlayer } />
-                    <Route path="/xbox/:player" component={ MainPlayer } />
-                    <Route path="/pc/:player" component={ MainPlayer } />
-                    <Route path="/bnet/:player" component={ MainPlayer } />
-                    <Route path="/stadia/:player" component={ MainPlayer } />
-                    <Route path="/game/:id" component={ MainGame } />
+                    <Route path="/game/:game_id" component={ MainGame } />
+                    <Route path="/1/:player_id" component={ MainPlayer } />
+                    <Route path="/2/:player_id" component={ MainPlayer } />
+                    <Route path="/3/:player_id" component={ MainPlayer } />
+                    <Route path="/4/:player_id" component={ MainPlayer } />
+                    <Route path="/5/:player_id" component={ MainPlayer } />
                 </div>
             </Router>
         );

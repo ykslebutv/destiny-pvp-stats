@@ -61,18 +61,9 @@ class Model {
     }
 
     getMembershipInfo() {
-        // if id was passed via URL, just set membershipId and membershipType
-        // else search player by name
         return new Promise((resolve, reject) => {
-            if (this.id) {
+            if (this.id && this.platform) {
                 resolve([{ membershipId: this.id, membershipType: this.platform }]);
-            } else {
-                const name = this.name.replace('#', '%23');
-                destiny2.searchPlayer(this.platform, name).then(playerData => {
-                    resolve(playerData);
-                }, error => {
-                    reject(error);
-                });
             }
         });
     }

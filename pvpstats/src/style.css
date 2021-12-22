@@ -39,6 +39,7 @@ body {
 
 .search_form_2 {
 	float: left;
+	padding: 5px;
 }
 
 .search_form_2 label {

@@ -1,84 +1,79 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { observable, action } from 'mobx';
-import { Platforms, GameModes } from '../constants';
+import { observable, action, computed } from 'mobx';
 import Spinner from './spinner.jsx';
 import Utils from '../utils';
+import { destiny2 } from '../../../api/destiny2';
 
 @observer class SearchForm extends React.Component {
-    @observable name = '';
-    @observable platform = 0;
-    @observable showRecent = false;
+    @observable results;
+    @observable focus = false;
 
-    @action setName(name) {
-        this.name = name;
+    @action setResults(value) {
+        this.results = value;
     }
 
-    @action setPlatform(platform) {
-        this.platform = platform;
+    @action onFocus() {
+        this.focus = true;
     }
 
-    @action setShowRecent(showRecent) {
-        this.showRecent = showRecent;
+    @action onBlur() {
+        this.focus = false;
     }
 
-    onSubmit(e) {
-        if (e) {
-            e.preventDefault();
+    @computed get showResults() {
+        return this.focus && this.results && this.results.length > 0;
+    }
+
+    search(name) {
+        if (!name || name.length < 3) {
+            return;
         }
+        const [term, nameCode] = name.split('#');
+        if (!term || term.length < 3) {
+            return;
+        }
+        destiny2.searchPlayerByPrefix(term).then(result => {
+            if (Config.debug) {
+                console.log(result);
+            }
 
-        Utils.route({
-            platform: this.platform,
-            name: this.name
+            if (result.searchResults && result.searchResults.length > 0) {
+                const filteredResults = result.searchResults.filter(player => {
+                    if (!nameCode) {
+                        return true;
+                    }
+                    const playerNameCode = player.destinyMemberships[0] && player.destinyMemberships[0].bungieGlobalDisplayNameCode;
+                    if (!playerNameCode) {
+                        return false;
+                    }
+                    return playerNameCode.toString().startsWith(nameCode);
+                });
+                this.setResults(filteredResults);
+            } else {
+                this.setResults([]);
+            }
         });
-    }
-
-    showRecentSearches(value) {
-        this.setShowRecent(value);
-    }
-
-    submitRecentSearch(params) {
-        this.setName(params.name);
-        this.setPlatform(params.platform);
-        this.onSubmit();
     }
 
     render() {
         return (
-            <form onSubmit={ e => this.onSubmit(e) } id="searchForm">
+            <form id="searchForm">
                 <div className="search_form_1">
                     <a href="/"><img className="logo" src="images/destiny48x48.png" /></a>
                     <input
                         className="search_field"
                         type="text"
-                        value={ this.name }
-                        onChange={ e => this.setName(e.target.value) }
-                        onFocus={ () => this.showRecentSearches(true) }
-                        onBlur={ () => this.showRecentSearches(false) }
+                        onChange={ e => this.search(e.target.value) }
+                        onFocus={ () => this.onFocus() }
+                        onBlur={ () => this.onBlur() }
                     />
                 </div>
                 <div className="search_form_2">
-                    { [2, 1, 3].map(platformId => (
-                        <label key={ platformId } >
-                            <input
-                                type="radio"
-                                name="platform"
-                                value={ platformId }
-                                onChange={ () => this.setPlatform(platformId) }
-                                checked={ this.platform === platformId }
-                            /> { Platforms[platformId].name }
-                        </label>
-                    )) }
-                    <button
-                        className="btn btn-primary"
-                        style={{ minWidth: '80px' }}
-                        disabled={ !this.platform || !this.name }
-                    >
-                        { this.props.loading ? <Spinner /> : 'search' }
-                    </button>
+                    { this.props.loading && <Spinner size="fa-lg" /> }
                 </div>
-                { this.showRecent && <RecentSearches
-                    filter={ this.name }
+                { this.showResults && <SearchResults
+                    results={this.results}
                     onChange={ params => this.submitRecentSearch(params) }
                 /> }
             </form>
@@ -86,23 +81,40 @@ import Utils from '../utils';
     }
 }
 
-@observer class RecentSearches extends React.Component {
-    onClick(params) {
-        this.props.onChange(params);
+@observer class SearchResults extends React.Component {
+    get players() {
+        let res = [];
+        this.props.results.forEach(player => {
+            console.log(player);
+            if (!player.destinyMemberships[0]) {
+                return;
+            }
+            let platform = player.destinyMemberships[0].crossSaveOverride;
+            if (platform === 0) { // no crossave override
+                platform = player.destinyMemberships[0].membershipType;
+            }
+            const membership = player.destinyMemberships.find(m => m.membershipType === platform);
+            res.push({
+                name: `${membership.bungieGlobalDisplayName}#${membership.bungieGlobalDisplayNameCode}`,
+                membershipType: membership.membershipType,
+                membershipId: membership.membershipId
+
+            });
+        });
+        return res;
     }
 
-    get recentPlayers() {
-        const filter = this.props.filter.toLowerCase();
-        const maxListSize = 7;
-        return Utils.getRecentPlayers()
-            .filter(player => player.name.toLowerCase().startsWith(filter))
-            .slice(0, maxListSize);
+    onClick(params) {
+        Utils.route({
+            name: params.name,
+            membershipType: params.membershipType,
+            membershipId: params.membershipId
+        });
     }
 
     render() {
-        const playersList = this.recentPlayers.map(player => (
-            <li key={ `${player.name}-${player.platform}` } onMouseDown={ () => this.onClick(player) } >
-                <i className={ `fab fa-fw fa-${ Platforms[player.platform].faIcon }` } />
+        const playersList = this.players.map(player => (
+            <li key={ player.name } onMouseDown={ () => this.onClick(player) } >
                 { player.name }
             </li>
         ));

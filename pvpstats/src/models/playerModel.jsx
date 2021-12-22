@@ -8,7 +8,7 @@ class PlayerModel {
         const sortedChars = args.characters.sort((a, b) => a.characterId > b.characterId);
         try {
             extendObservable(this, {
-                displayName: args.userInfo.displayName,
+                displayName: `${ args.userInfo.bungieGlobalDisplayName }#${ args.userInfo.bungieGlobalDisplayNameCode }`,
                 membershipId: args.userInfo.membershipId,
                 membershipType: args.userInfo.membershipType,
                 characters: sortedChars.map(character => new CharacterModel(character))
