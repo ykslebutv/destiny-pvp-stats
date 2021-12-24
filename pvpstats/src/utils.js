@@ -1,22 +1,11 @@
 /* global Config, Manifest, localStorage */
 import moment from 'moment';
 
-import { Platforms } from './constants';
-
 class Utils {
     getRecentPlayers() {
         const recentPlayers = JSON.parse(localStorage.getItem('recentPlayers')) || [];
         // remove cached battle.net players
         return recentPlayers.filter(player => player.platform !== 4);
-    }
-
-    saveRecentPlayerInfo(params) {
-        const maxListSize = 25;
-        let players = this.getRecentPlayers();
-        players = players.filter(p => p.name !== params.name || p.platform !== params.platform);
-        players.unshift({ name: params.name, platform: params.platform });
-        players.splice(-1, players.length - maxListSize);
-        localStorage.setItem('recentPlayers', JSON.stringify(players));
     }
 
     isScrolledToBottom() {
@@ -60,7 +49,7 @@ class Utils {
             newUrl = window.location.href.replace(/\/$/, '');
         }
 
-        newUrl = `${ newUrl }/${ params.membershipType }/${ params.membershipId }`;
+        newUrl = `${ newUrl }/${ params.platform }/${ params.id }`;
         if (params.mode) {
             newUrl = `${ newUrl }/${ params.mode }`;
         }

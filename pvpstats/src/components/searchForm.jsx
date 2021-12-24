@@ -1,28 +1,74 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
-import Spinner from './spinner.jsx';
 import Utils from '../utils';
 import { destiny2 } from '../../../api/destiny2';
 
+@observer class SearchResults extends React.Component {
+    onClick(params) {
+        Utils.route({
+            name: params.name,
+            platform: params.platform,
+            id: params.id
+        });
+    }
+
+    get players() {
+        const res = [];
+        this.props.results.forEach(player => {
+            if (!player.destinyMemberships[0]) {
+                return;
+            }
+            let platform = player.destinyMemberships[0].crossSaveOverride;
+            if (platform === 0) { // no crossave override
+                platform = player.destinyMemberships[0].membershipType;
+            }
+            const membership = player.destinyMemberships.find(m => m.membershipType === platform);
+            res.push({
+                name: `${ membership.bungieGlobalDisplayName }#${ membership.bungieGlobalDisplayNameCode }`,
+                platform: membership.membershipType,
+                id: membership.membershipId
+
+            });
+        });
+        return res;
+    }
+
+    render() {
+        const playersList = this.players.map(player => (
+            <li key={ player.name } onMouseDown={ () => this.onClick(player) } >
+                { player.name }
+            </li>
+        ));
+        return playersList.length ? (
+            <div className="floating-list search-results">
+                <ul>
+                    { playersList }
+                </ul>
+            </div>
+        ) : null;
+    }
+}
+
 @observer class SearchForm extends React.Component {
-    @observable results;
+
+    @observable results = [];
     @observable focus = false;
 
-    @action setResults(value) {
+    @action setSearchResults(value) {
         this.results = value;
     }
 
-    @action onFocus() {
+    @action.bound onFocus() {
         this.focus = true;
     }
 
-    @action onBlur() {
+    @action.bound onBlur() {
         this.focus = false;
     }
 
     @computed get showResults() {
-        return this.focus && this.results && this.results.length > 0;
+        return this.focus && this.results.length > 0;
     }
 
     search(name) {
@@ -49,9 +95,9 @@ import { destiny2 } from '../../../api/destiny2';
                     }
                     return playerNameCode.toString().startsWith(nameCode);
                 });
-                this.setResults(filteredResults);
+                this.setSearchResults(filteredResults);
             } else {
-                this.setResults([]);
+                this.setSearchResults([]);
             }
         });
     }
@@ -65,66 +111,13 @@ import { destiny2 } from '../../../api/destiny2';
                         className="search_field"
                         type="text"
                         onChange={ e => this.search(e.target.value) }
-                        onFocus={ () => this.onFocus() }
-                        onBlur={ () => this.onBlur() }
+                        onFocus={ this.onFocus }
+                        onBlur={ this.onBlur }
                     />
                 </div>
-                <div className="search_form_2">
-                    { this.props.loading && <Spinner size="fa-lg" /> }
-                </div>
-                { this.showResults && <SearchResults
-                    results={this.results}
-                    onChange={ params => this.submitRecentSearch(params) }
-                /> }
+                { this.showResults && <SearchResults results={ this.results } /> }
             </form>
         );
-    }
-}
-
-@observer class SearchResults extends React.Component {
-    get players() {
-        let res = [];
-        this.props.results.forEach(player => {
-            console.log(player);
-            if (!player.destinyMemberships[0]) {
-                return;
-            }
-            let platform = player.destinyMemberships[0].crossSaveOverride;
-            if (platform === 0) { // no crossave override
-                platform = player.destinyMemberships[0].membershipType;
-            }
-            const membership = player.destinyMemberships.find(m => m.membershipType === platform);
-            res.push({
-                name: `${membership.bungieGlobalDisplayName}#${membership.bungieGlobalDisplayNameCode}`,
-                membershipType: membership.membershipType,
-                membershipId: membership.membershipId
-
-            });
-        });
-        return res;
-    }
-
-    onClick(params) {
-        Utils.route({
-            name: params.name,
-            membershipType: params.membershipType,
-            membershipId: params.membershipId
-        });
-    }
-
-    render() {
-        const playersList = this.players.map(player => (
-            <li key={ player.name } onMouseDown={ () => this.onClick(player) } >
-                { player.name }
-            </li>
-        ));
-        return playersList.length ? (
-            <div className="floating-list recet-searches">
-                <ul>
-                    { playersList }
-                </ul>
-            </div>
-        ) : null;
     }
 }
 

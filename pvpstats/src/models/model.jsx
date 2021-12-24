@@ -1,7 +1,6 @@
 import Promise from 'es6-promise';
 import { observable, action, computed } from 'mobx';
 
-import Utils from '../utils';
 import { destiny2 } from '../../../api/destiny2';
 import { GameModes } from '../constants';
 
@@ -63,7 +62,7 @@ class Model {
     getMembershipInfo() {
         return new Promise((resolve, reject) => {
             if (this.id && this.platform) {
-                resolve([{ membershipId: this.id, membershipType: this.platform }]);
+                resolve({ membershipId: this.id, membershipType: this.platform });
             }
         });
     }
@@ -88,22 +87,10 @@ class Model {
     @action load() {
         this.page = 0;
         this.player = null;
-        this.searchResults = null;
         this.setStatus(Status.LOADING);
 
         this.getMembershipInfo().then(playerData => {
-
-            if (playerData.length > 1) {
-                this.searchResults = playerData;
-                this.setStatus(Status.SUCCESS);
-                return;
-            }
-
-            if (this.name && this.platform) {
-                Utils.saveRecentPlayerInfo({ name: this.name, platform: this.platform });
-            }
-
-            const { membershipType, membershipId } = playerData[0];
+            const { membershipType, membershipId } = playerData;
             destiny2.getProfile(membershipType, membershipId).then(result => {
                 this.player = new PlayerModel(result);
                 const promises = this.player.characters.map(character => this.getCharacterInfo(membershipType, membershipId, character));

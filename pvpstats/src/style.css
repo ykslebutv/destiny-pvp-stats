@@ -384,12 +384,6 @@ img.weapon_icon {
   padding-top: 10px;
 }
 
-.recet-searches {
-	top: 70px;
-	left: 66px;
-	min-width: 162px;
-}
-
 .floating-list {
 	position: absolute;
 	background-color: white;
@@ -424,6 +418,9 @@ img.weapon_icon {
 }
 
 .search-results {
+	top: 59px;
+	left: 53px;
+	min-width: 159px;
 	margin: 15px 15px 0px 15px;
-	padding: 15px;
+	padding: 5px;
 }

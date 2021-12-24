@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import Model from './models/model.jsx';
 import Utils from './utils';
 import SearchForm from './components/searchForm.jsx';
-import SearchResults from './components/searchResults.jsx';
 import PlayerInfo from './components/playerInfo.jsx';
 import GameModeList from './components/gameModeList.jsx';
 import CharacterList from './components/character.jsx';
@@ -51,15 +50,17 @@ import ErrorMessage from './components/errorMessage.jsx';
         return (
             <div>
                 <div className="top_container">
-                    <SearchForm
-                        loading={ vm ? vm.loading : false }
-                    />
+                    <SearchForm />
+                    { vm && vm.loading ? (
+                        <div className="search_form_2">
+                            <Spinner size="fa-lg" />
+                        </div>
+                    ) : null }
                     { success && vm.player ? <PlayerInfo player={ vm.player } /> : null }
                     { success && vm.player ? <GameModeList viewModel={ vm } /> : null }
                     <div className="clear" />
                 </div>
                 { failed ? <ErrorMessage message={ vm.error } /> : null }
-                { success && vm.searchResults ? <SearchResults data={ vm.searchResults } /> : null }
                 { success && vm.player ? <CharacterList characters={ vm.player.characters } /> : null }
                 { loadingPage ? (
                     <div className="bottom-spinner">
