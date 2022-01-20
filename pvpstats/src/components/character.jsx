@@ -39,8 +39,8 @@ const Banner = props => {
     };
     const className = `character ${ props.activeCharacter ? 'col-xs-8 active_character' : '' }`;
     const statToInt = (stat) => {
-        return Math.floor(stat/10);
-    }
+        return Math.floor(stat / 10);
+    };
     const info = `Mob ${ statToInt(character.mobility) } Res ${ statToInt(character.resilience) } Rec ${ statToInt(character.recovery) } Dis ${ statToInt(character.discipline) } Int ${ statToInt(character.intellect) } Str ${ statToInt(character.strength) }`;
     const infoDetails = `Mob ${ character.mobility } / Res ${ character.resilience } / Rec ${ character.recovery } / Dis ${ character.discipline } / Int ${ character.intellect } / Str ${ character.strength }`;
 
@@ -128,7 +128,7 @@ const Emblem = props => {
             <div className="col-md-4 character_container">
                 <Banner character={ character } />
                 <CharacterStats stats={ character.stats } />
-                { character.dailyStats ? (
+                { character.activities.length > 0 ? (
                     <div className="activities">
                         <Activities dailyStats={ character.dailyStats } />
                     </div>
