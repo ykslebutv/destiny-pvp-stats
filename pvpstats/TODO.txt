@@ -46,6 +46,7 @@ DONE
 - add Trials to game mode menu
 - fix PGCRs with missing names to show member ID
 - include manifest as external file instead of compiling it in
+- properly render utf-8 codes in clan names
 
 Feat
 - progress messages (searching player, loading characters, loading games)
@@ -53,4 +54,3 @@ Feat
 Critical
 
 P1
-- emojis in clan names shown as &#9829;

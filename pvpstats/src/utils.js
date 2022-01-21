@@ -84,6 +84,10 @@ class Utils {
     findByField(obj, field, value) {
         return Object.keys(obj).find(key => obj[key][field] === value);
     }
+
+    utfCodeReplace(str) {
+        return str.replaceAll(/(&#)(\d{4})(;)/g, (m1, m2, m3) => String.fromCharCode(m3));
+    }
 }
 
 export default new Utils();
