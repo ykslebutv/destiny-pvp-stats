@@ -111,7 +111,7 @@ const Emblem = props => {
                 { list }
                 <div className="clear" />
                 <CharacterStats stats={ activeCharacter.stats } />
-                { activeCharacter.stats ? (
+                { activeCharacter.activities.length > 0 ? (
                     <div className="activities">
                         <Activities dailyStats={ activeCharacter.dailyStats } />
                     </div>

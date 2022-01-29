@@ -1,3 +1,4 @@
+/* global Config */
 import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
@@ -110,7 +111,7 @@ import { destiny2 } from '../../../api/destiny2';
                     <input
                         className="search_field"
                         type="text"
-                        onChange={ e => this.search(e.target.value) }
+                        onChange={ e => this.search(e.target.value.trim()) }
                         onFocus={ this.onFocus }
                         onBlur={ this.onBlur }
                     />
