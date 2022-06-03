@@ -76,7 +76,8 @@ class Model {
                     character.addActivities(activities);
                     resolve(Status.SUCCESS);
                 }, error => {
-                    reject(Status.FAILED);
+                    character.setPrivate(true);
+                    resolve(Status.SUCCESS);
                 }); // getActivityHistory
             }, error => {
                 reject(Status.FAILED);

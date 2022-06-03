@@ -14,6 +14,7 @@ class CharacterModel {
                 emblem: args.emblemBackgroundPath,
                 level: args.baseCharacterLevel,
                 light: args.light,
+                private: false,
                 activities: []
             });
             Object.keys(args.stats).map(statHash => {
@@ -75,6 +76,10 @@ class CharacterModel {
         this.activities = this.activities.concat(newActivities);
 
         this.calculateDailyStats();
+    }
+
+    @action setPrivate(val) {
+        this.private = val;
     }
 
     calculateDailyStats() {

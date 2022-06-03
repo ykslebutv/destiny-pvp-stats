@@ -147,6 +147,12 @@ body {
     background-size: cover;
 }
 
+.privacy {
+	font-size: 10pt;
+	text-align: center;
+	color: darkgrey;
+}
+
 .emblem {
 	width: 50px;
 	height: 55px;

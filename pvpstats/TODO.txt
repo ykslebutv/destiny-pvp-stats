@@ -47,6 +47,7 @@ DONE
 - fix PGCRs with missing names to show member ID
 - include manifest as external file instead of compiling it in
 - properly render utf-8 codes in clan names
+- handle privacy error
 
 Feat
 - progress messages (searching player, loading characters, loading games)

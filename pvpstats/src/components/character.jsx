@@ -71,6 +71,12 @@ const Emblem = props => {
     );
 };
 
+const PrivacyWarning = () => (
+    <div className="privacy">
+        Activity history not available due to privacy settings.
+    </div>
+);
+
 @observer class CharacterCarousel extends React.Component {
     @observable activeCharacterId;
 
@@ -116,6 +122,7 @@ const Emblem = props => {
                         <Activities dailyStats={ activeCharacter.dailyStats } />
                     </div>
                 ) : null }
+                { activeCharacter.private && <PrivacyWarning /> }
             </div>
         );
     }
@@ -133,6 +140,7 @@ const Emblem = props => {
                         <Activities dailyStats={ character.dailyStats } />
                     </div>
                 ) : null }
+                { character.private && <PrivacyWarning /> }
             </div>
         );
     }
