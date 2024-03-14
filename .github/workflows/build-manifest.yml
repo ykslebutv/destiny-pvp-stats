@@ -29,6 +29,7 @@ jobs:
 
     - name: Build
       run: node convert2.js
+      run: ls -la
 
     - name: Save
       uses: actions/upload-artifact@v4
