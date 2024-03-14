@@ -28,8 +28,7 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: node convert2.js
-      run: ls -la
+      run: node convert2.js && ls -la
 
     - name: Save
       uses: actions/upload-artifact@v4
