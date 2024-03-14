@@ -33,3 +33,9 @@ jobs:
 
     - name: Build
       run: node convert2.js
+
+    - name: Save
+        uses: actions/upload-artifact@v4
+        with:
+          name: saved-manifest
+          path: deploy/manifest.js
