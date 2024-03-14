@@ -9,10 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      working-directory: ./pvpstats/
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -24,14 +26,11 @@ jobs:
 
     - name: Install Yarn
       run: npm install -g yarn
-      working-directory: ./pvpstats
 
     - name: Install modules
       run: yarn install
-      working-directory: ./pvpstats
 
     - name: Build
       run: node_modules/.bin/webpack
-      working-directory: ./pvpstats
       env:
         minify: true
