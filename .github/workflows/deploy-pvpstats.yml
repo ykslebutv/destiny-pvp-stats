@@ -3,6 +3,9 @@ name: Build and deploy pvpstats
 on: workflow_dispatch
 
 jobs:
+  build-pvpstats:
+    uses: ./.github/workflows/build-pvpstats.yml
+
   build-manifest:
     uses: ./.github/workflows/build-manifest.yml
     
@@ -15,6 +18,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Download app
+      uses: actions/download-artifact@v4
+      with:
+        name: app
 
     - name: Download manifest
       uses: actions/download-artifact@v4
@@ -33,11 +41,6 @@ jobs:
         cp ./pvpstats/src/proxy.php.example ./deploy/proxy.php
         sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
         cp ./manifest.js ./deploy/manifest.js
+        cp ./app.min.js ./deploy/app.min.js
 
-    - name: Save
-      uses: actions/upload-artifact@v4
-      with:
-        name: app
-        path: ./deploy/proxy.txt
-        if-no-files-found: error
-        retention-days: 1
+
