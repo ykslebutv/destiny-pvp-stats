@@ -28,7 +28,7 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: node_modules/.bin/webpack && ls -l
+      run: npx webpack
       env:
         minify: true
 
