@@ -14,8 +14,6 @@ jobs:
 
     - name: Copy files
       shell: bash
-      env:
-        BUNGIE_API_KEY : ${{secrets.BUNGIE_API_KEY}}
       run: |
         mkdir ./deploy
         cp -r ./pvpstats/src/images ./deploy/
@@ -23,6 +21,5 @@ jobs:
         cp -r ./pvpstats/src/404.html ./deploy/
         cp -r ./pvpstats/src/index.html.example ./deploy/index.html
         cp -r ./pvpstats/src/proxy.php.example ./deploy/proxy.php
-        sed -i -e 's/BUNGIE_API_KEY/$BUNGIE_API_KEY/g' ./deploy/proxy.php
-        ls -la deploy/images
+        sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
         more ./deploy/proxy.php
