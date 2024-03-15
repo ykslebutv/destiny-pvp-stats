@@ -21,14 +21,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install Yarn
-      run: npm install -g yarn
-
-    - name: Install modules
-      run: yarn install
+    - name: Install Yarn and modules
+      run: npm install -g yarn && yarn install
 
     - name: Build
-      run: npx webpack && ls -la
+      run: npx webpack
       env:
         minify: true
 
