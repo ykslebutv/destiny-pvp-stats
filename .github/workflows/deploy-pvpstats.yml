@@ -3,7 +3,7 @@ name: Build and deploy pvpstats
 on: workflow_dispatch
 
 jobs:
-  build-pvpstats:
+  build-app:
     uses: ./.github/workflows/build-pvpstats.yml
 
   build-manifest:
@@ -11,7 +11,7 @@ jobs:
     
   build-container:
     runs-on: ubuntu-latest
-    needs: build-manifest
+    needs: [build-app, build-manifest]
     defaults:
       run:
         working-directory: .
