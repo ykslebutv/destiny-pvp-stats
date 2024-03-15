@@ -3,7 +3,10 @@ name: Build and deploy pvpstats
 on: workflow_dispatch
 
 jobs:
-  build:
+  build-manifest:
+    uses: ./.github/workflows/build-manifest.yml
+    
+  build-container:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -12,17 +15,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Download manifest
+      uses: actions/download-artifact@v4
+      with:
+        name: manifest
+
     - name: Copy files
       shell: bash
       run: |
+        ls -la
         mkdir ./deploy
         cp -r ./pvpstats/src/images ./deploy/
-        cp -r ./pvpstats/src/style.css ./deploy/style.css
-        cp -r ./pvpstats/src/404.html ./deploy/
-        cp -r ./pvpstats/src/index.html.example ./deploy/index.html
-        cp -r ./pvpstats/src/proxy.php.example ./deploy/proxy.php
+        cp ./pvpstats/src/style.css ./deploy/style.css
+        cp ./pvpstats/src/404.html ./deploy/
+        cp ./pvpstats/src/index.html.example ./deploy/index.html
+        cp ./pvpstats/src/proxy.php.example ./deploy/proxy.php
         sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
-        cp ./deploy/proxy.php ./deploy/proxy.txt
+        cp ./manifest.js ./deploy/manifest.js
 
     - name: Save
       uses: actions/upload-artifact@v4
