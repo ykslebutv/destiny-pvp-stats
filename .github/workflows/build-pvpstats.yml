@@ -31,3 +31,11 @@ jobs:
       run: node_modules/.bin/webpack && ls -l
       env:
         minify: true
+
+    - name: Save
+      uses: actions/upload-artifact@v4
+      with:
+        name: app
+        path: ./pvpstats/app.min.js
+        if-no-files-found: error
+        retention-days: 3
