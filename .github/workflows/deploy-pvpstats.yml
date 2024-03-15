@@ -1,0 +1,24 @@
+name: Build and deploy pvpstats
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Copy files
+      shell: bash
+      run: |
+        mkdir ./deploy
+        cp -r ./pvpstats/src/images ./deploy/
+        cp -r ./pvpstats/src/style.css ./deploy/style.css
+        cp -r ./pvpstats/src/404.html ./deploy/
+        cp -r ./pvpstats/src/index.html.example ./deploy/index.html
+        cp -r ./pvpstats/src/proxy.php.example ./deploy/proxy.php
+        ls -la deploy/
