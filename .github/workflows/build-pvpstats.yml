@@ -28,7 +28,7 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: npx webpack
+      run: pwd && npx webpack
       env:
         minify: true
 
