@@ -1,7 +1,7 @@
 <?php
 
 $server_url = "https://stats.bungie.net";
-$api_key = "<Bungie API key>";
+$api_key = "BUNGIE_API_KEY";
 
 $options = array
 (
