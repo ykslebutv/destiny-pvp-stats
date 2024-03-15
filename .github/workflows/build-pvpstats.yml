@@ -25,9 +25,9 @@ jobs:
       run: npm install -g yarn
 
     - name: Install modules
-      run: yarn install && ls -l ./node_modules
+      run: yarn install
 
     - name: Build
-      run: node_modules/.bin/webpack
+      run: node_modules/.bin/webpack && ls -l
       env:
         minify: true
