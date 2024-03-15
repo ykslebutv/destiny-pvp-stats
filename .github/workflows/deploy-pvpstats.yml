@@ -21,4 +21,6 @@ jobs:
         cp -r ./pvpstats/src/404.html ./deploy/
         cp -r ./pvpstats/src/index.html.example ./deploy/index.html
         cp -r ./pvpstats/src/proxy.php.example ./deploy/proxy.php
-        ls -la deploy/
+        sed -i -e 's/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g' ./deploy/proxy.php
+        ls -la deploy/images
+        more ./deploy/proxy.php
