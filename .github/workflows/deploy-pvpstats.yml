@@ -22,4 +22,12 @@ jobs:
         cp -r ./pvpstats/src/index.html.example ./deploy/index.html
         cp -r ./pvpstats/src/proxy.php.example ./deploy/proxy.php
         sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
-        more ./deploy/proxy.php
+        cp ./deploy/proxy.php ./deploy/proxy.txt
+
+    - name: Save
+      uses: actions/upload-artifact@v4
+      with:
+        name: app
+        path: ./deploy/proxy.txt
+        if-no-files-found: error
+        retention-days: 1
