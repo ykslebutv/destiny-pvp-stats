@@ -28,10 +28,12 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: node convert2.js && ls -la
+      run: node convert2.js
 
     - name: Save
       uses: actions/upload-artifact@v4
       with:
         name: manifest
         path: ./manifest/manifest.js
+        if-no-files-found: error
+        retention-days: 3
