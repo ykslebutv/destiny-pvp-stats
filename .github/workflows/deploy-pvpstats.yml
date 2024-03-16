@@ -40,7 +40,7 @@ jobs:
         cp ../pvpstats/src/index.html.example ./deploy/index.html
         cp ../pvpstats/src/proxy.php.example ./deploy/proxy.php
         sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
-        cp ./manifest.js ./deploy/manifest.js
-        cp ./app.min.js ./deploy/app.min.js
+        cp ../manifest.js ./deploy/manifest.js
+        cp ../app.min.js ./deploy/app.min.js
         ls -la ./deploy
 
