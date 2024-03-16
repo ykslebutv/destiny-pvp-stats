@@ -42,5 +42,5 @@ jobs:
         sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
         cp ../manifest.js ./deploy/manifest.js
         cp ../app.min.js ./deploy/app.min.js
-        ls -la ./deploy
+        docker build -t destiny-pvp-stats .
 
