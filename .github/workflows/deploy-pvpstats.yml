@@ -35,12 +35,12 @@ jobs:
         ls -la
         mkdir ./deploy
         cp -r ./pvpstats/src/images ./deploy/
-        cp ./pvpstats/src/style.css ./deploy/style.css
+        cp ./pvpstats/src/style.css ./deploy/
         cp ./pvpstats/src/404.html ./deploy/
+        cp ./pvpstats/src/config.js.example ./deploy/config.js
         cp ./pvpstats/src/index.html.example ./deploy/index.html
         cp ./pvpstats/src/proxy.php.example ./deploy/proxy.php
         sed -i "s/BUNGIE_API_KEY/${{secrets.BUNGIE_API_KEY}}/g" ./deploy/proxy.php
         cp ./manifest.js ./deploy/manifest.js
         cp ./app.min.js ./deploy/app.min.js
-
 
